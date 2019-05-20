@@ -9,7 +9,7 @@ yarn install
 
 # Running development
 ```bash
-yarn run react-start        # Run React server
+yarn run start      # Runs React server and Electron application concurrently
 ```
 
 # Building
