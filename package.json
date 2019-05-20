@@ -2,7 +2,6 @@
   "name": "kabedon-electron",
   "version": "0.1.0",
   "private": true,
-  "homepage": "./",
   "scripts": {
     "start": "concurrently \"yarn run react-start\" \"yarn run electron-start\"",
     "build": "",
