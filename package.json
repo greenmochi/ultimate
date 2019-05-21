@@ -15,8 +15,8 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "start": "cross-env NODE_ENV=dev concurrently \"yarn run react-start\" \"yarn run electron-start\"",
-    "build": "yarn run react-build && yarn run electron-build",
+    "start": "cross-env NODE_ENV=dev concurrently \"yarn run react:start\" \"yarn run electron:start\"",
+    "build": "yarn run react:build && yarn run electron:build",
     "test": "",
     "react:start": "react-scripts start",
     "react:build": "tsc -p tsconfig.production.json && react-scripts build",
