@@ -12,16 +12,13 @@ function createWindow() {
     width: 800,
   });
 
-  console.log(path.join(__dirname, "../build/index.html"));
   // and load the index.html of the app.
   if (NODE_ENV == "dev") {
     mainWindow.loadURL("http://localhost:3000");
+    mainWindow.webContents.openDevTools();
   } else {
     mainWindow.loadFile(path.join(__dirname, "../build/index.html"));
   }
-
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on("closed", () => {
