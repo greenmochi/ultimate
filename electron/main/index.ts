@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, ipcMain } from "electron";
 import * as path from "path";
 
 const NODE_ENV: string = process.env.NODE_ENV;
@@ -10,6 +10,9 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     height: 600,
     width: 800,
+    webPreferences: {
+      nodeIntegration: true,
+    },
   });
 
   // and load the index.html of the app.
@@ -19,7 +22,7 @@ function createWindow() {
       mainWindow.webContents.openDevTools()
     })
   } else {
-    mainWindow.loadFile(path.join(__dirname, "../build/index.html"));
+    mainWindow.loadFile(path.join(__dirname, "../../build/index.html"));
   }
 
   // Emitted when the window is closed.
@@ -53,5 +56,10 @@ app.on("activate", () => {
   }
 });
 
-// In this file you can include the rest of your app"s specific main process
-// code. You can also put them in separate files and require them here.
+ipcMain.on("alive-message", (event: any, arg: any) => {
+  console.log("alive message received");
+  event.reply(process.argv[0]);
+  //process.argv.forEach((val, index) => {
+  //  console.log(`${index}: ${val}`);
+  //});
+});
