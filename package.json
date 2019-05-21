@@ -1,37 +1,29 @@
 {
   "name": "kabedon-electron",
+  "homepage": "https://github.com/greenmochi/kabedon-electron",
+  "description": "An Electron-based desktop application to allows users do X, Y, Z, etc.",
   "author": {
     "name": "hueyjj",
     "email": "hueyjj@greenmochi.com",
     "url": "https://github.com/hueyjj"
   },
-  "homepage": "https://github.com/greenmochi/kabedon-electron",
-  "license": "MIT",
-  "description": "An Electron-based desktop application to allows users do X, Y, Z, etc.",
   "repository": {
     "type": "git",
     "url": "https://github.com/greemochi/kabedon-electron"
   },
   "version": "0.1.0",
   "private": true,
-  "build": {
-    "appId": "com.greenmochi.kabedon",
-    "copyright": "Copyright © 2019 GreenMochi",
-    "files": [
-      "out/**/*",
-      "node_modules/**/*"
-    ]
-  },
+  "license": "MIT",
   "scripts": {
-    "start": "concurrently \"yarn run react-start\" \"yarn run electron-start\"",
-    "build": "",
+    "start": "cross-env NODE_ENV=dev concurrently \"yarn run react-start\" \"yarn run electron-start\"",
+    "build": "yarn run react-build && yarn run electron-build",
     "test": "",
     "react-start": "react-scripts start",
     "react-build": "tsc -p tsconfig.production.json && react-scripts build",
     "react-test": "react-scripts test",
     "react-eject": "react-scripts eject",
-    "electron-start": "tsc -p tsconfig.electron.json && electron ./out/index.js",
-    "electron-build": "tsc -p tsconfig.electron.json && electron-builder -c.extraMetadata.main=./out/index.js",
+    "electron-start": "tsc -p tsconfig.electron.json && electron ./electron_build/index.js",
+    "electron-build": "tsc -p tsconfig.electron.json && electron-builder -c.extraMetadata.main=./electron_build/index.js",
     "electron-test": ""
   },
   "dependencies": {
@@ -46,12 +38,10 @@
     "typescript": "^3.4.5"
   },
   "devDependencies": {
+    "cross-env": "^5.2.0",
     "electron": "^5.0.1",
     "electron-builder": "^20.40.2",
     "tslint": "^5.16.0"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "browserslist": {
     "production": [

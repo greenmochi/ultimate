@@ -10,8 +10,8 @@
 
 # production
 /build
-/out
-/dist
+/electron_build
+/release
 
 # misc
 .DS_Store

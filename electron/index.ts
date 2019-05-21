@@ -1,7 +1,7 @@
 import { app, BrowserWindow } from "electron";
 import * as path from "path";
 
-const PROD = process.env.PROD;
+const NODE_ENV: string = process.env.NODE_ENV;
 
 let mainWindow: Electron.BrowserWindow | null;
 
@@ -12,11 +12,12 @@ function createWindow() {
     width: 800,
   });
 
+  console.log(path.join(__dirname, "../build/index.html"));
   // and load the index.html of the app.
-  if (PROD) {
-    mainWindow.loadFile(path.join(__dirname, "../build/index.html"));
-  } else {
+  if (NODE_ENV == "dev") {
     mainWindow.loadURL("http://localhost:3000");
+  } else {
+    mainWindow.loadFile(path.join(__dirname, "../build/index.html"));
   }
 
   // Open the DevTools.

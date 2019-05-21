@@ -1,0 +1,11 @@
+{
+    "appId": "com.greenmochi.kabedon",
+    "copyright": "Copyright © 2019 GreenMochi",
+    "directories": {
+        "output": "release/"
+    },
+    "files": [
+        "build/**/*",
+        "electron_build/**/*"
+    ]
+}
