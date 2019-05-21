@@ -58,7 +58,7 @@ app.on("activate", () => {
 
 ipcMain.on("alive-message", (event: any, arg: any) => {
   console.log("alive message received");
-  event.reply(process.argv[0]);
+  event.reply("alive-reply", process.argv[0]);
   //process.argv.forEach((val, index) => {
   //  console.log(`${index}: ${val}`);
   //});
