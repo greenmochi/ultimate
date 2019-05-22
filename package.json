@@ -23,6 +23,7 @@
     "react:test": "react-scripts test",
     "react:eject": "react-scripts eject",
     "electron:start": "tsc -p tsconfig.electron.json && electron ./electron_build/main",
+    "electron:compile": "tsc -p tsconfig.electron.json",
     "electron:build": "tsc -p tsconfig.electron.json && electron-builder -c.extraMetadata.main=./electron_build/main",
     "electron:test": ""
   },
