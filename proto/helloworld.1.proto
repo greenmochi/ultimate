@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package proto;
+
+import "google/api/annotations.proto";
+
+// The greeting service definition.
+service Poop {
+  // Sends a greeting
+  rpc SayPoop (PoopRequest) returns (PoopReply) {
+      option (google.api.http) = {
+          post: "/v1/example/poop"
+          body: "*"
+      };
+  }
+}
+
+// The request message containing the user's name.
+message PoopRequest {
+  string name = 1;
+}
+
+// The response message containing the greetings
+message PoopReply {
+  string message = 1;
+}
