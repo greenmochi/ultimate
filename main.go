@@ -18,6 +18,7 @@ import (
 
 var (
 	echoEndpoint = flag.String("echo_endpoint", "localhost:50051", "endpoint of YourService")
+	nyaaEndpoint = flag.String("nyaa_endpoint", "localhost:9995", "endpoint of Nyaa service")
 )
 
 func run() error {
@@ -32,6 +33,10 @@ func run() error {
 		return err
 	}
 	err = gw.RegisterPoopHandlerFromEndpoint(ctx, mux, *echoEndpoint, opts)
+	if err != nil {
+		return err
+	}
+	err = gw.RegisterNyaaHandlerFromEndpoint(ctx, mux, *nyaaEndpoint, opts)
 	if err != nil {
 		return err
 	}

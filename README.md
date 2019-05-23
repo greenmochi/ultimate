@@ -21,9 +21,9 @@ eg. For windows, download and place in your path the binaries from protoc-3.7.1-
 # Compiling protobufs
 Compile stub
 ```bash
-$ protoc -Iproto -I$GOPATH/src -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --go_out=plugins=grpc:proto proto/helloworld.proto
+$ protoc proto/helloworld.proto -Iproto -I$GOPATH/src -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --go_out=plugins=grpc:proto 
 ```
 Compile gateway
 ```bash
-$ protoc -Iproto/ -I$GOPATH/src -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --grpc-gateway_out=logtostderr=true:proto proto/helloworld.proto
+$ protoc proto/helloworld.proto -Iproto/ -I$GOPATH/src -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --grpc-gateway_out=logtostderr=true:proto 
 ```
