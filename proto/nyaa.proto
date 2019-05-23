@@ -9,7 +9,7 @@ service Nyaa {
   // Sends a greeting
   rpc Ping (PingRequest) returns (PingReply) {
       option (google.api.http) = {
-          get: "/ping"
+          post: "/ping"
           body: "*"
       };
   }
@@ -17,6 +17,7 @@ service Nyaa {
 
 // The request message containing the user's name.
 message PingRequest {
+  string name = 1;
 }
 
 // The response message containing the greetings
