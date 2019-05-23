@@ -9,8 +9,8 @@ let mainWindow: Electron.BrowserWindow | null;
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    height: 600,
-    width: 800,
+    height: 1200,
+    width: 1600,
     webPreferences: {
       nodeIntegration: true,
     },
@@ -40,8 +40,8 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.on("ready", () => {
   createWindow();
-  let kokoro: KokoroServer = new KokoroServer("localhost", 3222);
-  kokoro.spawn();
+  //let kokoro: KokoroServer = new KokoroServer("localhost", 3222);
+  //kokoro.spawn();
 });
 
 // Quit when all windows are closed.
@@ -64,7 +64,4 @@ app.on("activate", () => {
 ipcMain.on("alive-message", (event: any, arg: any) => {
   console.log("alive message received");
   event.reply("alive-reply", process.argv[0]);
-  //process.argv.forEach((val, index) => {
-  //  console.log(`${index}: ${val}`);
-  //});
 });

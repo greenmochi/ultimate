@@ -41,7 +41,7 @@ export class KokoroServer {
   }
 
   // Shutdown kabedon-kokoro server
-  public shutdown(): void {
+  public close(): void {
   }
 }
 
