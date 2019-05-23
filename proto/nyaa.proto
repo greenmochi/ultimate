@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package proto;
+
+import "google/api/annotations.proto";
+
+// The greeting service definition.
+service Nyaa {
+  // Sends a greeting
+  rpc Ping (PingRequest) returns (PingReply) {
+      option (google.api.http) = {
+          get: "/ping"
+          body: "*"
+      };
+  }
+}
+
+// The request message containing the user's name.
+message PingRequest {
+}
+
+// The response message containing the greetings
+message PingReply {
+  string message = 1;
+}
