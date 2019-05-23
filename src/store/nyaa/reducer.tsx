@@ -2,7 +2,7 @@ import {
   NyaaState,
   SEND_MESSAGE,
   NyaaActionType,
-} from "../type";
+} from "./type";
 
 const initialState: NyaaState = {
   messages: []
