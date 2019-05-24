@@ -6,12 +6,12 @@ declare global {
 }
 const {ipcRenderer} = window.require("electron");
 
-export interface Props {
+export interface IButton {
   value?: string;
   onClick?(): void;
 }
 
-export class Button extends React.Component<Props, {}> {
+export class Button extends React.Component<IButton, {}> {
   constructor(props: any) {
     super(props);
     ipcRenderer.on("alive-reply", (event: any, arg: any) => {
@@ -24,10 +24,6 @@ export class Button extends React.Component<Props, {}> {
   }
 
   render() {
-    const {
-      value,
-      onClick,
-    } = this.props;
     return (
       <button onClick={this.handleOnClick}>button here</button>
     );
