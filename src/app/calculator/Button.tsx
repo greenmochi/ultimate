@@ -7,6 +7,7 @@ const SButton = styled.button`
 
 export interface ButtonProps {
   value: string;
+  input: number;
   updateCalculator: (value: number) => void;
 }
 
@@ -16,6 +17,10 @@ export class Button extends React.Component<ButtonProps, {}> {
   }
 
   handleOnClick = () => {
+    const {
+      input,
+    } = this.props;
+    console.log(input);
   }
 
   render() {

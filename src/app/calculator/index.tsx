@@ -4,8 +4,10 @@ import { Display } from "./Display";
 import { Button } from "./Button";
 import { AppState } from "../../store";
 import { updateCalculator } from "../../store/calculator/action";
+import { CalculatorState } from "../../store/calculator/type";
 
-export interface CalculatorProps {
+interface CalculatorProps {
+  calculator: CalculatorState;
   updateCalculator: typeof updateCalculator;
 }
 
@@ -23,8 +25,9 @@ class Calculator extends React.Component<CalculatorProps> {
       <div>
         <Display>Hello</Display>
         <Button 
-          updateCalculator={this.props.updateCalculator}
           value="+"
+          input={this.props.calculator.input}
+          updateCalculator={this.props.updateCalculator}
         />
       </div>
     );

@@ -3,6 +3,7 @@
 //}
 
 export interface CalculatorState {
+  input: number;
   value: number;
 }
 

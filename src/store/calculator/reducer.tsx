@@ -5,6 +5,7 @@ import {
 } from "./type";
 
 const initialState: CalculatorState = {
+  input: 0,
   value: 0,
 };
 
@@ -15,6 +16,7 @@ export function calculatorReducer(
   switch (action.type) {
     case UPDATE_CALCULATOR:
       return {
+        input: state.input,
         value: action.payload,
       };
     default:
