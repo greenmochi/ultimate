@@ -1,6 +1,15 @@
-import { DefaultTheme } from 'styled-components'
+import { 
+  createGlobalStyle, 
+  DefaultTheme, 
+} from 'styled-components'
 
-const theme: DefaultTheme = {
+export const GlobalStyle = createGlobalStyle`
+  body {
+    color: ${props => (props.theme.whiteColor ? "white": "black")};
+  }
+`
+
+export const theme: DefaultTheme = {
   borderRadius: '5px',
 
   colors: {
@@ -8,5 +17,3 @@ const theme: DefaultTheme = {
     secondary: 'magenta',
   },
 }
-
-export { theme }

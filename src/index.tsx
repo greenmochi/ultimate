@@ -5,14 +5,8 @@ import * as serviceWorker from "./serviceWorker";
 import configureStore from "./store";
 import { Provider } from "react-redux";
 
-import { ThemeProvider, createGlobalStyle } from "styled-components";
-import { theme } from "./theme";
-
-const GlobalStyle = createGlobalStyle`
-  body {
-    color: ${props => (props.theme.whiteColor ? "white": "black")};
-  }
-`
+import { ThemeProvider } from "styled-components";
+import { theme, GlobalStyle } from "./theme";
 
 const store = configureStore();
 
