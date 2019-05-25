@@ -1,6 +1,7 @@
 import {
   CalculatorState,
-  UPDATE_CALCULATOR,
+  UPDATE_INPUT,
+  UPDATE_VALUE,
   CalculatorActionType,
 } from "./type";
 
@@ -14,7 +15,12 @@ export function calculatorReducer(
   action: CalculatorActionType
 ): CalculatorState {
   switch (action.type) {
-    case UPDATE_CALCULATOR:
+    case UPDATE_INPUT:
+      return {
+        input: action.payload,
+        value: state.value,
+      };
+    case UPDATE_VALUE:
       return {
         input: state.input,
         value: action.payload,

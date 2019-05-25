@@ -3,31 +3,45 @@ import { connect } from "react-redux";
 import { Display } from "./Display";
 import { Button } from "./Button";
 import { AppState } from "../../store";
-import { updateCalculator } from "../../store/calculator/action";
 import { CalculatorState } from "../../store/calculator/type";
+import {
+  updateCalculatorInput,
+  updateCalculatorValue,
+} from "../../store/calculator/action";
 
 interface CalculatorProps {
   calculator: CalculatorState;
-  updateCalculator: typeof updateCalculator;
+  updateCalculatorInput: typeof updateCalculatorInput;
+  updateCalculatorValue: typeof updateCalculatorValue;
 }
 
 class Calculator extends React.Component<CalculatorProps> {
-  constructor(props: any) {
-    super(props);
+
+  updateCalculatorInput = (value: number) => {
+    this.props.updateCalculatorInput(value);
   }
 
-  updateCalculator = (value: number) => {
-    this.props.updateCalculator(value);
+  updateCalculatorValue= (value: number) => {
+    this.props.updateCalculatorValue(value);
   }
 
   render() {
     return (
       <div>
-        <Display>Hello</Display>
+        <Display>{this.props.calculator.input}</Display>
         <Button 
-          value="+"
-          input={this.props.calculator.input}
-          updateCalculator={this.props.updateCalculator}
+          operation="+"
+          calcInput={this.props.calculator.input}
+          calcValue={this.props.calculator.value}
+          updateCalculatorInput={this.props.updateCalculatorInput}
+          updateCalculatorValue={this.props.updateCalculatorValue}
+        />
+        <Button 
+          operation="1"
+          calcInput={this.props.calculator.input}
+          calcValue={this.props.calculator.value}
+          updateCalculatorInput={this.props.updateCalculatorInput}
+          updateCalculatorValue={this.props.updateCalculatorValue}
         />
       </div>
     );
@@ -39,6 +53,8 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 export default connect(
-  mapStateToProps, 
-  { updateCalculator },
+  mapStateToProps, {
+    updateCalculatorInput,
+    updateCalculatorValue,
+  },
 )(Calculator);

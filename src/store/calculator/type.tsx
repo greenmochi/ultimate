@@ -7,11 +7,17 @@ export interface CalculatorState {
   value: number;
 }
 
-export const UPDATE_CALCULATOR = "UPDATE_CALCULATOR";
+export const UPDATE_INPUT = "UPDATE_INPUT";
+export const UPDATE_VALUE = "UPDATE_VALUE";
 
-interface UpdateCalculatorAction {
-  type: typeof UPDATE_CALCULATOR;
+interface UpdateInputAction {
+  type: typeof UPDATE_INPUT;
   payload: number;
 }
 
-export type CalculatorActionType = UpdateCalculatorAction;
+interface UpdateValueAction {
+  type: typeof UPDATE_VALUE;
+  payload: number;
+}
+
+export type CalculatorActionType = UpdateInputAction | UpdateValueAction;

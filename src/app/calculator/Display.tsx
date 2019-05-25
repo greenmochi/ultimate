@@ -10,11 +10,8 @@ export interface DisplayProps {
 
 export class Display extends React.Component<DisplayProps, {}> {
   render() {
-    const {
-      children,
-    } = this.props;
     return (
-      <SDisplay>{children}</SDisplay>
+      <SDisplay>{this.props.children}</SDisplay>
     )
   }
 }

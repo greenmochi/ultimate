@@ -6,9 +6,11 @@ const SButton = styled.button`
 `;
 
 export interface ButtonProps {
-  value: string;
-  input: number;
-  updateCalculator: (value: number) => void;
+  operation: string;
+  calcInput: number;
+  calcValue: number;
+  updateCalculatorInput: (value: number) => void;
+  updateCalculatorValue: (value: number) => void;
 }
 
 export class Button extends React.Component<ButtonProps, {}> {
@@ -18,17 +20,34 @@ export class Button extends React.Component<ButtonProps, {}> {
 
   handleOnClick = () => {
     const {
-      input,
+      operation,
+      calcInput,
+      calcValue,
+      updateCalculatorInput,
+      updateCalculatorValue,
     } = this.props;
-    console.log(input);
+    switch (operation) {
+      case "1": {
+        let input: number = (calcInput * 10) + 1; 
+        updateCalculatorInput(input);
+        break;
+      }
+      case "+": {
+        updateCalculatorValue(calcInput + calcValue);
+        break;
+      }
+      default: {
+        break;
+      }
+    }
   }
 
   render() {
     const {
-      value,
+      operation,
     } = this.props;
     return (
-      <SButton onClick={this.handleOnClick}>{value}</SButton>
+      <SButton onClick={this.handleOnClick}>{operation}</SButton>
     );
   }
 }
