@@ -5,17 +5,23 @@ import { Button } from "./Button";
 import { AppState } from "../../store";
 import { CalculatorState } from "../../store/calculator/type";
 import {
+  updateCalculatorDisplay,
   updateCalculatorInput,
   updateCalculatorValue,
 } from "../../store/calculator/action";
 
 interface CalculatorProps {
   calculator: CalculatorState;
+  updateCalculatorDisplay: typeof updateCalculatorDisplay;
   updateCalculatorInput: typeof updateCalculatorInput;
   updateCalculatorValue: typeof updateCalculatorValue;
 }
 
 class Calculator extends React.Component<CalculatorProps> {
+
+  updateCalculatorDisplay = (value: number) => {
+    this.props.updateCalculatorDisplay(value);
+  }
 
   updateCalculatorInput = (value: number) => {
     this.props.updateCalculatorInput(value);
@@ -28,11 +34,12 @@ class Calculator extends React.Component<CalculatorProps> {
   render() {
     return (
       <div>
-        <Display>{this.props.calculator.input}</Display>
+        <Display>{this.props.calculator.display}</Display>
         <Button 
           operation="+"
           calcInput={this.props.calculator.input}
           calcValue={this.props.calculator.value}
+          updateCalculatorDisplay ={this.props.updateCalculatorDisplay}
           updateCalculatorInput={this.props.updateCalculatorInput}
           updateCalculatorValue={this.props.updateCalculatorValue}
         />
@@ -40,6 +47,7 @@ class Calculator extends React.Component<CalculatorProps> {
           operation="1"
           calcInput={this.props.calculator.input}
           calcValue={this.props.calculator.value}
+          updateCalculatorDisplay ={this.props.updateCalculatorDisplay}
           updateCalculatorInput={this.props.updateCalculatorInput}
           updateCalculatorValue={this.props.updateCalculatorValue}
         />
@@ -54,6 +62,7 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(
   mapStateToProps, {
+    updateCalculatorDisplay,
     updateCalculatorInput,
     updateCalculatorValue,
   },

@@ -9,6 +9,7 @@ export interface ButtonProps {
   operation: string;
   calcInput: number;
   calcValue: number;
+  updateCalculatorDisplay: (value: number) => void;
   updateCalculatorInput: (value: number) => void;
   updateCalculatorValue: (value: number) => void;
 }
@@ -23,6 +24,7 @@ export class Button extends React.Component<ButtonProps, {}> {
       operation,
       calcInput,
       calcValue,
+      updateCalculatorDisplay,
       updateCalculatorInput,
       updateCalculatorValue,
     } = this.props;
@@ -30,10 +32,14 @@ export class Button extends React.Component<ButtonProps, {}> {
       case "1": {
         let input: number = (calcInput * 10) + 1; 
         updateCalculatorInput(input);
+        updateCalculatorDisplay(input);
         break;
       }
       case "+": {
-        updateCalculatorValue(calcInput + calcValue);
+        let value: number = calcInput + calcValue;
+        updateCalculatorValue(value);
+        updateCalculatorInput(0);
+        updateCalculatorDisplay(value);
         break;
       }
       default: {

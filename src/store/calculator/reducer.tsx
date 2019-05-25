@@ -1,11 +1,13 @@
 import {
   CalculatorState,
+  UPDATE_DISPLAY,
   UPDATE_INPUT,
   UPDATE_VALUE,
   CalculatorActionType,
 } from "./type";
 
 const initialState: CalculatorState = {
+  display: 0,
   input: 0,
   value: 0,
 };
@@ -15,14 +17,19 @@ export function calculatorReducer(
   action: CalculatorActionType
 ): CalculatorState {
   switch (action.type) {
+    case UPDATE_DISPLAY:
+      return {
+        ...state,
+        display: action.payload,
+      }
     case UPDATE_INPUT:
       return {
+        ...state,
         input: action.payload,
-        value: state.value,
       };
     case UPDATE_VALUE:
       return {
-        input: state.input,
+        ...state,
         value: action.payload,
       };
     default:
