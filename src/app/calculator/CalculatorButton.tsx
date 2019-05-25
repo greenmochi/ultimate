@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 
-const SButton = styled.button`
+const SCalculatorButton = styled.button`
   background-color: green;
 `;
 
-export interface ButtonProps {
+export interface CalculatorButtonProps {
   operation: string;
   calcInput: number;
   calcValue: number;
@@ -14,10 +14,7 @@ export interface ButtonProps {
   updateCalculatorValue: (value: number) => void;
 }
 
-export class Button extends React.Component<ButtonProps, {}> {
-  constructor(props: any) {
-    super(props);
-  }
+export class CalculatorButton extends React.Component<CalculatorButtonProps> {
 
   handleOnClick = () => {
     const {
@@ -53,7 +50,7 @@ export class Button extends React.Component<ButtonProps, {}> {
       operation,
     } = this.props;
     return (
-      <SButton onClick={this.handleOnClick}>{operation}</SButton>
+      <SCalculatorButton onClick={this.handleOnClick}>{operation}</SCalculatorButton>
     );
   }
 }

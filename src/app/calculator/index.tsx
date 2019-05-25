@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Display } from "./Display";
-import { Button } from "./Button";
+import { CalculatorDisplay } from "./CalculatorDisplay";
+import { CalculatorButton } from "./CalculatorButton";
 import { AppState } from "../../store";
 import { CalculatorState } from "../../store/calculator/type";
 import {
@@ -34,8 +34,8 @@ class Calculator extends React.Component<CalculatorProps> {
   render() {
     return (
       <div>
-        <Display>{this.props.calculator.display}</Display>
-        <Button 
+        <CalculatorDisplay>{this.props.calculator.display}</CalculatorDisplay>
+        <CalculatorButton 
           operation="+"
           calcInput={this.props.calculator.input}
           calcValue={this.props.calculator.value}
@@ -43,7 +43,7 @@ class Calculator extends React.Component<CalculatorProps> {
           updateCalculatorInput={this.props.updateCalculatorInput}
           updateCalculatorValue={this.props.updateCalculatorValue}
         />
-        <Button 
+        <CalculatorButton 
           operation="1"
           calcInput={this.props.calculator.input}
           calcValue={this.props.calculator.value}

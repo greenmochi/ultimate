@@ -1,11 +1,11 @@
 import {
   NyaaState,
-  SEND_MESSAGE,
+  SET_SEARCH_TERM,
   NyaaActionType,
 } from "./type";
 
 const initialState: NyaaState = {
-  messages: []
+  searchTerm: "",
 };
 
 export function nyaaReducer(
@@ -13,9 +13,10 @@ export function nyaaReducer(
   action: NyaaActionType
 ): NyaaState {
   switch (action.type) {
-    case SEND_MESSAGE:
+    case SET_SEARCH_TERM:
       return {
-        messages: [...state.messages, action.payload]
+        ...state,
+        searchTerm: action.payload,
       };
     default:
       return state;

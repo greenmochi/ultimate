@@ -1,16 +1,12 @@
-export interface Message {
-  name: string;
-}
-
 export interface NyaaState {
-  messages: Message[];
+  searchTerm: string;
 }
 
-export const SEND_MESSAGE = "SEND_MESSAGE";
+export const SET_SEARCH_TERM = "SET_SEARCH_TERM";
 
-interface SendMessageAction {
-  type: typeof SEND_MESSAGE;
-  payload: Message;
+interface SetSearchTermAction {
+  type: typeof SET_SEARCH_TERM;
+  payload: string;
 }
 
-export type NyaaActionType = SendMessageAction;
+export type NyaaActionType = SetSearchTermAction;
