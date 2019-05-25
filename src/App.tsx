@@ -18,11 +18,11 @@ const App: React.FC = () => {
           </GridNavigation>
           <GridApp>
             <Switch>
-              <Route path="/" component={Nyaa} />
+              <Route path="/nyaa" component={Nyaa} />
               <Route path="/calculator" component={Calculator} />
             </Switch>
           </GridApp>
-          <GridStatus>hello</GridStatus>
+          <GridStatus>status</GridStatus>
         </Grid>
       </BrowserRouter>
     </div>

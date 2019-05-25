@@ -3,7 +3,8 @@ import styled from "styled-components";
 
 const SGrid = styled.div`
   display: grid;
-  grid-template-columns: 100px auto;
+  grid-template-columns: 70px auto;
+  grid-template-rows: 1fr 50px;
   grid-template-areas:
     "navigation   app"
     "navigation   app"
