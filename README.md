@@ -24,11 +24,11 @@ Build separately:
 
 This will build the React application and place the files in a /build folder.
 ```bash
-yarn run react-build
+yarn run react:build
 ```
 
 This will build the Electron application by compiling the Typescript files into Javascript files, then
 it will package the React build files and Electron build files together into a /release folder. 
 ```bash
-yarn run electron-build
+yarn run electron:build
 ```
