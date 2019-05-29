@@ -3,6 +3,8 @@ import styled from "styled-components";
 
 const SGridStatus = styled.div`
   grid-area: status;
+  background-color: black;
+  color: white;
 `;
 
 export interface GridStatusProps {

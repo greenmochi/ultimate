@@ -10,22 +10,20 @@ import { GridStatus } from "./app/common/Grid/GridStatus";
 
 const App: React.FC = () => {
   return (
-    <div>
-      <BrowserRouter>
-        <Grid>
-          <GridNavigation>
-            <Navigation />
-          </GridNavigation>
-          <GridApp>
-            <Switch>
-              <Route path="/nyaa" component={Nyaa} />
-              <Route path="/calculator" component={Calculator} />
-            </Switch>
-          </GridApp>
-          <GridStatus>status</GridStatus>
-        </Grid>
-      </BrowserRouter>
-    </div>
+    <BrowserRouter>
+      <Grid>
+        <GridNavigation>
+          <Navigation />
+        </GridNavigation>
+        <GridApp>
+          <Switch>
+            <Route path="/nyaa" component={Nyaa} />
+            <Route path="/calculator" component={Calculator} />
+          </Switch>
+        </GridApp>
+        <GridStatus>status: Do we really want this? There might be a better way to track status for all apps</GridStatus>
+      </Grid>
+    </BrowserRouter>
   );
 }
 
