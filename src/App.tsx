@@ -17,8 +17,8 @@ const App: React.FC = () => {
         </GridNavigation>
         <GridApp>
           <Switch>
-            <Route path="/nyaa" component={Nyaa} />
             <Route path="/calculator" component={Calculator} />
+            <Route path="/nyaa" component={Nyaa} />
           </Switch>
         </GridApp>
         <GridStatus>status: Do we really want this? There might be a better way to track status for all apps</GridStatus>

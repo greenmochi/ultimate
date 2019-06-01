@@ -4,6 +4,7 @@ import {
 } from "redux";
 import { nyaaReducer } from "./nyaa/reducer";
 import { calculatorReducer } from "./calculator/reducer";
+import { devToolsEnhancer } from "redux-devtools-extension";
 
 const rootReducer = combineReducers({
   nyaa: nyaaReducer,
@@ -14,7 +15,8 @@ export type AppState = ReturnType<typeof rootReducer>;
 
 export default function configureStore() {
   const store = createStore(
-    rootReducer,
+    rootReducer, 
+    devToolsEnhancer({}),
   )
   return store;
 };

@@ -18,17 +18,17 @@ export class Navigation extends React.Component<NavigationProps> {
     return (
       <SNavigation>
         <NavigationImageButton
-          to="/nyaa"
+          to="/"
           image={imageA}
         >
         </NavigationImageButton>
         <NavigationImageButton
-          to="/calculator"
+          to="/nyaa"
           image={imageB}
         >
         </NavigationImageButton>
         <NavigationImageButton
-          to="/"
+          to="/calculator"
           image={imageC}
         >
         </NavigationImageButton>

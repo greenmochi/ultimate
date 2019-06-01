@@ -44,11 +44,14 @@
     "typescript": "^3.4.5"
   },
   "devDependencies": {
+    "@types/electron-devtools-installer": "^2.2.0",
     "@types/react-redux": "^7.0.9",
     "@types/styled-components": "^4.1.15",
     "cross-env": "^5.2.0",
     "electron": "^5.0.1",
     "electron-builder": "^20.40.2",
+    "electron-devtools-installer": "^2.2.4",
+    "redux-devtools-extension": "^2.13.8",
     "tslint": "^5.16.0"
   },
   "browserslist": {
