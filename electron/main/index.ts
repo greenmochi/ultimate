@@ -18,7 +18,7 @@ function createWindow() {
   });
 
   // and load the index.html of the app.
-  if (NODE_ENV == "dev") {
+  if (NODE_ENV == "development") {
     mainWindow.loadURL("http://localhost:3000");
     mainWindow.webContents.once('dom-ready', () => {
       mainWindow.webContents.openDevTools()

@@ -14,9 +14,14 @@ const rootReducer = combineReducers({
 export type AppState = ReturnType<typeof rootReducer>;
 
 export default function configureStore() {
-  const store = createStore(
-    rootReducer, 
-    devToolsEnhancer({}),
-  )
-  return store;
+  if (process.env.NODE_ENV === "development") {
+    return createStore(
+      rootReducer, 
+      devToolsEnhancer({}),
+    );
+  } else {
+    return createStore(
+      rootReducer, 
+    );
+  }
 };
