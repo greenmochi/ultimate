@@ -6,7 +6,39 @@ import { setSearchTerm } from "../../store/nyaa/action";
 import styled from "styled-components";
 
 const SNyaaContainer = styled.div`
-  margin: 5px; 
+  background-color: #121212;
+  padding: 5px; 
+`;
+
+const SForm = styled.form`
+  margin: 10px;
+`;
+
+const SInput = styled.input`
+  font-size: 2em;
+`;
+
+const SSubmitButton = styled.button`
+  font-size: 2em;
+`;
+
+const STable = styled.table`
+  margin: 10px;
+  border-spacing: 0;
+`;
+
+const STableRow = styled.tr`
+`;
+
+const STableHeader = styled.th`
+  color: #03DAC5;
+  border: 1px solid grey;
+`;
+
+const STableData = styled.td`
+  color: white;
+  border: 1px solid grey;
+  padding: 5px;
 `;
 
 interface NyaaProps {
@@ -24,53 +56,56 @@ class Nyaa extends React.Component<NyaaProps> {
     event.preventDefault();
     const data = new FormData(event.target);
     let searchTerm: string = data.get("search") as string;
-    this.setSearchTerm(searchTerm);
+this.setSearchTerm(searchTerm);
+  }
+
+  _renderTable = () => {
   }
 
   render() {
     return (
       <SNyaaContainer>
-        <form
+        <SForm
           onSubmit={this.handleOnSubmit}
         >
-          <input 
+          <SInput 
             id="search" 
             name="search"
             type="text" 
             placeholder="Boku no hero academia..."
           />
-          <button
+          <SSubmitButton
             type="submit"
           >
             search
-          </button>
-        </form>
-        <table>
+          </SSubmitButton>
+        </SForm>
+        <STable>
           <thead>
-            <tr>
-              <th>Category</th>
-              <th>Name</th>
-              <th>Link</th>
-              <th>Size</th>
-              <th>Date</th>
-              <th>Seeders</th>
-              <th>Leechers</th>
-              <th>Complete Downloads</th>
-            </tr>
+            <STableRow>
+              <STableHeader>Category</STableHeader>
+              <STableHeader>Name</STableHeader>
+              <STableHeader>Link</STableHeader>
+              <STableHeader>Size</STableHeader>
+              <STableHeader>Date</STableHeader>
+              <STableHeader>Seeders</STableHeader>
+              <STableHeader>Leechers</STableHeader>
+              <STableHeader>Complete Downloads</STableHeader>
+            </STableRow>
           </thead>
           <tbody>
-            <tr>
-              <td>anime sub</td>
-              <td>kimetsu no yaiba</td>
-              <td>torrent/magnet</td>
-              <td>1.1 GiB</td>
-              <td>2019</td>
-              <td>2234</td>
-              <td>288</td>
-              <td>13691</td>
-            </tr>
+            <STableRow>
+              <STableData>anime sub</STableData>
+              <STableData>kimetsu no yaiba</STableData>
+              <STableData>torrent/magnet</STableData>
+              <STableData>1.1 GiB</STableData>
+              <STableData>2019</STableData>
+              <STableData>2234</STableData>
+              <STableData>288</STableData>
+              <STableData>13691</STableData>
+            </STableRow>
           </tbody>
-        </table>
+        </STable>
       </SNyaaContainer>
     );
   }
