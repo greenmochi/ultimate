@@ -1,7 +1,10 @@
 import { 
+  compose,
   createStore,
   combineReducers,
+  applyMiddleware,
 } from "redux";
+import thunk from "redux-thunk";
 import { nyaaReducer } from "./nyaa/reducer";
 import { calculatorReducer } from "./calculator/reducer";
 import { devToolsEnhancer } from "redux-devtools-extension";
@@ -17,11 +20,15 @@ export default function configureStore() {
   if (process.env.NODE_ENV === "development") {
     return createStore(
       rootReducer, 
-      devToolsEnhancer({}),
+      compose(
+        applyMiddleware(thunk), 
+        devToolsEnhancer({}),
+      ),
     );
   } else {
     return createStore(
       rootReducer, 
+      applyMiddleware(thunk),
     );
   }
 };

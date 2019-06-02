@@ -28,6 +28,7 @@ const STable = styled.table`
 `;
 
 const STableRow = styled.tr`
+  text-align: center;
 `;
 
 const STableHeader = styled.th`
@@ -56,7 +57,7 @@ class Nyaa extends React.Component<NyaaProps> {
     event.preventDefault();
     const data = new FormData(event.target);
     let searchTerm: string = data.get("search") as string;
-this.setSearchTerm(searchTerm);
+    this.setSearchTerm(searchTerm);
   }
 
   _renderTable = () => {
