@@ -2,10 +2,12 @@ import {
   NyaaState,
   SET_SEARCH_TERM,
   NyaaActionType,
+  SET_RESULTS,
 } from "./type";
 
 const initialState: NyaaState = {
   searchTerm: "",
+  results: [],
 };
 
 export function nyaaReducer(
@@ -17,6 +19,11 @@ export function nyaaReducer(
       return {
         ...state,
         searchTerm: action.payload,
+      };
+    case SET_RESULTS:
+      return {
+        ...state,
+        results: action.payload,
       };
     default:
       return state;

@@ -1,20 +1,24 @@
-export interface NyaaResult {
-  category:   string;
-  name:       string;
-  link:       string;
-  size:       string;
-  date:       string;
-  seeders:    number;
-  leechers:   number;
-  downloads:  number;
-}
+const API_ROOT = "http://localhost:8000";
 
 export function fetchResults<T>(endpoint: string, searchTerm: string): Promise<T> {
-  return fetch(endpoint)
+  const fullUrl = API_ROOT + endpoint;
+  const data = { "searchTerm": searchTerm };
+  const options = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  return fetch(
+    fullUrl,
+    options
+  )
     .then(response => {
-        if (!response.ok) {
-          throw new Error(response.statusText);
-        }
-        return response.json();
-      })
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      return response.json();
+    })
 }
