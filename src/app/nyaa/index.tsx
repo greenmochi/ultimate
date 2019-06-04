@@ -1,12 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
+import styled from "styled-components";
+import { 
+  bindActionCreators, 
+  Dispatch, 
+  AnyAction 
+} from "redux";
 import { StoreState } from "../../store";
 import { 
-  setSearchTerm, 
   loadResults, 
 } from "../../store/nyaa/action";
-import styled from "styled-components";
-import { bindActionCreators, Dispatch, AnyAction } from "redux";
 
 const SNyaaContainer = styled.div`
   background-color: #121212;
@@ -51,7 +54,6 @@ const mapStateToProps = (state: StoreState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => (
   bindActionCreators({
-    setSearchTerm: setSearchTerm,
     loadResults: loadResults,
   }, dispatch)
 );
@@ -66,9 +68,7 @@ class Nyaa extends React.Component<NyaaProps> {
     event.preventDefault();
     const data = new FormData(event.target);
     let searchTerm: string = data.get("search") as string;
-    this.props.setSearchTerm(searchTerm);
-
-    this.props.loadResults();
+    this.props.loadResults(searchTerm);
   }
 
   _renderTable = () => {

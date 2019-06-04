@@ -21,6 +21,12 @@ function createWindow() {
   if (NODE_ENV == "development") {
     mainWindow.loadURL("http://localhost:3000");
     mainWindow.webContents.once('dom-ready', () => {
+      installExtension(REACT_DEVELOPER_TOOLS)
+        .then((name) => console.log(`Added extension: ${name}`))
+        .catch((err) => console.log("An error occurred: ", err));
+      installExtension(REDUX_DEVTOOLS)
+        .then((name) => console.log(`Added extension: ${name}`))
+        .catch((err) => console.log("An error occurred: ", err));
       mainWindow.webContents.openDevTools()
     })
   } else {
