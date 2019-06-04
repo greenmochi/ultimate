@@ -3,8 +3,8 @@ const API_ROOT = "http://localhost:8000/nyaa";
 /**
  * Sends a POST request to the nyaa service through the proxy.
  * 
- * @param endpoint - The endpoint to send to in the format of /endpoint
- * @param searchTerm - The term to search for in nyaa.si
+ * @param endpoint The endpoint to send to in the format of /endpoint
+ * @param searchTerm The term to search for in nyaa.si
  * @returns The promise to `API_ROOT/endpoint`
  */
 export async function fetchResults<T>(searchTerm: string, endpoint: string = "/search"): Promise<T> {
@@ -13,13 +13,11 @@ export async function fetchResults<T>(searchTerm: string, endpoint: string = "/s
   console.log(fullUrl);
   console.log(urlParams.get("searchTerm"));
   let params3: URLSearchParams = new URLSearchParams([["foo", "1"],["bar", "2"]]);
-  const data = { "searchTerm": searchTerm };
   const options = {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
-    // body: JSON.stringify(data),
   };
 
   return fetch(
