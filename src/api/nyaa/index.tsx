@@ -1,6 +1,6 @@
 const API_ROOT = "http://localhost:8000";
 
-export function fetchResults<T>(endpoint: string, searchTerm: string): Promise<T> {
+export async function fetchResults<T>(endpoint: string, searchTerm: string): Promise<T> {
   const fullUrl = API_ROOT + endpoint;
   const data = { "searchTerm": searchTerm };
   const options = {

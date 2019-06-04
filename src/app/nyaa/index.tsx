@@ -1,8 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { ThunkActionDispatch, ThunkDispatch } from "redux-thunk";
-import { StoreState, ThunkResult, StoreActions } from "../../store";
-import { NyaaState } from "../../store/nyaa/type";
+import { StoreState } from "../../store";
 import { 
   setSearchTerm, 
   loadResults, 
@@ -47,25 +45,29 @@ const STableData = styled.td`
   padding: 5px;
 `;
 
-interface NyaaProps {
-  nyaa: NyaaState;
-  setSearchTerm: typeof setSearchTerm;
-  loadResults: any;
-}
+const mapStateToProps = (state: StoreState) => ({
+  nyaa: state.nyaa,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => (
+  bindActionCreators({
+    setSearchTerm: setSearchTerm,
+    loadResults: loadResults,
+  }, dispatch)
+);
+
+type NyaaProps = ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps> & {
+  };
 
 class Nyaa extends React.Component<NyaaProps> {
-
-  setSearchTerm = (searchTerm: string) => {
-    this.props.setSearchTerm(searchTerm);
-  }
 
   handleOnSubmit = (event: any) => {
     event.preventDefault();
     const data = new FormData(event.target);
     let searchTerm: string = data.get("search") as string;
-    this.setSearchTerm(searchTerm);
+    this.props.setSearchTerm(searchTerm);
 
-    console.log(this.props.loadResults);
     this.props.loadResults();
   }
 
@@ -119,15 +121,6 @@ class Nyaa extends React.Component<NyaaProps> {
       </SNyaaContainer>
     );
   }
-}
-
-const mapStateToProps = (state: StoreState) => ({
-  nyaa: state.nyaa,
-});
-
-const mapDispatchToProps = {
-  setSearchTerm: setSearchTerm,
-  loadResults: loadResults,
 }
 
 export default connect(

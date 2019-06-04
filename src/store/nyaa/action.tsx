@@ -11,9 +11,7 @@ import {
 import { 
   fetchResults,
 } from "../../api/nyaa";
-import { ThunkDispatch } from "redux-thunk";
 import { 
-  StoreState, 
   ThunkResult, 
 } from "..";
 
@@ -32,15 +30,15 @@ export const setResults: ActionCreator<Action> = (results: NyaaResult[]) => {
 }
 
 export function loadResults(): ThunkResult<void> {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const { nyaa } = getState();
-    let req = fetchResults<NyaaResult[]>("/nyaa", nyaa.searchTerm)
-    req.then((results: NyaaResult[]) => {
-      console.log(results);
-    })
-      .then(error => {
+    let results = await fetchResults<NyaaResult[]>("/nyaa", nyaa.searchTerm)
+      .then((results: NyaaResult[]) => {
+        return results;
+      })
+      .catch(error => {
         console.log(error);
       });
-    dispatch(setResults([]));
+    dispatch(setResults(results));
   };
 }
