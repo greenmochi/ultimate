@@ -1,9 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
-import { AppState } from "../../store";
+import { ThunkActionDispatch, ThunkDispatch } from "redux-thunk";
+import { StoreState, ThunkResult, StoreActions } from "../../store";
 import { NyaaState } from "../../store/nyaa/type";
-import { setSearchTerm } from "../../store/nyaa/action";
+import { 
+  setSearchTerm, 
+  loadResults, 
+} from "../../store/nyaa/action";
 import styled from "styled-components";
+import { bindActionCreators, Dispatch, AnyAction } from "redux";
 
 const SNyaaContainer = styled.div`
   background-color: #121212;
@@ -45,6 +50,7 @@ const STableData = styled.td`
 interface NyaaProps {
   nyaa: NyaaState;
   setSearchTerm: typeof setSearchTerm;
+  loadResults: any;
 }
 
 class Nyaa extends React.Component<NyaaProps> {
@@ -58,6 +64,9 @@ class Nyaa extends React.Component<NyaaProps> {
     const data = new FormData(event.target);
     let searchTerm: string = data.get("search") as string;
     this.setSearchTerm(searchTerm);
+
+    console.log(this.props.loadResults);
+    this.props.loadResults();
   }
 
   _renderTable = () => {
@@ -112,12 +121,16 @@ class Nyaa extends React.Component<NyaaProps> {
   }
 }
 
-const mapStateToProps = (state: AppState) => ({
+const mapStateToProps = (state: StoreState) => ({
   nyaa: state.nyaa,
 });
 
+const mapDispatchToProps = {
+  setSearchTerm: setSearchTerm,
+  loadResults: loadResults,
+}
+
 export default connect(
-  mapStateToProps, {
-    setSearchTerm,
-  },
+  mapStateToProps, 
+  mapDispatchToProps,
 )(Nyaa);

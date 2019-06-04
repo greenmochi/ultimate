@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { CalculatorDisplay } from "./CalculatorDisplay";
 import { CalculatorButton } from "./CalculatorButton";
-import { AppState } from "../../store";
+import { StoreState } from "../../store";
 import { CalculatorState } from "../../store/calculator/type";
 import {
   updateCalculatorDisplay,
@@ -56,7 +56,7 @@ class Calculator extends React.Component<CalculatorProps> {
   }
 }
 
-const mapStateToProps = (state: AppState) => ({
+const mapStateToProps = (state: StoreState) => ({
   calculator: state.calculator,
 });
 

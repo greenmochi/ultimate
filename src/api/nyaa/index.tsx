@@ -8,7 +8,7 @@ export function fetchResults<T>(endpoint: string, searchTerm: string): Promise<T
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(data),
+    // body: JSON.stringify(data),
   };
 
   return fetch(
