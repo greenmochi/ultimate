@@ -10,12 +10,8 @@ const API_ROOT = "http://localhost:8000/nyaa";
  * @returns The promise to `API_ROOT/endpoint`
  */
 export async function fetchResults<T>(searchTerm: string, endpoint: string = "/search"): Promise<T> {
-  // const fullUrl: string = API_ROOT +  `?searchTerm=${searchTerm}`;
-  const fullUrl: string = url.createQueryString(API_ROOT, endpoint, "");
-  const urlParams = new URLSearchParams(new URL(fullUrl).search);
-  console.log(fullUrl);
-  console.log(urlParams.get("searchTerm"));
-  let params3: URLSearchParams = new URLSearchParams([["foo", "1"],["bar", "2"]]);
+  const queryParams: string = url.mapToQueryString({ "searchTerm": searchTerm });
+  const fullUrl: string = url.createQueryString(API_ROOT, endpoint, queryParams);
   const options = {
     method: "GET",
     headers: {
@@ -28,7 +24,7 @@ export async function fetchResults<T>(searchTerm: string, endpoint: string = "/s
     options
   ).then(response => {
     if (!response.ok) {
-      throw new Error(response.statusText);
+      throw new Error(fullUrl + " " + response.statusText);
     }
     return response.json();
   })

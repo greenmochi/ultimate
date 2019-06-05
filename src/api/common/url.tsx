@@ -1,18 +1,31 @@
+interface KeyValues {
+  [key: string]: string;
+}
+
 /**
  * Constructs a query parameter string.
- * @param map A map of key-value pairs
+ * @param map A map of key-value pairs or `KeyValues`
  * @param prefix Prefix to to the query string, defaults to "?"
  * @returns A query parameter string
  */
-export function mapToQueryString(map: Map<string, string>, prefix: string = "?"): string {
-  if (map.size <= 0) {
-    return "";
+export function mapToQueryString(map: KeyValues | Map<string, string>, prefix: string = "?"): string {
+  const keyValuePairs: string[] = [];
+
+  if (map instanceof Map) {
+    map.forEach((value: string, key: string) => {
+      keyValuePairs.push(key + "=" + value);
+    })
+  } else {
+    for (let key in map) {
+      if (map[key]) {
+        keyValuePairs.push(key + "=" + map[key]);
+      }
+    }
   }
 
-  const keyValuePairs: string[] = [];
-  map.forEach((value: string, key: string) => {
-    keyValuePairs.push(key + "=" + value);
-  })
+  if (keyValuePairs.length <= 0) {
+    return "";
+  }
 
   return prefix + keyValuePairs.join("&");
 }
@@ -81,17 +94,17 @@ export function isQueryParamsValid(queryParams: string): boolean {
  * @returns Formatted url string with query parameters
  */
 export function createQueryString(base: string, endpoint: string, queryParams: string): string {
-  if (!base || !isBaseValid(base)) {
+  if (base && !isBaseValid(base)) {
     console.warn(`Problem creating query string: base=${base}`);
     return "";
   } 
   
-  if (!endpoint || !isEndpointValid(endpoint)) {
+  if (endpoint && !isEndpointValid(endpoint)) {
     console.warn(`Problem creating query string: endpoint=${endpoint}`);
     return "";
   }
 
-  if (!queryParams || !isQueryParamsValid(queryParams)) {
+  if (queryParams && !isQueryParamsValid(queryParams)) {
     console.warn(`Problem creating query string: queryParams=${queryParams}`);
     return "";
   }
