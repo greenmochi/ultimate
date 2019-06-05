@@ -18,10 +18,10 @@ import (
 
 var (
 	echoEndpoint = flag.String("echo_endpoint", "localhost:50051", "endpoint of YourService")
-	nyaaEndpoint = flag.String("nyaa_endpoint", "localhost:9995", "endpoint of Nyaa service")
+	nyaaEndpoint = flag.String("nyaa_endpoint", "localhost:9995", "endpoint of Nyaa grpc service")
 )
 
-func run() error {
+func runProxy() error {
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
@@ -40,20 +40,10 @@ func run() error {
 	if err != nil {
 		return err
 	}
-
 	return http.ListenAndServe(":8080", mux)
 }
 
-func main() {
-	flag.Parse()
-	defer glog.Flush()
-
-	go func() {
-		if err := run(); err != nil {
-			glog.Fatal(err)
-		}
-	}()
-
+func run() error {
 	myMux := http.NewServeMux()
 	myMux.HandleFunc("/penis", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Hello, %q", html.EscapeString(r.URL.Path))
@@ -77,5 +67,21 @@ func main() {
 		}
 		glog.Infof("Greeting: %s", resp.Message)
 	})
-	glog.Fatal(http.ListenAndServe(":8081", myMux))
+	return http.ListenAndServe(":8081", myMux)
+}
+
+func main() {
+	flag.Parse()
+	// defer glog.Flush()
+
+	glog.Infof("Runing proxy server on :%s", "8080")
+	go func() {
+		if err := runProxy(); err != nil {
+			glog.Fatal(err)
+		}
+	}()
+
+	if err := run(); err != nil {
+		glog.Fatal(err)
+	}
 }
