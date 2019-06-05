@@ -1,3 +1,5 @@
+import * as url from "../common/url";
+
 const API_ROOT = "http://localhost:8000/nyaa";
 
 /**
@@ -8,7 +10,8 @@ const API_ROOT = "http://localhost:8000/nyaa";
  * @returns The promise to `API_ROOT/endpoint`
  */
 export async function fetchResults<T>(searchTerm: string, endpoint: string = "/search"): Promise<T> {
-  const fullUrl: string = API_ROOT +  `?searchTerm=${searchTerm}`;
+  // const fullUrl: string = API_ROOT +  `?searchTerm=${searchTerm}`;
+  const fullUrl: string = url.createQueryString(API_ROOT, endpoint, "");
   const urlParams = new URLSearchParams(new URL(fullUrl).search);
   console.log(fullUrl);
   console.log(urlParams.get("searchTerm"));
