@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-// KabedonLogger wraps log.Logger and writes to file
+// KabedonLogger wraps log.Logger
 type KabedonLogger struct {
 	logger *log.Logger
 }
@@ -64,4 +64,20 @@ func (kb *KabedonLogger) Errorln(args ...interface{}) {
 // Errorf print formatted output
 func (kb *KabedonLogger) Errorf(format string, args ...interface{}) {
 	kb.Error(fmt.Sprintf(format, args...))
+}
+
+// Fatal fatal log level output
+func (kb *KabedonLogger) Fatal(args ...interface{}) {
+	kb.logger.SetPrefix("[FATAL] ")
+	kb.logger.Print(args...)
+}
+
+// Fatalln output with new line
+func (kb *KabedonLogger) Fatalln(args ...interface{}) {
+	kb.Fatal(fmt.Sprintln(args...))
+}
+
+// Fatalf print formatted output
+func (kb *KabedonLogger) Fatalf(format string, args ...interface{}) {
+	kb.Fatal(fmt.Sprintf(format, args...))
 }

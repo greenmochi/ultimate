@@ -16,6 +16,9 @@ func TestKabedonLogger(t *testing.T) {
 	logger.Error("An error message")
 	logger.Errorln("An error message with new line")
 	logger.Errorf("An error message with format x=%d s=%s\n", 10, "foobar")
+	logger.Fatal("A fatal message")
+	logger.Fatalln("A fatal message with new line")
+	logger.Fatalf("A fatal message with format x=%d s=%s\n", 15, "foobar")
 }
 
 func TestConcurrentLogger(t *testing.T) {
