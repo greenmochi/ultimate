@@ -5,6 +5,11 @@ import (
 	"strconv"
 )
 
+const (
+	scheme = "https"
+	host   = "nyaa.si"
+)
+
 // SortOpt the option that the query should sort by
 type SortOpt string
 
@@ -157,8 +162,8 @@ func (u *URL) String() string {
 	queryParams.Set("p", strconv.Itoa(u.Page))
 
 	url := url.URL{}
-	url.Scheme = "https"
-	url.Host = "nyaa.si"
+	url.Scheme = scheme
+	url.Host = host
 	url.RawQuery = queryParams.Encode()
 	return url.String()
 }
