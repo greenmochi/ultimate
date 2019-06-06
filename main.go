@@ -4,11 +4,11 @@ import (
 	"flag"
 	"fmt"
 	"html"
+	"log"
 	"net/http"
 	"os"
 	"time"
 
-	"github.com/golang/glog"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
@@ -28,15 +28,7 @@ func runProxy() error {
 
 	mux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
-	err := gw.RegisterGreeterHandlerFromEndpoint(ctx, mux, *echoEndpoint, opts)
-	if err != nil {
-		return err
-	}
-	err = gw.RegisterPoopHandlerFromEndpoint(ctx, mux, *echoEndpoint, opts)
-	if err != nil {
-		return err
-	}
-	err = gw.RegisterNyaaHandlerFromEndpoint(ctx, mux, *nyaaEndpoint, opts)
+	err := gw.RegisterNyaaHandlerFromEndpoint(ctx, mux, *nyaaEndpoint, opts)
 	if err != nil {
 		return err
 	}
@@ -45,43 +37,44 @@ func runProxy() error {
 
 func run() error {
 	myMux := http.NewServeMux()
-	myMux.HandleFunc("/penis", func(w http.ResponseWriter, r *http.Request) {
+	myMux.HandleFunc("/log", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Hello, %q", html.EscapeString(r.URL.Path))
-		conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
+		conn, err := grpc.Dial("localhost:9995", grpc.WithInsecure())
 		if err != nil {
-			glog.Fatalf("did not connect: %v", err)
+			log.Fatalf("did not connect: %v", err)
 		}
 		defer conn.Close()
-		c := gw.NewGreeterClient(conn)
+		c := gw.NewNyaaClient(conn)
 
-		// Contact the server and print out its response.
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+		defer cancel()
+
 		name := "hueyjj"
 		if len(os.Args) > 1 {
 			name = os.Args[1]
 		}
-		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-		defer cancel()
-		resp, err := c.SayHello(ctx, &gw.HelloRequest{Name: name})
+
+		resp, err := c.Ping(ctx, &gw.PingRequest{Name: name})
 		if err != nil {
-			glog.Fatalf("could not greet: %v", err)
+			log.Fatalf("could not greet: %v", err)
 		}
-		glog.Infof("Greeting: %s", resp.Message)
+		log.Printf("Greeting: %s", resp.Message)
 	})
 	return http.ListenAndServe(":8081", myMux)
 }
 
 func main() {
 	flag.Parse()
-	// defer glog.Flush()
+	// defer log.Flush()
 
-	glog.Infof("Runing proxy server on :%s", "8080")
 	go func() {
 		if err := runProxy(); err != nil {
-			glog.Fatal(err)
+			log.Fatal(err)
 		}
 	}()
 
+	log.Printf("Runing kokoro server on %s", ":8081")
 	if err := run(); err != nil {
-		glog.Fatal(err)
+		log.Fatal(err)
 	}
 }
