@@ -1,6 +1,9 @@
 package api
 
-import "net/url"
+import (
+	"net/url"
+	"strconv"
+)
 
 // SortOpt the option that the query should sort by
 type SortOpt string
@@ -151,6 +154,7 @@ func (u *URL) String() string {
 	queryParams.Set("q", u.Term)
 	queryParams.Set("s", string(u.Sort))
 	queryParams.Set("o", string(u.Order))
+	queryParams.Set("p", strconv.Itoa(u.Page))
 
 	url := url.URL{}
 	url.Scheme = "https"
