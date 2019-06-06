@@ -13,6 +13,13 @@ service Nyaa {
           body: "*"
       };
   }
+
+  rpc Ping2(PingRequest) returns (PingReply) {
+      option (google.api.http) = {
+          post: "/ping2"
+          body: "*"
+      };
+  }
 }
 
 // The request message containing the user's name.

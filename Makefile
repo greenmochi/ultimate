@@ -1,4 +1,4 @@
-all: 
+all: proto
 	@echo $(GOPATH)
 	mkdir -p bin
 	go build -o bin/kabedon-nyaa
