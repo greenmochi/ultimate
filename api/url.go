@@ -1,17 +1,19 @@
 package api
 
+import "net/url"
+
 // SortOpt the option that the query should sort by
 type SortOpt string
 
 const (
 	// Comment sort by comment
-	Comment SortOpt = "comment"
+	Comment SortOpt = "comments"
 
 	// Size sort by torrent size
 	Size SortOpt = "size"
 
 	// Date sort by torrent added
-	Date SortOpt = "date"
+	Date SortOpt = "id"
 
 	// Seeders sort by number of seeders
 	Seeders SortOpt = "seeders"
@@ -28,13 +30,13 @@ type FilterOpt string
 
 const (
 	// NoFilter don't filter results
-	NoFilter FilterOpt = "no filter"
+	NoFilter FilterOpt = "0"
 
 	// NoRemakes no remakes, no idea what this option on nyaa is
-	NoRemakes FilterOpt = "no remakes"
+	NoRemakes FilterOpt = "1"
 
 	// TrustedOnly show only results from trusted submitters
-	TrustedOnly FilterOpt = "trusted only"
+	TrustedOnly FilterOpt = "2"
 )
 
 // CategoryOpt category option
@@ -42,59 +44,69 @@ type CategoryOpt string
 
 const (
 	// AllCategories all categories
-	AllCategories CategoryOpt = "all categories"
+	AllCategories CategoryOpt = "0_0"
 
 	// Anime all anime
-	Anime CategoryOpt = "anime"
+	Anime CategoryOpt = "1_0"
 	// AnimeMusicVideo anime music video
-	AnimeMusicVideo CategoryOpt = "anime music video"
+	AnimeMusicVideo CategoryOpt = "1_1"
 	// AnimeEnglishTranslated english translated anime
-	AnimeEnglishTranslated CategoryOpt = "anime english translated"
+	AnimeEnglishTranslated CategoryOpt = "1_2"
 	// AnimeNonEnglishTranslated non-english translated anime
-	AnimeNonEnglishTranslated CategoryOpt = "anime non-english translated"
+	AnimeNonEnglishTranslated CategoryOpt = "1_3"
 	// AnimeRaw raw anime
-	AnimeRaw CategoryOpt = "anime raw"
+	AnimeRaw CategoryOpt = "1_4"
 
 	// Audio audio
-	Audio CategoryOpt = "audio"
+	Audio CategoryOpt = "2_0"
 	// AudioLossless lossless audio
-	AudioLossless CategoryOpt = "audio lossless"
+	AudioLossless CategoryOpt = "2_1"
 	// AudioLossy lossy audio
-	AudioLossy CategoryOpt = "audio lossy"
+	AudioLossy CategoryOpt = "2_2"
 
 	// Literature literature
-	Literature CategoryOpt = "literature"
+	Literature CategoryOpt = "3_0"
 	// LiteratureEnglishTranslated english translated literature
-	LiteratureEnglishTranslated CategoryOpt = "literature english-translated"
+	LiteratureEnglishTranslated CategoryOpt = "3_1"
 	// LiteratureNonEnglishTranslated non-english translated literature
-	LiteratureNonEnglishTranslated CategoryOpt = "literature non-english translated"
+	LiteratureNonEnglishTranslated CategoryOpt = "3_2"
 	// LiteratureRaw raw literature
-	LiteratureRaw CategoryOpt = "literature raw"
+	LiteratureRaw CategoryOpt = "3_3"
 
 	// LiveAction live action
-	LiveAction CategoryOpt = "live action"
+	LiveAction CategoryOpt = "4_0"
 	// LiveActionEnglishTranslated english-translated live action
-	LiveActionEnglishTranslated CategoryOpt = "live action english-translated"
+	LiveActionEnglishTranslated CategoryOpt = "4_1"
 	// LiveActionIdolOrPromotionVideo live action idol or promotional video
-	LiveActionIdolOrPromotionVideo CategoryOpt = "live action idol or promotional video"
+	LiveActionIdolOrPromotionVideo CategoryOpt = "4_2"
 	// LiveActionNonEnglishTranslated non-english translated live action
-	LiveActionNonEnglishTranslated CategoryOpt = "live action non-english-translated"
+	LiveActionNonEnglishTranslated CategoryOpt = "4_3"
 	// LiveActionRaw raw live action
-	LiveActionRaw CategoryOpt = "live action raw"
+	LiveActionRaw CategoryOpt = "4_4"
 
 	// Pictures pictures
-	Pictures CategoryOpt = "pictures"
+	Pictures CategoryOpt = "5_0"
 	// PicturesGraphics picture graphics
-	PicturesGraphics CategoryOpt = "pictures graphics"
+	PicturesGraphics CategoryOpt = "5_1"
 	// PicturesPhotos picture photos
-	PicturesPhotos CategoryOpt = "pictures photos"
+	PicturesPhotos CategoryOpt = "5_2"
 
 	// Software software
-	Software CategoryOpt = "software"
+	Software CategoryOpt = "6_0"
 	// SoftwareApplications software applications
-	SoftwareApplications CategoryOpt = "software applications"
+	SoftwareApplications CategoryOpt = "6_1"
 	// SoftwareGames software games
-	SoftwareGames CategoryOpt = "software games"
+	SoftwareGames CategoryOpt = "6_2"
+)
+
+// OrderOpt ascending or descending order
+type OrderOpt string
+
+const (
+	// Asc ascending order
+	Asc OrderOpt = "asc"
+	// Desc descending order
+	Desc OrderOpt = "desc"
 )
 
 // URL is used by mainly calling Url.String() to construct
@@ -107,7 +119,7 @@ type URL struct {
 	Sort SortOpt
 
 	// Asc if the query should sort by ascending or descending
-	Asc bool
+	Order OrderOpt
 
 	// Filter filter results option
 	Filter FilterOpt
@@ -119,7 +131,30 @@ type URL struct {
 	Page int
 }
 
+// DefaultURL make new URL with some options the same nyaa.si
+func DefaultURL() *URL {
+	return &URL{
+		Term:     "",
+		Sort:     Date,
+		Order:    Desc,
+		Filter:   NoFilter,
+		Category: AllCategories,
+		Page:     1,
+	}
+}
+
 // String constructs a url string
 func (u *URL) String() string {
-	return "url"
+	queryParams := url.Values{}
+	queryParams.Set("f", string(u.Filter))
+	queryParams.Set("c", string(u.Category))
+	queryParams.Set("q", u.Term)
+	queryParams.Set("s", string(u.Sort))
+	queryParams.Set("o", string(u.Order))
+
+	url := url.URL{}
+	url.Scheme = "https"
+	url.Host = "nyaa.si"
+	url.RawQuery = queryParams.Encode()
+	return url.String()
 }
