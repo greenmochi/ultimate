@@ -34,3 +34,13 @@ $ bin/kabedon-nyaa
 
 # Notes
 github.com/anacrolix/torrent uses github.com/anacrolix/go-libutp which is a go wrapper for github.com/bittorrent/libutp and it requires gcc to compile bittorrent's transport protocol library.
+
+github.com/anacrolix/torrent client doesn't expose the logger. Unfortunately, it's outputting a lot of noise.
+```bash
+$ ./kabedon-nyaa
+go-libutp: 2019/06/06 03:53:10 socket.go:172: ignoring socket read error: read udp4 0.0.0.0:58865: wsarecvfrom: The connection has been broken due to keep-alive activity detecting a failure while the operation was in progress.
+go-libutp: 2019/06/06 03:53:11 socket.go:172: ignoring socket read error: read udp4 0.0.0.0:58865: wsarecvfrom: The connection has been broken due to keep-alive activity detecting a failure while the operation was in progress.
+go-libutp: 2019/06/06 03:53:11 socket.go:172: ignoring socket read error: read udp4 0.0.0.0:58865: wsarecvfrom: The connection has been broken due to keep-alive activity detecting a failure while the operation was in progress.
+2019-06-06 03:53:12 portfwd.go:31: discovered 0 upnp devices
+```
+Turn it off by setting os.Stdout = nil and just log to a file instead, though this can be disadvantageous...
