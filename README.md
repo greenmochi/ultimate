@@ -11,6 +11,11 @@ https://github.com/protocolbuffers/protobuf/releases
 
 eg. For windows, download and place in your path the binaries from protoc-3.7.1-win64.zip 
 
+# Install gcc
+```bash
+$ choco install mingw
+```
+
 # Compiling
 Build everything
 ```bash
@@ -28,4 +33,4 @@ $ bin/kabedon-nyaa
 ```
 
 # Notes
-n/a
+github.com/anacrolix/torrent uses github.com/anacrolix/go-libutp which is a go wrapper for github.com/bittorrent/libutp and it requires gcc to compile bittorrent's transport protocol library.

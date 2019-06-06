@@ -46,8 +46,10 @@ func Parse(html string) []Result {
 				}
 			case 2:
 				// Torrent link
-				link := tableData.Find("a")
-				result.Link = link.Attrs()["href"]
+				links := tableData.FindAll("a")
+				if len(links) == 2 {
+					result.Link = links[1].Attrs()["href"]
+				}
 			case 3:
 				// Torrent size
 				size := tableData.Text()
@@ -63,11 +65,13 @@ func Parse(html string) []Result {
 					result.Seeders = uint64(i)
 				}
 			case 6:
+				// Torrent leechers
 				leechers := tableData.Text()
 				if i, err := strconv.Atoi(leechers); err == nil {
 					result.Leechers = uint64(i)
 				}
 			case 7:
+				// Torrent downloads
 				downloads := tableData.Text()
 				if i, err := strconv.Atoi(downloads); err == nil {
 					result.Downloads = uint64(i)
