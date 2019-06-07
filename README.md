@@ -44,3 +44,10 @@ go-libutp: 2019/06/06 03:53:11 socket.go:172: ignoring socket read error: read u
 2019-06-06 03:53:12 portfwd.go:31: discovered 0 upnp devices
 ```
 Turn it off by setting os.Stdout = nil and just log to a file instead, though this can be disadvantageous...
+
+# Issues
+If there is a visual studio code go build error that looks like a link failure because of g++, try recloning the project. It seems to solve the problem temporarily.
+```
+# github.com/greenmochi/kabedon-nyaa
+C:\Go\pkg\tool\windows_amd64\link.exe: running g++ failed: exit status 
+```
