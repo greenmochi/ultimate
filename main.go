@@ -22,9 +22,9 @@ func main() {
 		logger.Fatal("unable to set API up", err)
 		os.Exit(1)
 	}
-	logger.Info("API setup successfully.")
-
 	defer api.TearDown()
+
+	logger.Info("API setup successfully.")
 
 	// Run gRPC service, uncomment/comment when you don't want it running
 	//grpc.Setup(port)

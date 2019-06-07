@@ -6,6 +6,9 @@ all: proto
 clean:
 	rm -rf bin
 
+test:
+	go test ./...
+
 proto:
 	protoc proto/nyaa.proto -Iproto -I$(GOPATH)/src -I$(GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --go_out=plugins=grpc:proto 
 

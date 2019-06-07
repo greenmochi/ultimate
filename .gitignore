@@ -2,6 +2,9 @@
 
 bin
 
+proto/*
+!proto/*.proto
+
 # I don't know why github.com/anacrolix/torrent is using these for storage
 .torrent.bolt.db
 .torrent.bolt.db.lock
