@@ -14,6 +14,7 @@ const (
 func main() {
 	// anacrolix/torrent is outputting crazy noise, turn it off and log to file instead
 	os.Stdout = nil
+	os.Stderr = nil
 	defer logger.Close()
 
 	api, err := api.Setup()
@@ -22,6 +23,7 @@ func main() {
 		os.Exit(1)
 	}
 	logger.Info("API setup successfully.")
+
 	defer api.TearDown()
 
 	// Run gRPC service, uncomment/comment when you don't want it running
