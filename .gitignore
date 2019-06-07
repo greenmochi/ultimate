@@ -5,3 +5,5 @@ bin
 .torrent.bolt.db.lock
 
 *.log
+
+*.mkv

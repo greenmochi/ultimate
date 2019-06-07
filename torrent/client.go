@@ -1,6 +1,8 @@
 package torrent
 
-import "github.com/anacrolix/torrent"
+import (
+	"github.com/anacrolix/torrent"
+)
 
 // Client wraps the torrent client
 type Client struct {
