@@ -24,7 +24,7 @@ func NewClient() (*Client, error) {
 
 // Close wraps Close
 func (c *Client) Close() {
-	c.Close()
+	c.client.Close()
 }
 
 // AddMagnet wraps AddMagnet
