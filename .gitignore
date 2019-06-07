@@ -1,3 +1,5 @@
+.vscode
+
 bin
 
 # I don't know why github.com/anacrolix/torrent is using these for storage
@@ -7,3 +9,5 @@ bin
 *.log
 
 *.mkv
+
+kabedon-nyaa.exe
