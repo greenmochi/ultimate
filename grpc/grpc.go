@@ -10,8 +10,8 @@ import (
 	"google.golang.org/grpc"
 )
 
-// RunGRPC starts the gRPC service
-func RunGRPC(port string) {
+// Setup starts the gRPC service
+func Setup(port string) {
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)

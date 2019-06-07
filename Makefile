@@ -1,5 +1,5 @@
 all: proto
-	@echo $(GOPATH)
+	@echo GOPATH=$(GOPATH)
 	mkdir -p bin
 	go build -o bin/kabedon-nyaa
 

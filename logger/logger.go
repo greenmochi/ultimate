@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-var name = "kabedon-nyaa.log"
+const name = "kabedon-nyaa.log"
 
 var file *os.File
 
@@ -15,7 +15,7 @@ var logger = newLogger()
 func newLogger() *log.Logger {
 	f, err := os.Create(name)
 	if err != nil {
-		log.Println("unable to create log file", name)
+		log.Println("unable to create log file to write to. Writing to stderr instead.")
 		return log.New(os.Stderr, "", log.Ldate|log.Ltime|log.Lshortfile)
 	}
 	file = f
@@ -80,8 +80,8 @@ func Fatal(args ...interface{}) {
 	Info(args...)
 }
 
-// Fataln writes fatal message with new line
-func Fataln(args ...interface{}) {
+// Fatalln writes fatal message with new line
+func Fatalln(args ...interface{}) {
 	Fatal(fmt.Sprintln(args...))
 }
 
