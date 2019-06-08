@@ -8,6 +8,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/greenmochi/kabedon-kokoro/process"
+
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
@@ -30,17 +32,25 @@ func main() {
 
 	var gatewayPort int
 	var kokoroPort int
-	var nyaaEndpoint string
+	var nyaaPort int
 	flag.IntVar(&gatewayPort, "gateway-port", 9990, "Port to serve the gateway server")
 	flag.IntVar(&kokoroPort, "kokoro-port", 9991, "Port to serve the kokoro server")
-	flag.StringVar(&nyaaEndpoint, "nyaa-endpoint", "localhost:9995", "Nyaa grpc service endpoint")
+	flag.IntVar(&nyaaPort, "nyaa-port", 9996, "Nyaa grpc server port")
 	flag.Parse()
 
-	endpoints := map[string]string{
-		"nyaa": nyaaEndpoint,
-	}
+	// Run all gRPC services
+	go func() {
+		binary := "./kabedon-nyaa.exe"
+		log.Infof("running %s on port=%d", binary, nyaaPort)
+		if err := process.Run(binary, nyaaPort); err != nil {
+			log.Fatal(binary, " finished with ", err)
+		}
+	}()
 
 	// Load and run all gRPC handlers on a port
+	endpoints := map[string]string{
+		"nyaa": fmt.Sprintf("localhost:%d", nyaaPort),
+	}
 	go func() {
 		log.Infof("Running gateway server on :%d", gatewayPort)
 		if err := runGateway(log, gatewayPort, endpoints); err != nil {
@@ -52,6 +62,11 @@ func main() {
 	if err := runKokoro(log, kokoroPort); err != nil {
 		log.Fatal(err)
 	}
+
+	// TODO capture os signal for interrupt or process termiante
+	// then gracefully shutdown. run kokoro server concurrently then
+	// select {} <- chan
+	// shutdown()
 }
 
 func runGateway(log *logger.KabedonLogger, port int, endpoints map[string]string) error {
@@ -91,4 +106,8 @@ func runKokoro(log *logger.KabedonLogger, port int) error {
 		log.Infof("Greeting: %s", resp.Message)
 	})
 	return http.ListenAndServe(fmt.Sprintf(":%d", port), mux)
+}
+
+// shutdown close gRPC services and anything else gracefully
+func shutdown() {
 }
