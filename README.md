@@ -27,3 +27,6 @@ Compile gateway
 ```bash
 $ protoc proto/helloworld.proto -Iproto/ -I$GOPATH/src -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --grpc-gateway_out=logtostderr=true:proto 
 ```
+
+# Notes
+If gateway is returning an error where the gRPC service is refusing connection even though the gRPC service is running, restart gateway and the respective gRPC service. I am unsure why, but this solves the problem consistently.

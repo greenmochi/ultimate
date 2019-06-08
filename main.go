@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"html"
-	"log"
 	"net/http"
 	"os"
 	"time"
@@ -13,31 +12,67 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
+	"github.com/greenmochi/kabedon-kokoro/logger"
 	gw "github.com/greenmochi/kabedon-kokoro/proto"
 )
 
-var (
-	echoEndpoint = flag.String("echo_endpoint", "localhost:50051", "endpoint of YourService")
-	nyaaEndpoint = flag.String("nyaa_endpoint", "localhost:9995", "endpoint of Nyaa grpc service")
-)
+func main() {
+	// Setup logger. Output to stderr if can't write to a file
+	var log *logger.KabedonLogger
+	out, err := os.Create("kabedon-kokoro.log")
+	if err != nil {
+		log = logger.NewKabedonLogger(os.Stderr)
+		log.Info("unable to create log file to write to. Write to stderr instead")
+	} else {
+		log = logger.NewKabedonLogger(out)
+	}
+	defer out.Close()
 
-func runProxy() error {
+	var gatewayPort int
+	var kokoroPort int
+	var nyaaEndpoint string
+	flag.IntVar(&gatewayPort, "gateway-port", 9990, "Port to serve the gateway server")
+	flag.IntVar(&kokoroPort, "kokoro-port", 9991, "Port to serve the kokoro server")
+	flag.StringVar(&nyaaEndpoint, "nyaa-endpoint", "localhost:9995", "Nyaa grpc service endpoint")
+	flag.Parse()
+
+	endpoints := map[string]string{
+		"nyaa": nyaaEndpoint,
+	}
+
+	// Load and run all gRPC handlers on a port
+	go func() {
+		log.Infof("Running gateway server on :%d", gatewayPort)
+		if err := runGateway(log, gatewayPort, endpoints); err != nil {
+			log.Fatal(err)
+		}
+	}()
+
+	log.Infof("Runing kokoro server on :%d", kokoroPort)
+	if err := runKokoro(log, kokoroPort); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func runGateway(log *logger.KabedonLogger, port int, endpoints map[string]string) error {
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
 	mux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
-	err := gw.RegisterNyaaHandlerFromEndpoint(ctx, mux, *nyaaEndpoint, opts)
-	if err != nil {
+
+	// Register Nyaa service
+	if err := gw.RegisterNyaaHandlerFromEndpoint(ctx, mux, endpoints["nyaa"], opts); err != nil {
 		return err
 	}
-	return http.ListenAndServe(":8080", mux)
+
+	return http.ListenAndServe(fmt.Sprintf(":%d", port), mux)
 }
 
-func run() error {
-	myMux := http.NewServeMux()
-	myMux.HandleFunc("/log", func(w http.ResponseWriter, r *http.Request) {
+func runKokoro(log *logger.KabedonLogger, port int) error {
+	mux := http.NewServeMux()
+	mux.HandleFunc("/log", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Hello, %q", html.EscapeString(r.URL.Path))
 		conn, err := grpc.Dial("localhost:9995", grpc.WithInsecure())
 		if err != nil {
@@ -49,32 +84,11 @@ func run() error {
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 		defer cancel()
 
-		name := "hueyjj"
-		if len(os.Args) > 1 {
-			name = os.Args[1]
-		}
-
-		resp, err := c.Ping(ctx, &gw.PingRequest{Name: name})
+		resp, err := c.Ping(ctx, &gw.PingRequest{Name: "foobar"})
 		if err != nil {
 			log.Fatalf("could not greet: %v", err)
 		}
-		log.Printf("Greeting: %s", resp.Message)
+		log.Infof("Greeting: %s", resp.Message)
 	})
-	return http.ListenAndServe(":8081", myMux)
-}
-
-func main() {
-	flag.Parse()
-	// defer log.Flush()
-
-	go func() {
-		if err := runProxy(); err != nil {
-			log.Fatal(err)
-		}
-	}()
-
-	log.Printf("Runing kokoro server on %s", ":8081")
-	if err := run(); err != nil {
-		log.Fatal(err)
-	}
+	return http.ListenAndServe(fmt.Sprintf(":%d", port), mux)
 }
