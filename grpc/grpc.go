@@ -2,27 +2,29 @@ package grpc
 
 import (
 	"context"
-	"log"
+	"fmt"
 	"net"
 	"os"
+
+	"github.com/greenmochi/kabedon-nyaa/logger"
 
 	pb "github.com/greenmochi/kabedon-nyaa/proto"
 	"google.golang.org/grpc"
 )
 
 // Setup starts the gRPC service
-func Setup(port string) {
-	lis, err := net.Listen("tcp", port)
+func Setup(port int) {
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+		logger.Fatalf("failed to listen: %v", err)
 	}
 
 	s := grpc.NewServer()
 	pb.RegisterNyaaServer(s, &server{})
 
-	log.Printf("Listening on %s", port)
+	logger.Infof("listening on :%d", port)
 	if err := s.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %v", err)
+		logger.Fatalf("failed to serve: %v", err)
 		os.Exit(1)
 	}
 }
@@ -32,11 +34,11 @@ type server struct{}
 
 // Ping implements nyaa.GreeterServer
 func (s *server) Ping(ctx context.Context, in *pb.PingRequest) (*pb.PingReply, error) {
-	log.Printf("Received: %v", in.Name)
+	logger.Infof("Received: %v", in.Name)
 	return &pb.PingReply{Message: "Ping " + in.Name}, nil
 }
 
 func (s *server) Ping2(ctx context.Context, in *pb.PingRequest) (*pb.PingReply, error) {
-	log.Printf("Received: %v", in.Name)
+	logger.Infof("Received: %v", in.Name)
 	return &pb.PingReply{Message: "Ping2 " + in.Name}, nil
 }

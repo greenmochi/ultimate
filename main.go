@@ -1,14 +1,12 @@
 package main
 
 import (
+	"flag"
 	"os"
 
 	"github.com/greenmochi/kabedon-nyaa/api"
+	"github.com/greenmochi/kabedon-nyaa/grpc"
 	"github.com/greenmochi/kabedon-nyaa/logger"
-)
-
-const (
-	port = ":9995"
 )
 
 func main() {
@@ -26,6 +24,10 @@ func main() {
 
 	logger.Info("API setup successfully.")
 
+	var port int
+	flag.IntVar(&port, "port", 9995, "Port to serve on")
+	flag.Parse()
+
 	// Run gRPC service, uncomment/comment when you don't want it running
-	//grpc.Setup(port)
+	grpc.Setup(port)
 }
