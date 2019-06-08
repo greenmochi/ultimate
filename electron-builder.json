@@ -6,6 +6,6 @@
     },
     "files": [
         "build/**/*",
-        "electron_build/**/*"
+        "build_electron/**/*"
     ]
 }

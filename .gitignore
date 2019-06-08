@@ -10,7 +10,7 @@
 
 # production
 /build
-/electron_build
+/build_electron
 /release
 
 # misc

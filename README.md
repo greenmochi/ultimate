@@ -13,7 +13,7 @@ yarn run start      # Runs React server and Electron application concurrently
 ```
 
 # Building
-React build files will be in a /build folder. Electron build files will be in a /electron_build.
+React build files will be in a /build folder. Electron build files will be in a /build_electron.
 
 Build everything (React and Electron application) and create production build, placed in /release:
 ```bash

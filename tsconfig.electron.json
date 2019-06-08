@@ -5,7 +5,7 @@
     "noImplicitAny": true,
     "sourceMap": true,
     "rootDir": "electron",
-    "outDir": "electron_build",
+    "outDir": "build_electron",
     "baseUrl": ".",
     "paths": {
       "*": ["node_modules/*"]

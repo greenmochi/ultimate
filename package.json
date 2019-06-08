@@ -23,9 +23,9 @@
     "react:build": "tsc -p tsconfig.production.json && react-scripts build",
     "react:test": "react-scripts test",
     "react:eject": "react-scripts eject",
-    "electron:start": "tsc -p tsconfig.electron.json && electron ./electron_build/main",
+    "electron:start": "tsc -p tsconfig.electron.json && electron ./build_electron/main",
     "electron:compile": "tsc -p tsconfig.electron.json",
-    "electron:build": "tsc -p tsconfig.electron.json && electron-builder -c.extraMetadata.main=./electron_build/main",
+    "electron:build": "tsc -p tsconfig.electron.json && electron-builder -c.extraMetadata.main=./build_electron/main",
     "electron:test": ""
   },
   "dependencies": {
