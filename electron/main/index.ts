@@ -1,15 +1,12 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import * as path from "path";
-import installExtension, { 
-  REACT_DEVELOPER_TOOLS, 
-  REDUX_DEVTOOLS,
-} from "electron-devtools-installer";
 
 const NODE_ENV: string = process.env.NODE_ENV;
 
 let mainWindow: Electron.BrowserWindow | null;
 
 function createWindow() {
+  console.log("path: " + path.resolve("."));
   // Create the browser window.
   mainWindow = new BrowserWindow({
     height: 900,
@@ -22,7 +19,13 @@ function createWindow() {
   // and load the index.html of the app.
   if (NODE_ENV == "development") {
     mainWindow.loadURL("http://localhost:3000");
-    mainWindow.webContents.once('dom-ready', () => {
+    mainWindow.webContents.once('dom-ready', async () => {
+      const devtools = await import("electron-devtools-installer");
+      const {
+        REACT_DEVELOPER_TOOLS,
+        REDUX_DEVTOOLS,
+      } = devtools;
+      const installExtension = devtools.default;
       installExtension(REACT_DEVELOPER_TOOLS)
         .then((name) => console.log(`Added extension: ${name}`))
         .catch((err) => console.log("An error occurred: ", err));
