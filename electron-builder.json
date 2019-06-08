@@ -1,11 +1,16 @@
 {
     "appId": "com.greenmochi.kabedon",
+    "productName": "kabedon",
     "copyright": "Copyright © 2019 GreenMochi",
     "directories": {
         "output": "release/"
     },
     "files": [
         "build/**/*",
-        "build_electron/**/*"
+        "build_electron/**/*",
+        "service/**/*"
+    ],
+    "asarUnpack": [
+        "service/**/*"
     ]
 }
