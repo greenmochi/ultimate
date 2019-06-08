@@ -2,3 +2,5 @@ proto/*
 !proto/*.proto
 
 bin
+
+kabedon-kokoro.log

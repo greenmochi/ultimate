@@ -48,7 +48,7 @@ func main() {
 		}
 	}()
 
-	log.Infof("Runing kokoro server on :%d", kokoroPort)
+	log.Infof("Running kokoro server on :%d", kokoroPort)
 	if err := runKokoro(log, kokoroPort); err != nil {
 		log.Fatal(err)
 	}
