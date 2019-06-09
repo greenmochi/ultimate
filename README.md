@@ -28,5 +28,31 @@ Compile gateway
 $ protoc proto/helloworld.proto -Iproto/ -I$GOPATH/src -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --grpc-gateway_out=logtostderr=true:proto 
 ```
 
+# Usage
+Running without flags will use default values.
+```bash
+$ ./kabedon-kokoro
+```
+To run gateway on port 9990, you can pass a flag.
+```bash
+$ ./kabedon-kokoro --gateway-port=9990
+```
+Print help text
+```bash
+$ ./kabedon-kokoro --help
+Usage: kabedon-nyaa [options]
+
+kabedon-nyaa converts REST to gRPC calls, and provides a secondary server
+to log information and control the gRPC services.
+
+Options:
+  --help              Prints program help text
+
+  --gateway-port=PORT Run gateway on PORT
+  --kokoro-port=PORT  Run secondary server on PORT
+
+  --nyaa-port=PORT    Run kabedon-nyaa service on PORT
+```
+
 # Notes
 If gateway is returning an error where the gRPC service is refusing connection even though the gRPC service is running, restart gateway and the respective gRPC service. I am unsure why, but this solves the problem consistently.

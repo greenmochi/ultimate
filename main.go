@@ -30,13 +30,21 @@ func main() {
 	}
 	defer out.Close()
 
+	var helpUsage bool
 	var gatewayPort int
 	var kokoroPort int
 	var nyaaPort int
+	flag.BoolVar(&helpUsage, "help", false, "Prints help text")
 	flag.IntVar(&gatewayPort, "gateway-port", 9990, "Port to serve the gateway server")
 	flag.IntVar(&kokoroPort, "kokoro-port", 9991, "Port to serve the kokoro server")
 	flag.IntVar(&nyaaPort, "nyaa-port", 9996, "Nyaa grpc server port")
 	flag.Parse()
+	flag.Visit(func(fn *flag.Flag) {
+		if fn.Name == "help" {
+			fmt.Print(helpText)
+			os.Exit(1)
+		}
+	})
 
 	// Run all gRPC services
 	go func() {
@@ -111,3 +119,17 @@ func runKokoro(log *logger.KabedonLogger, port int) error {
 // shutdown close gRPC services and anything else gracefully
 func shutdown() {
 }
+
+const helpText = `Usage: kabedon-kokoro [options]
+
+kabedon-kokoro converts REST to gRPC calls, and provides a secondary server
+to log information and control the gRPC services.
+
+Options:
+  --help              Prints program help text
+  
+  --gateway-port=PORT Run gateway on PORT
+  --kokoro-port=PORT  Run secondary server on PORT
+  
+  --nyaa-port=PORT    Run kabedon-nyaa service on PORT
+`
