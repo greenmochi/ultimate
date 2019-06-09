@@ -29,6 +29,7 @@ func Close() {
 
 // Info writes message
 func Info(args ...interface{}) {
+	logger.SetPrefix("[INFO] ")
 	logger.Print(args...)
 }
 
