@@ -27,3 +27,6 @@ yarn-error.log*
 
 # gRPC services
 /service
+
+# gateway and gRPC service log files
+kabedon-*.log

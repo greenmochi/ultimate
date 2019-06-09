@@ -4,7 +4,7 @@ declare global {
     require: any;
   }
 }
-const {ipcRenderer} = window.require("electron");
+const { ipcRenderer } = window.require("electron");
 
 export interface IButton {
   value?: string;
@@ -29,3 +29,7 @@ export class Button extends React.Component<IButton, {}> {
     );
   }
 }
+
+ipcRenderer.on("test", (event: any, message: any) => {
+  console.log("test channel:", message);
+})

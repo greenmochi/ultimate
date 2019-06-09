@@ -3,14 +3,26 @@ import * as child from "child_process";
 // KokoroServer contains the methods needed to control the kabedon-kokoro server.
 export class KokoroServer {
 
+  private _binary: string;
+  private _cwd: string;
   private _host: string;
   private _port: number;
 
   private _server: child.ChildProcess | null;
 
-  constructor(host: string, port: number) {
+  constructor(binary: string, cwd: string, host: string, port: number) {
+    this._binary = binary;
+    this._cwd = cwd;
     this._host = host;
     this._port = port;
+  }
+
+  get binary(): string {
+    return this._binary;
+  }
+
+  get cwd(): string {
+    return this._cwd;
   }
 
   get host(): string {
@@ -21,10 +33,16 @@ export class KokoroServer {
     return this._port;
   }
 
-  // We need to spawn kabedon-kokoro server by executing as a child process and then 
-  // detaching from it to make it stand-alone.
-  public spawn(): void {
-    this._server = child.spawn("ls", ["-la", "~"]);
+  get endpoint(): string {
+    return `${this._host}:${this._port}`;
+  }
+
+  run(): void {
+    this._server = child.spawn(`./${this._binary}`, [
+      `--gateway-port=${this._port}`
+    ], {
+      cwd: this._cwd,
+    });
     this._server.stdout.on("data", (data) => {
       console.log(`stdout: ${data}`);
     });
@@ -32,16 +50,19 @@ export class KokoroServer {
       console.log(`stderr: ${data}`)
     });
     this._server.on("close", (code) => {
-      console.log(`child process exited with code ${code}`);
+      console.log(`close: child process (kokoro server) exited with code ${code}`);
+    })
+    this._server.on("error", (data) => {
+      console.log(`error: ${data}`)
     })
   }
 
-  // Check whether or not kabedon-kokoro is alive
-  public ping(): void {
-  }
-
-  // Shutdown kabedon-kokoro server
-  public close(): void {
+  close(): void {
+    if (this._server) {
+      this._server.kill();
+    } else {
+      console.log("_server is null")
+    }
   }
 }
 

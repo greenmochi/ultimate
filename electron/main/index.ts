@@ -1,5 +1,10 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { 
+  app, 
+  BrowserWindow, 
+  ipcMain,
+} from "electron";
 import * as path from "path";
+import { KokoroServer } from "./kokoro";
 
 const NODE_ENV: string = process.env.NODE_ENV;
 
@@ -34,6 +39,9 @@ function createWindow() {
         .catch((err) => console.log("An error occurred: ", err));
       mainWindow.webContents.openDevTools()
     })
+    mainWindow.webContents.on("did-finish-load", () => {
+      mainWindow.webContents.send("test", "localhost message test");
+    })
   } else {
     mainWindow.loadFile(path.join(__dirname, "../../build/index.html"));
   }
@@ -47,13 +55,27 @@ function createWindow() {
   });
 }
 
+let kokoroServer: KokoroServer | null = null;
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on("ready", () => {
   createWindow();
-  //let kokoro: KokoroServer = new KokoroServer("localhost", 3222);
-  //kokoro.spawn();
+
+  let binaryPath: string = "";
+  if (NODE_ENV == "development") {
+    binaryPath = path.resolve("./service");
+  } else {
+    binaryPath = path.resolve("./resources/app.asar.unpacked/service")
+  }
+  if (binaryPath.length <= 0) {
+    console.log("binaryPath length is not valid: length=", binaryPath.length);
+  } else {
+    kokoroServer = new KokoroServer("kabedon-kokoro.exe", binaryPath, "localhost", 9111);
+    kokoroServer.run();
+    console.log(`Running kokoro server. binaryPath=${binaryPath} endpoint=${kokoroServer.endpoint}`);
+  }
 });
 
 // Quit when all windows are closed.
@@ -61,6 +83,7 @@ app.on("window-all-closed", () => {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== "darwin") {
+    kokoroServer.close();
     app.quit();
   }
 });
