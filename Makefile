@@ -1,7 +1,7 @@
 all: proto
 	@echo GOPATH=$(GOPATH)
 	mkdir -p bin
-	go build -o bin/kabedon-kokoro
+	go build -o bin/kabedon-kokoro.exe
 
 proto:
 	protoc proto/nyaa.proto -Iproto/ -I$(GOPATH)/src -I$(GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --grpc-gateway_out=logtostderr=true:proto 

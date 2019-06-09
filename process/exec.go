@@ -5,12 +5,12 @@ import (
 	"os/exec"
 )
 
-// Run TODO
-func Run(binary string, port int) error {
+// Start TODO
+func Start(binary string, port int) (*exec.Cmd, error) {
 	portFlag := fmt.Sprintf("--port=%d", port)
 	cmd := exec.Command(binary, portFlag)
-	if err := cmd.Run(); err != nil {
-		return err
+	if err := cmd.Start(); err != nil {
+		return nil, err
 	}
-	return nil
+	return cmd, nil
 }

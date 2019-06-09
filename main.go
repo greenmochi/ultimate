@@ -6,6 +6,9 @@ import (
 	"html"
 	"net/http"
 	"os"
+	"os/signal"
+	"path/filepath"
+	"syscall"
 	"time"
 
 	"github.com/greenmochi/kabedon-kokoro/process"
@@ -37,7 +40,7 @@ func main() {
 	flag.BoolVar(&helpUsage, "help", false, "Prints help text")
 	flag.IntVar(&gatewayPort, "gateway-port", 9990, "Port to serve the gateway server")
 	flag.IntVar(&kokoroPort, "kokoro-port", 9991, "Port to serve the kokoro server")
-	flag.IntVar(&nyaaPort, "nyaa-port", 9996, "Nyaa grpc server port")
+	flag.IntVar(&nyaaPort, "nyaa-port", 9995, "Nyaa grpc server port")
 	flag.Parse()
 	flag.Visit(func(fn *flag.Flag) {
 		if fn.Name == "help" {
@@ -46,35 +49,83 @@ func main() {
 		}
 	})
 
+	shutdown := make(chan bool)
+	exit := make(chan bool)
+	release := make(chan bool)
+
 	// Run all gRPC services
 	go func() {
 		binary := "./kabedon-nyaa.exe"
 		log.Infof("running %s on port=%d", binary, nyaaPort)
-		if err := process.Run(binary, nyaaPort); err != nil {
-			log.Fatal(binary, " finished with ", err)
+		cmd, err := process.Start(binary, nyaaPort)
+		if err != nil {
+			fullpath, err := filepath.Abs(binary)
+			if err != nil {
+				log.Fatal("couldn't resolve binary full path:", err)
+			} else {
+				log.Fatal("binary full path:", fullpath)
+			}
 		}
+
+		// Wait for release signal when kabedon-kokoro finishes
+		<-release
+
+		// if err := cmd.Process.Release(); err != nil {
+		// 	log.Fatalf("unable to release resources for %s: %s", binary, err)
+		// }
+
+		// Try to kill process by finding it (if it exists) with FindProcess
+		// if _, err := os.FindProcess(cmd.ProcessState.Pid()); err == nil {
+		// 	if err := cmd.Process.Kill(); err != nil {
+		// 		log.Fatalf("unable to kill %s: %s", binary, err)
+		// 	}
+		// }
+		if err := cmd.Process.Kill(); err != nil {
+			log.Fatalf("unable to kill %s: %s", binary, err)
+		}
+		log.Infof("killed %s", binary)
+		log.Info(binary, " finished with ", err)
+
+		exit <- true
 	}()
 
-	// Load and run all gRPC handlers on a port
+	// Load and run all gateway handlers on a port
 	endpoints := map[string]string{
 		"nyaa": fmt.Sprintf("localhost:%d", nyaaPort),
 	}
 	go func() {
-		log.Infof("Running gateway server on :%d", gatewayPort)
+		log.Infof("running gateway server on :%d", gatewayPort)
 		if err := runGateway(log, gatewayPort, endpoints); err != nil {
 			log.Fatal(err)
 		}
 	}()
 
-	log.Infof("Running kokoro server on :%d", kokoroPort)
-	if err := runKokoro(log, kokoroPort); err != nil {
-		log.Fatal(err)
-	}
+	// Run secondary server
+	go func() {
+		log.Infof("running kokoro server on :%d", kokoroPort)
+		if err := runKokoro(log, kokoroPort, shutdown); err != nil {
+			log.Fatal(err)
+		}
+	}()
 
-	// TODO capture os signal for interrupt or process termiante
-	// then gracefully shutdown. run kokoro server concurrently then
-	// select {} <- chan
-	// shutdown()
+	// Graceful shutdown
+	log.Infof("graceful shutdown loop started")
+	interrupt := make(chan os.Signal, 1)
+	signal.Notify(interrupt, os.Interrupt, syscall.SIGTERM)
+	for {
+		select {
+		case <-shutdown:
+			log.Info("shutdown signal received")
+			release <- true
+		case <-interrupt:
+			log.Info("interrupt signal received")
+			release <- true
+		case <-exit:
+			log.Info("exit signal received. Program exited.")
+			os.Exit(1)
+			return
+		}
+	}
 }
 
 func runGateway(log *logger.KabedonLogger, port int, endpoints map[string]string) error {
@@ -93,7 +144,7 @@ func runGateway(log *logger.KabedonLogger, port int, endpoints map[string]string
 	return http.ListenAndServe(fmt.Sprintf(":%d", port), mux)
 }
 
-func runKokoro(log *logger.KabedonLogger, port int) error {
+func runKokoro(log *logger.KabedonLogger, port int, shutdown chan<- bool) error {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/log", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Hello, %q", html.EscapeString(r.URL.Path))
@@ -113,11 +164,16 @@ func runKokoro(log *logger.KabedonLogger, port int) error {
 		}
 		log.Infof("Greeting: %s", resp.Message)
 	})
-	return http.ListenAndServe(fmt.Sprintf(":%d", port), mux)
-}
+	mux.HandleFunc("/shutdown", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
 
-// shutdown close gRPC services and anything else gracefully
-func shutdown() {
+		log.Infof("shutdown request received. shutting down.")
+		switch r.Method {
+		case http.MethodGet:
+			shutdown <- true
+		}
+	})
+	return http.ListenAndServe(fmt.Sprintf(":%d", port), mux)
 }
 
 const helpText = `Usage: kabedon-kokoro [options]
