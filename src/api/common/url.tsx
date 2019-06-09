@@ -43,7 +43,7 @@ export function isBaseValid(base: string): boolean {
     return false;
   }
   const match: RegExpMatchArray | null = base.match(/[0-9]+/g);
-  if (!match || match.length != 1) {
+  if (!match || match.length !== 1) {
     return false;
   }
 
@@ -63,7 +63,7 @@ export function isBaseValid(base: string): boolean {
  */
 export function isEndpointValid(endpoint: string): boolean {
   const match: RegExpMatchArray | null = endpoint.match(/\/.*/g);
-  if (!match || match.length != 1) {
+  if (!match || match.length !== 1) {
     return false;
   }
   return true;
@@ -77,8 +77,8 @@ export function isEndpointValid(endpoint: string): boolean {
  * @returns Return true if `queryParams` is not malformed
  */
 export function isQueryParamsValid(queryParams: string): boolean {
-  const match: RegExpMatchArray | null = queryParams.match(/^\?([^=&]+=[^=&]+\&)*([^=&]+=[^=&]+)$/g);
-  if (!match || match.length != 1) {
+  const match: RegExpMatchArray | null = queryParams.match(/^\?([^=&]+=[^=&]+&)*([^=&]+=[^=&]+)$/g);
+  if (!match || match.length !== 1) {
     return false;
   }
   return true;
@@ -94,17 +94,17 @@ export function isQueryParamsValid(queryParams: string): boolean {
  * @returns Formatted url string with query parameters
  */
 export function createQueryString(base: string, endpoint: string, queryParams: string): string {
-  if (base && !isBaseValid(base)) {
+  if (!base || (base && !isBaseValid(base))) {
     console.warn(`Problem creating query string: base=${base}`);
     return "";
   } 
   
-  if (endpoint && !isEndpointValid(endpoint)) {
+  if (!endpoint || (endpoint && !isEndpointValid(endpoint))) {
     console.warn(`Problem creating query string: endpoint=${endpoint}`);
     return "";
   }
 
-  if (queryParams && !isQueryParamsValid(queryParams)) {
+  if (!queryParams || (queryParams && !isQueryParamsValid(queryParams))) {
     console.warn(`Problem creating query string: queryParams=${queryParams}`);
     return "";
   }
