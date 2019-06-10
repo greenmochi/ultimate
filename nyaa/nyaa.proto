@@ -4,15 +4,33 @@ package proto;
 
 import "google/api/annotations.proto";
 
-// The greeting service definition.
+// The nyaa service definition.
 service Nyaa {
+  rpc Shutdown(ShutdownRequest) returns (ShutdownReply) {
+    option (google.api.http) = {
+      get: "/shutdown"
+    };
+  }
+
   // Sends a greeting
   rpc Ping (PingRequest) returns (PingReply) {
-      option (google.api.http) = {
-          post: "/ping"
-          body: "*"
-      };
+    option (google.api.http) = {
+      post: "/ping"
+      body: "*"
+    };
   }
+
+  rpc Ping2(PingRequest) returns (PingReply) {
+    option (google.api.http) = {
+      post: "/ping2"
+      body: "*"
+    };
+  }
+}
+
+message ShutdownRequest {
+}
+message ShutdownReply {
 }
 
 // The request message containing the user's name.
