@@ -12,8 +12,10 @@ import (
 	"google.golang.org/grpc"
 )
 
-// Setup starts the gRPC service
-func Setup(port int) {
+var shutdown = make(chan bool)
+
+// Start starts the gRPC service
+func Start(port int) {
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
 		logger.Fatalf("failed to listen: %v", err)
@@ -23,22 +25,37 @@ func Setup(port int) {
 	pb.RegisterNyaaServer(s, &server{})
 
 	logger.Infof("listening on :%d", port)
-	if err := s.Serve(lis); err != nil {
-		logger.Fatalf("failed to serve: %v", err)
-		os.Exit(1)
+	go func() {
+		if err := s.Serve(lis); err != nil {
+			logger.Fatalf("failed to serve: %v", err)
+			os.Exit(1)
+		}
+	}()
+	select {
+	case <-shutdown:
+		logger.Infof("graceful shutdown")
+		s.GracefulStop()
 	}
 }
 
-// server is used to implement helloworld.GreeterServer.
+// server is used to implement nyaa server
 type server struct{}
 
-// Ping implements nyaa.GreeterServer
+func (s *server) Shutdown(ctx context.Context, in *pb.ShutdownRequest) (*pb.ShutdownReply, error) {
+	logger.Infof("shutdown request received")
+	defer func() {
+		shutdown <- true
+	}()
+	return &pb.ShutdownReply{}, nil
+}
+
+// Ping implements nyaa.Ping
 func (s *server) Ping(ctx context.Context, in *pb.PingRequest) (*pb.PingReply, error) {
-	logger.Infof("Received: %v", in.Name)
+	logger.Infof("received: %v", in.Name)
 	return &pb.PingReply{Message: "Ping " + in.Name}, nil
 }
 
 func (s *server) Ping2(ctx context.Context, in *pb.PingRequest) (*pb.PingReply, error) {
-	logger.Infof("Received: %v", in.Name)
+	logger.Infof("received: %v", in.Name)
 	return &pb.PingReply{Message: "Ping2 " + in.Name}, nil
 }

@@ -28,6 +28,6 @@ func main() {
 	flag.IntVar(&port, "port", 9995, "Port to serve on")
 	flag.Parse()
 
-	// Run gRPC service, uncomment/comment when you don't want it running
-	grpc.Setup(port)
+	// Run gRPC service
+	grpc.Start(port)
 }
