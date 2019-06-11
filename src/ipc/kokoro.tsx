@@ -1,5 +1,8 @@
-import { Store, AnyAction } from "redux";
-import { StoreState, StoreActions } from "../store";
+import { 
+  Store, 
+  AnyAction,
+} from "redux";
+import { StoreState} from "../store";
 import { setKokoroEndpoint } from "../store/ipc/action";
 
 declare global {
@@ -20,4 +23,8 @@ ipcRenderer.on("kokoro", (event: any, message: any) => {
   if (store) {
     store.dispatch(setKokoroEndpoint(message as string));
   }
-})
+});
+
+export const sendKokoroEndpointRequest = () => {
+  ipcRenderer.send("kokoro");
+}

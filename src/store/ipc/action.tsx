@@ -1,13 +1,12 @@
 import { 
   ActionCreator, 
-  Action,
+  Action, 
 } from "redux";
 import {
-  IPCActionType,
   SET_KOKOROENDPOINT,
 } from "./type";
 
-export const setKokoroEndpoint: ActionCreator<IPCActionType> = (endpoint: string) => {
+export const setKokoroEndpoint: ActionCreator<Action> = (endpoint: string) => {
   return {
     type: SET_KOKOROENDPOINT,
     payload: endpoint,

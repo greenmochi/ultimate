@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { sendKokoroEndpointRequest } from "../../ipc";
 
 const SCalculatorButton = styled.button`
   background-color: green;
