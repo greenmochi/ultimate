@@ -8,7 +8,11 @@ import { Provider } from "react-redux";
 import { ThemeProvider } from "styled-components";
 import { theme, GlobalStyle } from "./theme";
 
+import { setStore } from "./ipc";
+
 const store = configureStore();
+
+setStore(store);
 
 const Root = () => (
   <ThemeProvider theme={theme}>

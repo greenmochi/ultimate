@@ -59,7 +59,8 @@ export class KokoroServer {
 
   close(): void {
     if (this._server) {
-      this._server.kill();
+      console.log("sending a kill signal to", this._binary);
+      this._server.kill("SIGINT");
     } else {
       console.log("_server is null")
     }

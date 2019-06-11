@@ -40,7 +40,7 @@ function createWindow() {
       mainWindow.webContents.openDevTools()
     })
     mainWindow.webContents.on("did-finish-load", () => {
-      mainWindow.webContents.send("test", "localhost message test");
+      mainWindow.webContents.send("kokoro", kokoroServer.endpoint);
     })
   } else {
     mainWindow.loadFile(path.join(__dirname, "../../build/index.html"));
@@ -61,8 +61,6 @@ let kokoroServer: KokoroServer | null = null;
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on("ready", () => {
-  createWindow();
-
   let binaryPath: string = "";
   if (NODE_ENV == "development") {
     binaryPath = path.resolve("./service");
@@ -76,6 +74,8 @@ app.on("ready", () => {
     kokoroServer.run();
     console.log(`Running kokoro server. binaryPath=${binaryPath} endpoint=${kokoroServer.endpoint}`);
   }
+
+  createWindow();
 });
 
 // Quit when all windows are closed.
@@ -96,7 +96,7 @@ app.on("activate", () => {
   }
 });
 
-ipcMain.on("alive-message", (event: any, arg: any) => {
-  console.log("alive message received");
-  event.reply("alive-reply", process.argv[0]);
+ipcMain.on("kokoro", (event: any, arg: any) => {
+  console.log("kokoro request message received");
+  event.reply("kokoro", kokoroServer.endpoint);
 });

@@ -8,8 +8,6 @@ import { GridNavigation } from "./app/common/Grid/GridNavigation";
 import { GridApp } from "./app/common/Grid/GridApp";
 import { GridStatus } from "./app/common/Grid/GridStatus";
 
-import "./ipc_example";
-
 const App: React.FC = () => {
   return (
     <BrowserRouter>
