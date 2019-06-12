@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/greenmochi/kabedon-nyaa/logger"
+
 	"github.com/anaskhan96/soup"
 )
 
@@ -22,6 +24,8 @@ func (c *Client) Get() (string, error) {
 	}
 
 	url := c.URL.String()
+	logger.Info("GET request for ", url)
+
 	res, err := http.Get(url)
 	if err != nil {
 		return "", fmt.Errorf("unable to GET request for %s", url)
@@ -39,7 +43,15 @@ func (c *Client) Parse(html string) bool {
 	var results []Result
 
 	doc := soup.HTMLParse(html)
+	if doc.Error != nil {
+		return false
+	}
+
 	tableBody := doc.Find("tbody")
+	if tableBody.Error != nil {
+		return false
+	}
+
 	for _, tableRow := range tableBody.FindAll("tr") {
 		result := Result{}
 		for i, tableData := range tableRow.FindAll("td") {
@@ -78,19 +90,19 @@ func (c *Client) Parse(html string) bool {
 				// Torrent seeders
 				seeders := tableData.Text()
 				if i, err := strconv.Atoi(seeders); err == nil {
-					result.Seeders = uint64(i)
+					result.Seeders = uint32(i)
 				}
 			case 6:
 				// Torrent leechers
 				leechers := tableData.Text()
 				if i, err := strconv.Atoi(leechers); err == nil {
-					result.Leechers = uint64(i)
+					result.Leechers = uint32(i)
 				}
 			case 7:
 				// Torrent downloads
 				downloads := tableData.Text()
 				if i, err := strconv.Atoi(downloads); err == nil {
-					result.Downloads = uint64(i)
+					result.Downloads = uint32(i)
 				}
 			}
 		}

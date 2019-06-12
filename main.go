@@ -29,5 +29,5 @@ func main() {
 	flag.Parse()
 
 	// Run gRPC service
-	grpc.Start(port)
+	grpc.Start(api, port)
 }

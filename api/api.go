@@ -1,11 +1,11 @@
-// Package api defines a simple API available to a client such as 
+// Package api defines a simple API available to a client such as
 // the gRPC service, testing purposes, or user simply running the program.
 package api
 
 import (
 	"github.com/greenmochi/kabedon-nyaa/logger"
-	"github.com/greenmochi/kabedon-nyaa/torrent"
 	"github.com/greenmochi/kabedon-nyaa/nyaa"
+	"github.com/greenmochi/kabedon-nyaa/torrent"
 )
 
 // API TODO
@@ -41,6 +41,8 @@ func (api *API) TearDown() {
 func (api *API) Search(query string) bool {
 	url := nyaa.DefaultURL()
 	url.Term = query
+
+	api.nyaa.URL = url
 
 	body, err := api.nyaa.Get()
 	if err != nil {

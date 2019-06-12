@@ -7,7 +7,7 @@ type Result struct {
 	Link      string
 	Size      string
 	Date      string
-	Seeders   uint64
-	Leechers  uint64
-	Downloads uint64
+	Seeders   uint32
+	Leechers  uint32
+	Downloads uint32
 }

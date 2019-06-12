@@ -6,6 +6,7 @@ import (
 	"net"
 	"os"
 
+	a "github.com/greenmochi/kabedon-nyaa/api"
 	"github.com/greenmochi/kabedon-nyaa/logger"
 
 	pb "github.com/greenmochi/kabedon-nyaa/proto"
@@ -15,14 +16,16 @@ import (
 var shutdown = make(chan bool)
 
 // Start starts the gRPC service
-func Start(port int) {
+func Start(a *a.API, port int) {
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
 		logger.Fatalf("failed to listen: %v", err)
 	}
 
 	s := grpc.NewServer()
-	pb.RegisterNyaaServer(s, &server{})
+	pb.RegisterNyaaServer(s, &nyaaServer{
+		api: a,
+	})
 
 	logger.Infof("listening on :%d", port)
 	go func() {
@@ -38,10 +41,18 @@ func Start(port int) {
 	}
 }
 
-// server is used to implement nyaa server
-type server struct{}
+// nyaaServer is used to implement nyaa server
+type nyaaServer struct {
+	api *a.API
+}
 
-func (s *server) Shutdown(ctx context.Context, in *pb.ShutdownRequest) (*pb.ShutdownReply, error) {
+// Ping TODO
+func (s *nyaaServer) Ping(ctx context.Context, in *pb.PingRequest) (*pb.PingReply, error) {
+	logger.Infof("ping request received: %v", in.Message)
+	return &pb.PingReply{Message: "Ping " + in.Message}, nil
+}
+
+func (s *nyaaServer) Shutdown(ctx context.Context, in *pb.ShutdownRequest) (*pb.ShutdownReply, error) {
 	logger.Infof("shutdown request received")
 	defer func() {
 		shutdown <- true
@@ -49,31 +60,42 @@ func (s *server) Shutdown(ctx context.Context, in *pb.ShutdownRequest) (*pb.Shut
 	return &pb.ShutdownReply{}, nil
 }
 
-func (s *server) Search(ctx context.Context, in *pb.SearchRequest) (*pb.SearchReply, error) {
-	logger.Infof("search request received")
-	result := pb.Result{
-		Category:  "foo",
-		Name:      "sdf",
-		Link:      "sdfds",
-		Size:      "dsfds",
-		Date:      "sdfds",
-		Seeders:   23432432,
-		Leechers:  235432,
-		Downloads: 23523,
+func (s *nyaaServer) Search(ctx context.Context, in *pb.SearchRequest) (*pb.SearchReply, error) {
+	logger.Infof("search request received: %v", in.String())
+	if ok := s.api.Search(in.Query); !ok {
+		return &pb.SearchReply{Results: []*pb.Result{}}, nil
 	}
-	results := []*pb.Result{&result}
+
 	return &pb.SearchReply{
-		Results: results,
+		Results: s.getCurrentResults(),
 	}, nil
 }
 
-// Ping implements nyaa.Ping
-func (s *server) Ping(ctx context.Context, in *pb.PingRequest) (*pb.PingReply, error) {
-	logger.Infof("received: %v", in.Name)
-	return &pb.PingReply{Message: "Ping " + in.Name}, nil
+func (s *nyaaServer) CurrentResults(ctx context.Context, in *pb.CurrentResultsRequest) (*pb.CurrentResultsReply, error) {
+	return &pb.CurrentResultsReply{
+		Results: s.getCurrentResults(),
+	}, nil
 }
 
-func (s *server) Ping2(ctx context.Context, in *pb.PingRequest) (*pb.PingReply, error) {
-	logger.Infof("received: %v", in.Name)
-	return &pb.PingReply{Message: "Ping2 " + in.Name}, nil
+func (s *nyaaServer) getCurrentResults() []*pb.Result {
+	results := s.api.GetCurrentResults()
+	if len(results) <= 0 {
+		logger.Warning("getCurrentResults returned no results.")
+		return []*pb.Result{}
+	}
+
+	var replyResults []*pb.Result
+	for _, result := range results {
+		replyResults = append(replyResults, &pb.Result{
+			Category:  result.Category,
+			Name:      result.Name,
+			Link:      result.Link,
+			Size:      result.Size,
+			Date:      result.Date,
+			Seeders:   result.Seeders,
+			Leechers:  result.Leechers,
+			Downloads: result.Downloads,
+		})
+	}
+	return replyResults
 }
