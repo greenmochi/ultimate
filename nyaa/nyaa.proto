@@ -6,6 +6,12 @@ import "google/api/annotations.proto";
 
 // The nyaa service definition.
 service Nyaa {
+  rpc Ping (PingRequest) returns (PingReply) {
+    option (google.api.http) = {
+      get: "/nyaa/ping"
+    };
+  }
+
   rpc Shutdown(ShutdownRequest) returns (ShutdownReply) {
     option (google.api.http) = {
       get: "/nyaa/shutdown"
@@ -19,20 +25,21 @@ service Nyaa {
     };
   }
 
-  // Sends a greeting
-  rpc Ping (PingRequest) returns (PingReply) {
+  rpc CurrentResults(CurrentResultsRequest) returns (CurrentResultsReply) {
     option (google.api.http) = {
-      post: "/ping"
-      body: "*"
+      get: "/nyaa/current-results"
     };
   }
+}
 
-  rpc Ping2(PingRequest) returns (PingReply) {
-    option (google.api.http) = {
-      post: "/ping2"
-      body: "*"
-    };
-  }
+// The ping message containing the user's name.
+message PingRequest {
+  string message = 1;
+}
+
+// The response message containing the greetings
+message PingReply {
+  string message = 1;
 }
 
 message ShutdownRequest {
@@ -60,12 +67,9 @@ message SearchReply {
   repeated Result results = 1;
 }
 
-// The request message containing the user's name.
-message PingRequest {
-  string name = 1;
+message CurrentResultsRequest {
 }
 
-// The response message containing the greetings
-message PingReply {
-  string message = 1;
+message CurrentResultsReply {
+  repeated Result results = 1;
 }
