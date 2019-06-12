@@ -32,6 +32,27 @@ $ make proto
 $ bin/kabedon-nyaa
 ```
 
+# Managing protobufs
+This just clones https://github.com/greenmochi/kabedon-proto
+```bash
+$ make get-proto
+```
+
+Enters kabedon-proto directory and git pulls
+```bash
+$ make pull-proto
+```
+
+This copies the .proto files in proto/ to somewhere kabedon-proto/. Everytime you add a new a .proto file to your project, you would need to modify the this Makefile target. If you update your .proto files (and already modified this Makefile target), then just run this.
+```bash
+$ make copy-proto
+```
+
+Enters kabedon-proto directory and pushes any changes to https://github.com/greenmochi/kabedon-proto repository.
+```bash
+$ make push-proto
+```
+
 # Notes
 github.com/anacrolix/torrent uses github.com/anacrolix/go-libutp which is a go wrapper for github.com/bittorrent/libutp and it requires gcc to compile bittorrent's transport protocol library.
 
@@ -44,6 +65,8 @@ go-libutp: 2019/06/06 03:53:11 socket.go:172: ignoring socket read error: read u
 2019-06-06 03:53:12 portfwd.go:31: discovered 0 upnp devices
 ```
 Turn it off by setting os.Stdout = nil and just log to a file instead, though this can be disadvantageous...
+
+It turns out, there exist no clean solution to managing all the .proto files for a project. It seems like most people end up hacking together a bash script or centralizing their protobuf (kabedon does the same), and then just pulls from that repository.
 
 # Issues
 If there is a visual studio code go build error that looks like a link failure because of g++, try recloning the project. It seems to solve the problem temporarily.
