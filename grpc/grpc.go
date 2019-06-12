@@ -49,6 +49,24 @@ func (s *server) Shutdown(ctx context.Context, in *pb.ShutdownRequest) (*pb.Shut
 	return &pb.ShutdownReply{}, nil
 }
 
+func (s *server) Search(ctx context.Context, in *pb.SearchRequest) (*pb.SearchReply, error) {
+	logger.Infof("search request received")
+	result := pb.Result{
+		Category:  "foo",
+		Name:      "sdf",
+		Link:      "sdfds",
+		Size:      "dsfds",
+		Date:      "sdfds",
+		Seeders:   23432432,
+		Leechers:  235432,
+		Downloads: 23523,
+	}
+	results := []*pb.Result{&result}
+	return &pb.SearchReply{
+		Results: results,
+	}, nil
+}
+
 // Ping implements nyaa.Ping
 func (s *server) Ping(ctx context.Context, in *pb.PingRequest) (*pb.PingReply, error) {
 	logger.Infof("received: %v", in.Name)
