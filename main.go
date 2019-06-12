@@ -161,7 +161,7 @@ func runKokoro(log *logger.KabedonLogger, port int, shutdown chan<- bool) error 
 		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 		defer cancel()
 
-		resp, err := c.Ping(ctx, &gw.PingRequest{Name: "foobar"})
+		resp, err := c.Ping(ctx, &gw.PingRequest{Message: "foobar"})
 		if err != nil {
 			log.Fatalf("could not greet: %v", err)
 		}
