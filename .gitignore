@@ -14,3 +14,6 @@ proto/*
 *.mkv
 
 kabedon-nyaa.exe
+
+# ignore kabedon-proto repository
+kabedon-proto
