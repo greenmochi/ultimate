@@ -8,7 +8,14 @@ import "google/api/annotations.proto";
 service Nyaa {
   rpc Shutdown(ShutdownRequest) returns (ShutdownReply) {
     option (google.api.http) = {
-      get: "/shutdown"
+      get: "/nyaa/shutdown"
+    };
+  }
+
+  rpc Search(SearchRequest) returns (SearchReply) {
+    option (google.api.http) = {
+      post: "/nyaa/search"
+      body: "*"
     };
   }
 
@@ -30,7 +37,27 @@ service Nyaa {
 
 message ShutdownRequest {
 }
+
 message ShutdownReply {
+}
+
+message SearchRequest {
+  string query = 1;
+}
+
+message Result {
+  string category   = 1;
+  string name       = 2;
+  string link       = 3;
+  string size       = 4;
+  string date       = 5;
+  uint32 seeders    = 6;
+  uint32 leechers   = 7;
+  uint32 downloads  = 8;
+}
+
+message SearchReply {
+  repeated Result results = 1;
 }
 
 // The request message containing the user's name.

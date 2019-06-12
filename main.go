@@ -70,6 +70,9 @@ func main() {
 		// Wait for release signal when kabedon-kokoro finishes
 		<-release
 
+		// TODO: Do a graceful shutdown for each gRPC service.
+		// Add a way to search for runaway gRPC servers and kill them by name
+
 		// if err := cmd.Process.Release(); err != nil {
 		// 	log.Fatalf("unable to release resources for %s: %s", binary, err)
 		// }

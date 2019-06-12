@@ -4,3 +4,6 @@ proto/*
 bin
 
 kabedon-kokoro.log
+
+# Ignore protobuf repository
+kabedon-proto
