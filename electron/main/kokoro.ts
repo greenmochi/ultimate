@@ -1,4 +1,5 @@
 import * as child from "child_process";
+import fetch from "node-fetch";
 
 // KokoroServer contains the methods needed to control the kabedon-kokoro server.
 export class KokoroServer {
@@ -39,7 +40,7 @@ export class KokoroServer {
 
   run(): void {
     this._server = child.spawn(`./${this._binary}`, [
-      `--gateway-port=${this._port}`
+      `--kokoro-port=${this._port}`
     ], {
       cwd: this._cwd,
     });
@@ -57,13 +58,18 @@ export class KokoroServer {
     })
   }
 
-  close(): void {
-    if (this._server) {
-      console.log("sending a kill signal to", this._binary);
-      this._server.kill("SIGINT");
-    } else {
-      console.log("_server is null")
-    }
+  async close<T>(): Promise<T> {
+    console.log(`sending a shutdown request to ${this.endpoint}/shutdown`);
+    return fetch(`http://${this.endpoint}/shutdown`)
+      .then(response => {
+        if (!response.ok) {
+          console.log(`unable to send shutdown request to ${this.endpoint} status=${response.status}`);
+        }
+        console.log(`shutdown request received status=${response.status}`);
+        return response.json();
+      }).catch(error => {
+        console.log(error);
+      })
   }
 }
 
