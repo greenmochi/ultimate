@@ -49,7 +49,12 @@ message ShutdownReply {
 }
 
 message SearchRequest {
-  string query = 1;
+  string query    = 1;
+  string filter   = 2;
+  string category = 3;
+  string sort     = 4;
+  string order    = 5;
+  uint32 page     = 6;
 }
 
 message Result {
