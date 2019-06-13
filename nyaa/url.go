@@ -120,8 +120,8 @@ const (
 // URL is used by mainly calling Url.String() to construct
 // the correct url query to nyaa.si.
 type URL struct {
-	// Term the current search term
-	Term string
+	// Query the current search term
+	Query string
 
 	// Sort the current sort method
 	Sort SortOpt
@@ -142,7 +142,7 @@ type URL struct {
 // DefaultURL make new URL with some options the same nyaa.si
 func DefaultURL() *URL {
 	return &URL{
-		Term:     "",
+		Query:    "",
 		Sort:     Date,
 		Order:    Desc,
 		Filter:   NoFilter,
@@ -156,7 +156,7 @@ func (u *URL) String() string {
 	queryParams := url.Values{}
 	queryParams.Set("f", string(u.Filter))
 	queryParams.Set("c", string(u.Category))
-	queryParams.Set("q", u.Term)
+	queryParams.Set("q", u.Query)
 	queryParams.Set("s", string(u.Sort))
 	queryParams.Set("o", string(u.Order))
 	queryParams.Set("p", strconv.Itoa(u.Page))

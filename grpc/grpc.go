@@ -8,6 +8,7 @@ import (
 
 	a "github.com/greenmochi/kabedon-nyaa/api"
 	"github.com/greenmochi/kabedon-nyaa/logger"
+	nyaa "github.com/greenmochi/kabedon-nyaa/nyaa"
 
 	pb "github.com/greenmochi/kabedon-nyaa/proto"
 	"google.golang.org/grpc"
@@ -60,23 +61,6 @@ func (s *nyaaServer) Shutdown(ctx context.Context, in *pb.ShutdownRequest) (*pb.
 	return &pb.ShutdownReply{}, nil
 }
 
-func (s *nyaaServer) Search(ctx context.Context, in *pb.SearchRequest) (*pb.SearchReply, error) {
-	logger.Infof("search request received: %v", in.String())
-	if ok := s.api.Search(in.Query); !ok {
-		return &pb.SearchReply{Results: []*pb.Result{}}, nil
-	}
-
-	return &pb.SearchReply{
-		Results: s.getCurrentResults(),
-	}, nil
-}
-
-func (s *nyaaServer) CurrentResults(ctx context.Context, in *pb.CurrentResultsRequest) (*pb.CurrentResultsReply, error) {
-	return &pb.CurrentResultsReply{
-		Results: s.getCurrentResults(),
-	}, nil
-}
-
 func (s *nyaaServer) getCurrentResults() []*pb.Result {
 	results := s.api.GetCurrentResults()
 	if len(results) <= 0 {
@@ -98,4 +82,29 @@ func (s *nyaaServer) getCurrentResults() []*pb.Result {
 		})
 	}
 	return replyResults
+}
+
+func (s *nyaaServer) Search(ctx context.Context, in *pb.SearchRequest) (*pb.SearchReply, error) {
+	logger.Infof("search request received: %v", in.String())
+
+	url := nyaa.DefaultURL()
+	url.Query = in.Query
+	url.Sort = nyaa.SortOpt(in.Sort)
+	url.Order = nyaa.OrderOpt(in.Order)
+	url.Filter = nyaa.FilterOpt(in.Filter)
+	url.Category = nyaa.CategoryOpt(in.Category)
+	url.Page = int(in.Page)
+	if ok := s.api.Search(url); !ok {
+		return &pb.SearchReply{Results: []*pb.Result{}}, nil
+	}
+
+	return &pb.SearchReply{
+		Results: s.getCurrentResults(),
+	}, nil
+}
+
+func (s *nyaaServer) CurrentResults(ctx context.Context, in *pb.CurrentResultsRequest) (*pb.CurrentResultsReply, error) {
+	return &pb.CurrentResultsReply{
+		Results: s.getCurrentResults(),
+	}, nil
 }

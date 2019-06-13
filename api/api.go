@@ -38,20 +38,17 @@ func (api *API) TearDown() {
 }
 
 // Search TODO
-func (api *API) Search(query string) bool {
-	url := nyaa.DefaultURL()
-	url.Term = query
-
+func (api *API) Search(url *nyaa.URL) bool {
 	api.nyaa.URL = url
 
 	body, err := api.nyaa.Get()
 	if err != nil {
-		logger.Errorf("unable to perform GET request for query=%s\n", query)
+		logger.Errorf("unable to perform GET request for query=%s\n", api.nyaa.URL.Query)
 		return false
 	}
 
 	if ok := api.nyaa.Parse(body); !ok {
-		logger.Errorf("unable to parse body for query=%s\n", query)
+		logger.Errorf("unable to parse body for query=%s\n", api.nyaa.URL.Query)
 		return false
 	}
 
