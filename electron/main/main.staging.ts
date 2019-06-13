@@ -36,8 +36,9 @@ function createWindow() {
     mainWindow.webContents.openDevTools()
   })
   mainWindow.webContents.on("did-finish-load", () => {
-    mainWindow.webContents.send("kokoro", kokoroServer.endpoint);
-  })
+    mainWindow.webContents.send("kokoro-endpoint", kokoroServer.kokoroEndpoint);
+    mainWindow.webContents.send("gateway-endpoint", kokoroServer.gatewayEndpoint);
+  });
 
   // Emitted when the window is closed.
   mainWindow.on("closed", () => {
@@ -56,9 +57,9 @@ let kokoroServer: KokoroServer | null = null;
 app.on("ready", () => {
   let binaryPath: string = path.resolve("./service");
   if (binaryPath.length > 0) {
-    kokoroServer = new KokoroServer("kabedon-kokoro.exe", binaryPath, "localhost", 9111);
+    kokoroServer = new KokoroServer("kabedon-kokoro.exe", binaryPath, "localhost", 9111, 9990);
     kokoroServer.run();
-    console.log(`Running kokoro server. binaryPath=${binaryPath} endpoint=${kokoroServer.endpoint}`);
+    console.log(`Running kokoro server. binaryPath=${binaryPath} endpoint=${kokoroServer.kokoroEndpoint}`);
   } else {
     console.log("binaryPath length is not valid: length=", binaryPath.length);
   }
@@ -86,7 +87,12 @@ app.on("activate", () => {
   }
 });
 
-ipcMain.on("kokoro", (event: any, arg: any) => {
-  console.log("kokoro request message received");
-  event.reply("kokoro", kokoroServer.endpoint);
+ipcMain.on("kokoro-endpoint", (event: any, arg: any) => {
+  console.log("ipc: kokoro-endpoint request message received");
+  event.reply("kokoro-endpoint", kokoroServer.kokoroEndpoint);
+});
+
+ipcMain.on("gateway-endpoint", (event: any, arg: any) => {
+  console.log("ipc: gateway-endpoint request message received");
+  event.reply("gateway-endpoint", kokoroServer.gatewayEndpoint);
 });

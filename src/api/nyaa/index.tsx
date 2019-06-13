@@ -1,6 +1,4 @@
-import * as url from "../common/url";
-
-const API_ROOT = "http://localhost:8000/nyaa";
+import PostQueryData from "./query";
 
 /**
  * Sends a POST request to the nyaa service through the proxy.
@@ -9,22 +7,21 @@ const API_ROOT = "http://localhost:8000/nyaa";
  * @param searchTerm The term to search for in nyaa.si
  * @returns The promise to `API_ROOT/endpoint`
  */
-export async function fetchResults<T>(searchTerm: string, endpoint: string = "/search"): Promise<T> {
-  const queryParams: string = url.mapToQueryString({ "searchTerm": searchTerm });
-  const fullUrl: string = url.createQueryString(API_ROOT, endpoint, queryParams);
+export async function fetchResults<T>(endpoint: string, queryData: PostQueryData): Promise<T> {
   const options = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
+    body: JSON.stringify(queryData),
   };
 
   return fetch(
-    fullUrl,
+    endpoint,
     options
   ).then(response => {
     if (!response.ok) {
-      throw new Error(fullUrl + " " + response.statusText);
+      throw new Error(endpoint + " " + response.statusText);
     }
     return response.json();
   })

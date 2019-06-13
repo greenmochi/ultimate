@@ -34,10 +34,11 @@ function createWindow() {
       .then((name) => console.log(`Added extension: ${name}`))
       .catch((err) => console.log("An error occurred: ", err));
     mainWindow.webContents.openDevTools()
-  })
+  });
   mainWindow.webContents.on("did-finish-load", () => {
-    mainWindow.webContents.send("kokoro", kokoroServer.endpoint);
-  })
+    mainWindow.webContents.send("kokoro-endpoint", kokoroServer.kokoroEndpoint);
+    mainWindow.webContents.send("gateway-endpoint", kokoroServer.gatewayEndpoint);
+  });
 
   // Emitted when the window is closed.
   mainWindow.on("closed", () => {
@@ -55,7 +56,7 @@ let kokoroServer: KokoroServer | null = null;
 // Some APIs can only be used after this event occurs.
 app.on("ready", () => {
   // Test with json-server, or set to different port if you have another mock server
-  kokoroServer = new KokoroServer("fake-binary-that-doesn't-exist.exe", "fake-path", "localhost", 8000);
+  kokoroServer = new KokoroServer("fake-binary-that-doesn't-exist.exe", "fake-path", "localhost", 9111, 8000);
   createWindow();
 });
 
@@ -79,7 +80,12 @@ app.on("activate", () => {
   }
 });
 
-ipcMain.on("kokoro", (event: any, arg: any) => {
-  console.log("kokoro request message received");
-  event.reply("kokoro", kokoroServer.endpoint);
+ipcMain.on("kokoro-endpoint", (event: any, arg: any) => {
+  console.log("ipc: kokoro-endpoint request message received");
+  event.reply("kokoro-endpoint", kokoroServer.kokoroEndpoint);
+});
+
+ipcMain.on("gateway-endpoint", (event: any, arg: any) => {
+  console.log("ipc: gateway-endpoint request message received");
+  event.reply("gateway-endpoint", kokoroServer.gatewayEndpoint);
 });

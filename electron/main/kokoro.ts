@@ -7,15 +7,17 @@ export class KokoroServer {
   private _binary: string;
   private _cwd: string;
   private _host: string;
-  private _port: number;
+  private _kokoroPort: number;
+  private _gatewayPort: number;
 
   private _server: child.ChildProcess | null;
 
-  constructor(binary: string, cwd: string, host: string, port: number) {
+  constructor(binary: string, cwd: string, host: string, kokoroPort: number, gatewayPort: number) {
     this._binary = binary;
     this._cwd = cwd;
     this._host = host;
-    this._port = port;
+    this._kokoroPort = kokoroPort;
+    this._gatewayPort = gatewayPort
   }
 
   get binary(): string {
@@ -30,17 +32,22 @@ export class KokoroServer {
     return this._host;
   }
 
-  get port(): number {
-    return this._port;
+  get kokoroPort(): number {
+    return this._kokoroPort;
   }
 
-  get endpoint(): string {
-    return `${this._host}:${this._port}`;
+  get kokoroEndpoint(): string {
+    return `http://${this._host}:${this._kokoroPort}`;
+  }
+
+  get gatewayEndpoint(): string {
+    return `http://${this._host}:${this._gatewayPort}`;
   }
 
   run(): void {
     this._server = child.spawn(`./${this._binary}`, [
-      `--kokoro-port=${this._port}`
+      `--kokoro-port=${this._kokoroPort}`,
+      `--gateway-port=${this._gatewayPort}`,
     ], {
       cwd: this._cwd,
     });
@@ -59,11 +66,11 @@ export class KokoroServer {
   }
 
   async close<T>(): Promise<T> {
-    console.log(`sending a shutdown request to ${this.endpoint}/shutdown`);
-    return fetch(`http://${this.endpoint}/shutdown`)
+    console.log(`sending a shutdown request to ${this._kokoroPort}/shutdown`);
+    return fetch(`${this._kokoroPort}/shutdown`)
       .then(response => {
         if (!response.ok) {
-          console.log(`unable to send shutdown request to ${this.endpoint} status=${response.status}`);
+          console.log(`unable to send shutdown request to ${this._kokoroPort} status=${response.status}`);
         }
         console.log(`shutdown request received status=${response.status}`);
         return response.json();

@@ -11,17 +11,17 @@ import { NyaaActionType } from "./nyaa/type";
 import { nyaaReducer } from "./nyaa/reducer";
 import { CalculatorActionType } from "./calculator/type";
 import { calculatorReducer } from "./calculator/reducer";
-import { IPCActionType } from "./ipc/type";
-import { ipcReducer } from "./ipc/reducer";
+import { APIActionType } from "./api/type";
+import { apiReducer } from "./api/reducer";
 
 const rootReducer = combineReducers({
   nyaa: nyaaReducer,
   calculator: calculatorReducer,
-  ipc: ipcReducer,
+  api: apiReducer,
 });
 
 export type StoreState = ReturnType<typeof rootReducer>;
-export type StoreActions = CalculatorActionType | NyaaActionType | IPCActionType;
+export type StoreActions = CalculatorActionType | NyaaActionType | APIActionType;
 export type ThunkResult<R> = ThunkAction<R, StoreState, undefined, StoreActions>;
 
 export default function configureStore() {

@@ -10,6 +10,7 @@ import { StoreState } from "../../store";
 import { 
   loadResults, 
 } from "../../store/nyaa/action";
+import PostQueryData from "../../api/nyaa/query";
 
 const SNyaaContainer = styled.div`
   background-color: #121212;
@@ -68,7 +69,11 @@ class Nyaa extends React.Component<NyaaProps> {
     event.preventDefault();
     const data = new FormData(event.target);
     let searchTerm: string = data.get("search") as string;
-    this.props.loadResults(searchTerm);
+
+    let postQueryData = new PostQueryData();
+    postQueryData.query = searchTerm;
+
+    this.props.loadResults(searchTerm, postQueryData);
   }
 
   _renderTable = () => {

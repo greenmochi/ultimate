@@ -2,6 +2,9 @@ import {
   ActionCreator, 
   Action,
 } from "redux";
+import { 
+  ThunkResult, 
+} from "..";
 import {
   NyaaResult,
   SET_SEARCH_TERM, 
@@ -10,9 +13,7 @@ import {
 import { 
   fetchResults,
 } from "../../api/nyaa";
-import { 
-  ThunkResult, 
-} from "..";
+import PostQueryData from "../../api/nyaa/query";
 
 export const setSearchTerm: ActionCreator<Action> = (searchTerm: string) => {
   return {
@@ -28,13 +29,17 @@ export const setResults: ActionCreator<Action> = (results: NyaaResult[]) => {
   };
 }
 
-export function loadResults(searchTerm: string): ThunkResult<void> {
+export function loadResults(searchTerm: string, queryData: PostQueryData): ThunkResult<void> {
   return async (dispatch, getState) => {
     dispatch(setSearchTerm(searchTerm));
 
-    const { nyaa } = getState();
-    let results = await fetchResults<NyaaResult[]>(nyaa.searchTerm)
-      .then((results: NyaaResult[]) => {
+    const { 
+      api,
+    } = getState();
+    const endpoint = api.gatewayEndpoint + "/nyaa/search";
+    let results = await fetchResults<NyaaResult[]>(endpoint, queryData)
+      .then((results: any) => {
+        console.log(results);
         return results;
       })
       .catch(error => {
