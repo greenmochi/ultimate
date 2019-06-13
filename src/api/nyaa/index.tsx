@@ -13,7 +13,7 @@ export async function fetchResults<T>(searchTerm: string, endpoint: string = "/s
   const queryParams: string = url.mapToQueryString({ "searchTerm": searchTerm });
   const fullUrl: string = url.createQueryString(API_ROOT, endpoint, queryParams);
   const options = {
-    method: "GET",
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },

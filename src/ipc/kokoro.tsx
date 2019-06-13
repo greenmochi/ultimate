@@ -2,7 +2,7 @@ import {
   Store, 
   AnyAction,
 } from "redux";
-import { StoreState} from "../store";
+import { StoreState } from "../store";
 import { setKokoroEndpoint } from "../store/ipc/action";
 
 declare global {
@@ -15,7 +15,11 @@ const { ipcRenderer } = window.require("electron");
 let store: Store<StoreState, AnyAction> | null = null;
 
 export const setStore = (s: typeof store) => {
-  store = s;
+ store = s;
+}
+
+export const sendKokoroEndpointRequest = () => {
+  ipcRenderer.send("kokoro");
 }
 
 ipcRenderer.on("kokoro", (event: any, message: any) => {
@@ -24,7 +28,3 @@ ipcRenderer.on("kokoro", (event: any, message: any) => {
     store.dispatch(setKokoroEndpoint(message as string));
   }
 });
-
-export const sendKokoroEndpointRequest = () => {
-  ipcRenderer.send("kokoro");
-}
