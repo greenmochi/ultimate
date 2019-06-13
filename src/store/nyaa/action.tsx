@@ -39,7 +39,10 @@ export function loadResults(searchTerm: string, queryData: PostQueryData): Thunk
     const endpoint = api.gatewayEndpoint + "/nyaa/search";
     let results: NyaaResult[] = await fetchResults<NyaaResult[]>(endpoint, queryData)
       .then((results: any) => {
-        return results;
+        if ("results" in results) {
+          return results["results"];
+        }
+        return [];
       })
       .catch(error => {
         console.log(error);

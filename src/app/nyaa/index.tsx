@@ -10,6 +10,7 @@ import { StoreState } from "../../store";
 import { 
   loadResults, 
 } from "../../store/nyaa/action";
+import { NyaaResult } from "../../store/nyaa/type";
 import PostQueryData from "../../api/nyaa/query";
 
 const SNyaaContainer = styled.div`
@@ -77,6 +78,23 @@ class Nyaa extends React.Component<NyaaProps> {
   }
 
   _renderTable = () => {
+    const { nyaa } = this.props;
+    return (
+      <>
+        {nyaa.results.map((result: NyaaResult, index) => (
+          <STableRow key={index}>
+            <STableData>{result.category}</STableData>
+            <STableData>{result.name}</STableData>
+            <STableData><a href={result.link}>magnet</a></STableData>
+            <STableData>{result.size}</STableData>
+            <STableData>{result.date}</STableData>
+            <STableData>{result.seeders}</STableData>
+            <STableData>{result.leechers}</STableData>
+            <STableData>{result.downloads}</STableData>
+          </STableRow>
+        ))}
+      </>
+    );
   }
 
   render() {
@@ -111,16 +129,7 @@ class Nyaa extends React.Component<NyaaProps> {
             </STableRow>
           </thead>
           <tbody>
-            <STableRow>
-              <STableData>anime sub</STableData>
-              <STableData>kimetsu no yaiba</STableData>
-              <STableData>torrent/magnet</STableData>
-              <STableData>1.1 GiB</STableData>
-              <STableData>2019</STableData>
-              <STableData>2234</STableData>
-              <STableData>288</STableData>
-              <STableData>13691</STableData>
-            </STableRow>
+            {this._renderTable()}
           </tbody>
         </STable>
       </SNyaaContainer>
