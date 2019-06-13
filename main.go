@@ -1,15 +1,15 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
-	"html"
 	"net/http"
 	"os"
 	"os/signal"
 	"path/filepath"
+	"strings"
 	"syscall"
-	"time"
 
 	"github.com/greenmochi/kabedon-kokoro/process"
 
@@ -131,6 +131,27 @@ func main() {
 	}
 }
 
+func allowCORS(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if origin := r.Header.Get("Origin"); origin == "http://localhost:3000" {
+			w.Header().Set("Access-Control-Allow-Origin", origin)
+			if r.Method == "OPTIONS" && r.Header.Get("Access-Control-Request-Method") != "" {
+				preflightHandler(w, r)
+				return
+			}
+		}
+		h.ServeHTTP(w, r)
+	})
+}
+
+func preflightHandler(w http.ResponseWriter, r *http.Request) {
+	headers := []string{"Content-Type", "Accept"}
+	w.Header().Set("Access-Control-Allow-Headers", strings.Join(headers, ","))
+	methods := []string{"GET", "HEAD", "POST", "PUT", "DELETE"}
+	w.Header().Set("Access-Control-Allow-Methods", strings.Join(methods, ","))
+	// log.Infof("preflight request for %s", r.URL.Path)
+}
+
 func runGateway(log *logger.KabedonLogger, port int, endpoints map[string]string) error {
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
@@ -144,31 +165,39 @@ func runGateway(log *logger.KabedonLogger, port int, endpoints map[string]string
 		return err
 	}
 
-	return http.ListenAndServe(fmt.Sprintf(":%d", port), mux)
+	s := &http.Server{
+		Addr:    fmt.Sprintf(":%d", port),
+		Handler: allowCORS(mux),
+	}
+
+	return s.ListenAndServe()
 }
 
 func runKokoro(log *logger.KabedonLogger, port int, shutdown chan<- bool) error {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/log", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Hello, %q", html.EscapeString(r.URL.Path))
-		conn, err := grpc.Dial("localhost:9995", grpc.WithInsecure())
+	mux.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
+		reply, err := json.Marshal(struct{ Message string }{"pong"})
 		if err != nil {
-			log.Fatalf("did not connect: %v", err)
+			log.Error("unable to marshal reply for pong")
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
 		}
-		defer conn.Close()
-		c := gw.NewNyaaClient(conn)
 
-		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-		defer cancel()
-
-		resp, err := c.Ping(ctx, &gw.PingRequest{Message: "foobar"})
-		if err != nil {
-			log.Fatalf("could not greet: %v", err)
-		}
-		log.Infof("Greeting: %s", resp.Message)
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write(reply)
 	})
 	mux.HandleFunc("/shutdown", func(w http.ResponseWriter, r *http.Request) {
+		reply, err := json.Marshal(struct{ Message string }{"shutdown request received"})
+		if err != nil {
+			log.Error("unable to marshal reply for shutdown")
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
+		w.Write(reply)
 
 		log.Infof("shutdown request received. shutting down.")
 		switch r.Method {
