@@ -37,9 +37,8 @@ export function loadResults(searchTerm: string, queryData: PostQueryData): Thunk
       api,
     } = getState();
     const endpoint = api.gatewayEndpoint + "/nyaa/search";
-    let results = await fetchResults<NyaaResult[]>(endpoint, queryData)
+    let results: NyaaResult[] = await fetchResults<NyaaResult[]>(endpoint, queryData)
       .then((results: any) => {
-        console.log(results);
         return results;
       })
       .catch(error => {

@@ -13,7 +13,7 @@ export async function fetchResults<T>(endpoint: string, queryData: PostQueryData
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(queryData),
+    body: JSON.stringify(queryData.data),
   };
 
   return fetch(
@@ -24,5 +24,5 @@ export async function fetchResults<T>(endpoint: string, queryData: PostQueryData
       throw new Error(endpoint + " " + response.statusText);
     }
     return response.json();
-  })
+  }).catch(error => console.log(error));
 }
