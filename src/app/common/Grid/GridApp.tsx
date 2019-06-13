@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 const SGridApp = styled.div`
   grid-area: app;
+  overflow: hidden;
 `;
 
 export interface GridAppProps {

@@ -21,7 +21,6 @@ const App: React.FC = () => {
             <Route path="/nyaa" component={Nyaa} />
           </Switch>
         </GridApp>
-        <GridStatus>status: Do we really want this? There might be a better way to track status for all apps</GridStatus>
       </Grid>
     </BrowserRouter>
   );
