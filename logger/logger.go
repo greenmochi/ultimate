@@ -2,90 +2,99 @@ package logger
 
 import (
 	"fmt"
-	"io"
 	"log"
+	"os"
 )
 
-// KabedonLogger wraps log.Logger
-type KabedonLogger struct {
-	logger *log.Logger
-}
+const name = "kabedon-kokoro.log"
 
-// NewKabedonLogger creates a logger
-func NewKabedonLogger(out io.Writer) *KabedonLogger {
-	return &KabedonLogger{
-		logger: log.New(out, "", log.Ldate|log.Ltime|log.Lshortfile),
+var file *os.File
+
+var logger = newLogger()
+
+func newLogger() *log.Logger {
+	f, err := os.Create(name)
+	if err != nil {
+		log.Println("unable to create log file to write to. Writing to stderr instead.")
+		return log.New(os.Stderr, "", log.Ldate|log.Ltime|log.Lshortfile)
 	}
+	file = f
+	return log.New(file, "", log.Ldate|log.Ltime|log.Lshortfile)
 }
 
-// Info neutral log level output
-func (kb *KabedonLogger) Info(args ...interface{}) {
-	kb.logger.SetPrefix("[INFO] ")
-	kb.logger.Output(2, fmt.Sprint(args...))
+// Close close file
+func Close() {
+	file.Close()
 }
 
-// Infoln output with new line
-func (kb *KabedonLogger) Infoln(args ...interface{}) {
-	kb.logger.SetPrefix("[INFO] ")
-	kb.logger.Output(2, fmt.Sprintln(args...))
+// Info writes message
+func Info(args ...interface{}) {
+	logger.SetPrefix("[INFO] ")
+	logger.Output(2, fmt.Sprint(args...))
 }
 
-// Infof print formatted output
-func (kb *KabedonLogger) Infof(format string, args ...interface{}) {
-	kb.logger.SetPrefix("[INFO] ")
-	kb.logger.Output(2, fmt.Sprintf(format, args...))
+// Infoln writes messsage with new line
+func Infoln(args ...interface{}) {
+	logger.SetPrefix("[INFO] ")
+	logger.Output(2, fmt.Sprintln(args...))
 }
 
-// Warning warning log level output
-func (kb *KabedonLogger) Warning(args ...interface{}) {
-	kb.logger.SetPrefix("[WARNING] ")
-	kb.logger.Output(2, fmt.Sprint(args...))
+// Infof writes formatted message
+func Infof(format string, args ...interface{}) {
+	logger.SetPrefix("[INFO] ")
+	logger.Output(2, fmt.Sprintf(format, args...))
 }
 
-// Warningln output with new line
-func (kb *KabedonLogger) Warningln(args ...interface{}) {
-	kb.logger.SetPrefix("[WARNING] ")
-	kb.logger.Output(2, fmt.Sprintln(args...))
+// Warning writes warning message
+func Warning(args ...interface{}) {
+	logger.SetPrefix("[WARNING] ")
+	logger.Output(2, fmt.Sprint(args...))
 }
 
-// Warningf print formatted output
-func (kb *KabedonLogger) Warningf(format string, args ...interface{}) {
-	kb.logger.SetPrefix("[WARNING] ")
-	kb.logger.Output(2, fmt.Sprintf(format, args...))
+// Warningln writes warning message with new line
+func Warningln(args ...interface{}) {
+	logger.SetPrefix("[WARNING] ")
+	logger.Output(2, fmt.Sprintln(args...))
 }
 
-// Error error log level output
-func (kb *KabedonLogger) Error(args ...interface{}) {
-	kb.logger.SetPrefix("[ERROR] ")
-	kb.logger.Output(2, fmt.Sprint(args...))
+// Warningf writes formatted warning message
+func Warningf(format string, args ...interface{}) {
+	logger.SetPrefix("[WARNING] ")
+	logger.Output(2, fmt.Sprintf(format, args...))
 }
 
-// Errorln output with new line
-func (kb *KabedonLogger) Errorln(args ...interface{}) {
-	kb.logger.SetPrefix("[ERROR] ")
-	kb.logger.Output(2, fmt.Sprintln(args...))
+// Error writes error message
+func Error(args ...interface{}) {
+	logger.SetPrefix("[ERROR] ")
+	logger.Output(2, fmt.Sprint(args...))
 }
 
-// Errorf print formatted output
-func (kb *KabedonLogger) Errorf(format string, args ...interface{}) {
-	kb.logger.SetPrefix("[ERROR] ")
-	kb.logger.Output(2, fmt.Sprintf(format, args...))
+// Errorln writes error message with new line
+func Errorln(args ...interface{}) {
+	logger.SetPrefix("[ERROR] ")
+	logger.Output(2, fmt.Sprintln(args...))
 }
 
-// Fatal fatal log level output
-func (kb *KabedonLogger) Fatal(args ...interface{}) {
-	kb.logger.SetPrefix("[FATAL] ")
-	kb.logger.Output(2, fmt.Sprint(args...))
+// Errorf writes formatted error message
+func Errorf(format string, args ...interface{}) {
+	logger.SetPrefix("[ERROR] ")
+	logger.Output(2, fmt.Sprintf(format, args...))
 }
 
-// Fatalln output with new line
-func (kb *KabedonLogger) Fatalln(args ...interface{}) {
-	kb.logger.SetPrefix("[FATAL] ")
-	kb.logger.Output(2, fmt.Sprintln(args...))
+// Fatal writes fatal message
+func Fatal(args ...interface{}) {
+	logger.SetPrefix("[FATAL] ")
+	logger.Output(2, fmt.Sprint(args...))
 }
 
-// Fatalf print formatted output
-func (kb *KabedonLogger) Fatalf(format string, args ...interface{}) {
-	kb.logger.SetPrefix("[ERROR] ")
-	kb.logger.Output(2, fmt.Sprintf(format, args...))
+// Fatalln writes fatal message with new line
+func Fatalln(args ...interface{}) {
+	logger.SetPrefix("[FATAL] ")
+	logger.Output(2, fmt.Sprintln(args...))
+}
+
+// Fatalf writes formatted fatal message
+func Fatalf(format string, args ...interface{}) {
+	logger.SetPrefix("[FATAL] ")
+	logger.Output(2, fmt.Sprintf(format, args...))
 }

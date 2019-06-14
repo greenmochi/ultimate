@@ -22,16 +22,18 @@ import (
 )
 
 func main() {
-	// Setup logger. Output to stderr if can't write to a file
-	var log *logger.KabedonLogger
-	out, err := os.Create("kabedon-kokoro.log")
-	if err != nil {
-		log = logger.NewKabedonLogger(os.Stderr)
-		log.Info("unable to create log file to write to. Write to stderr instead")
-	} else {
-		log = logger.NewKabedonLogger(out)
-	}
-	defer out.Close()
+	// Setup logger
+	defer logger.Close()
+
+	//var log *logger.KabedonLogger
+	//out, err := os.Create("kabedon-kokoro.log")
+	//if err != nil {
+	//	log = logger.NewKabedonLogger(os.Stderr)
+	//	log.Info("unable to create log file to write to. Write to stderr instead")
+	//} else {
+	//	log = logger.NewKabedonLogger(out)
+	//}
+	//defer out.Close()
 
 	var helpUsage bool
 	var gatewayPort int
@@ -56,14 +58,14 @@ func main() {
 	// Run all gRPC services
 	go func() {
 		binary := "./kabedon-nyaa.exe"
-		log.Infof("running %s on port=%d", binary, nyaaPort)
+		logger.Infof("running %s on port=%d", binary, nyaaPort)
 		cmd, err := process.Start(binary, nyaaPort)
 		if err != nil {
 			fullpath, err := filepath.Abs(binary)
 			if err != nil {
-				log.Fatal("couldn't resolve binary full path:", err)
+				logger.Fatal("couldn't resolve binary full path:", err)
 			} else {
-				log.Fatal("binary full path:", fullpath)
+				logger.Fatal("binary full path:", fullpath)
 			}
 		}
 
@@ -74,20 +76,20 @@ func main() {
 		// Add a way to search for runaway gRPC servers and kill them by name
 
 		// if err := cmd.Process.Release(); err != nil {
-		// 	log.Fatalf("unable to release resources for %s: %s", binary, err)
+		// 	logger.Fatalf("unable to release resources for %s: %s", binary, err)
 		// }
 
 		// Try to kill process by finding it (if it exists) with FindProcess
 		// if _, err := os.FindProcess(cmd.ProcessState.Pid()); err == nil {
 		// 	if err := cmd.Process.Kill(); err != nil {
-		// 		log.Fatalf("unable to kill %s: %s", binary, err)
+		// 		logger.Fatalf("unable to kill %s: %s", binary, err)
 		// 	}
 		// }
 		if err := cmd.Process.Kill(); err != nil {
-			log.Fatalf("unable to kill %s: %s", binary, err)
+			logger.Fatalf("unable to kill %s: %s", binary, err)
 		}
-		log.Infof("killed %s", binary)
-		log.Info(binary, " finished with ", err)
+		logger.Infof("killed %s", binary)
+		logger.Info(binary, " finished with ", err)
 
 		exit <- true
 	}()
@@ -97,34 +99,34 @@ func main() {
 		"nyaa": fmt.Sprintf("localhost:%d", nyaaPort),
 	}
 	go func() {
-		log.Infof("running gateway server on :%d", gatewayPort)
-		if err := runGateway(log, gatewayPort, endpoints); err != nil {
-			log.Fatal(err)
+		logger.Infof("running gateway server on :%d", gatewayPort)
+		if err := runGateway(gatewayPort, endpoints); err != nil {
+			logger.Fatal(err)
 		}
 	}()
 
 	// Run secondary server
 	go func() {
-		log.Infof("running kokoro server on :%d", kokoroPort)
-		if err := runKokoro(log, kokoroPort, shutdown); err != nil {
-			log.Fatal(err)
+		logger.Infof("running kokoro server on :%d", kokoroPort)
+		if err := runKokoro(kokoroPort, shutdown); err != nil {
+			logger.Fatal(err)
 		}
 	}()
 
 	// Graceful shutdown
-	log.Infof("graceful shutdown loop started")
+	logger.Infof("graceful shutdown loop started")
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt, syscall.SIGTERM)
 	for {
 		select {
 		case <-shutdown:
-			log.Info("shutdown signal received")
+			logger.Info("shutdown signal received")
 			release <- true
 		case <-interrupt:
-			log.Info("interrupt signal received")
+			logger.Info("interrupt signal received")
 			release <- true
 		case <-exit:
-			log.Info("exit signal received. Program exited.")
+			logger.Info("exit signal received. Program exited.")
 			os.Exit(1)
 			return
 		}
@@ -149,10 +151,10 @@ func preflightHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", strings.Join(headers, ","))
 	methods := []string{"GET", "HEAD", "POST", "PUT", "DELETE"}
 	w.Header().Set("Access-Control-Allow-Methods", strings.Join(methods, ","))
-	// log.Infof("preflight request for %s", r.URL.Path)
+	// logger.Infof("preflight request for %s", r.URL.Path)
 }
 
-func runGateway(log *logger.KabedonLogger, port int, endpoints map[string]string) error {
+func runGateway(port int, endpoints map[string]string) error {
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
@@ -173,12 +175,12 @@ func runGateway(log *logger.KabedonLogger, port int, endpoints map[string]string
 	return s.ListenAndServe()
 }
 
-func runKokoro(log *logger.KabedonLogger, port int, shutdown chan<- bool) error {
+func runKokoro(port int, shutdown chan<- bool) error {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
 		reply, err := json.Marshal(struct{ Message string }{"pong"})
 		if err != nil {
-			log.Error("unable to marshal reply for pong")
+			logger.Error("unable to marshal reply for pong")
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -190,7 +192,7 @@ func runKokoro(log *logger.KabedonLogger, port int, shutdown chan<- bool) error 
 	mux.HandleFunc("/shutdown", func(w http.ResponseWriter, r *http.Request) {
 		reply, err := json.Marshal(struct{ Message string }{"shutdown request received"})
 		if err != nil {
-			log.Error("unable to marshal reply for shutdown")
+			logger.Error("unable to marshal reply for shutdown")
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -199,7 +201,7 @@ func runKokoro(log *logger.KabedonLogger, port int, shutdown chan<- bool) error 
 		w.WriteHeader(http.StatusOK)
 		w.Write(reply)
 
-		log.Infof("shutdown request received. shutting down.")
+		logger.Infof("shutdown request received. shutting down.")
 		switch r.Method {
 		case http.MethodGet:
 			shutdown <- true
