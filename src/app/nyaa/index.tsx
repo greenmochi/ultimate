@@ -1,64 +1,32 @@
 import React from "react";
-import { connect } from "react-redux";
-import styled from "styled-components";
+import { 
+  connect, 
+} from "react-redux";
 import { 
   bindActionCreators, 
   Dispatch, 
   AnyAction 
 } from "redux";
-import { StoreState } from "../../store";
+import { 
+  StoreState,
+} from "../../store";
 import { 
   loadResults, 
 } from "../../store/nyaa/action";
-import { NyaaResult } from "../../store/nyaa/type";
+import { 
+  NyaaResult,
+} from "../../store/nyaa/type";
 import PostQueryData from "../../api/nyaa/query";
-
-const SNyaaContainer = styled.div`
-  background-color: #121212;
-  padding: 5px; 
-`;
-
-const SForm = styled.form`
-  margin: 10px;
-`;
-
-const SInput = styled.input`
-  font-size: 2em;
-`;
-
-const SSubmitButton = styled.button`
-  font-size: 2em;
-`;
-
-const STable = styled.table`
-  margin: 10px;
-  border-spacing: 0;
-`;
-
-const STableRow = styled.tr`
-  text-align: center;
-`;
-
-interface STableHeaderProps {
-  readonly width?: string;
-}
-
-const STableHeader = styled.th<STableHeaderProps>`
-  color: #03DAC5;
-  border: 1px solid grey;
-  width: ${props => props.width};
-`;
-
-interface STableDataProps {
-  readonly left?: boolean;
-}
-
-const STableData = styled.td<STableDataProps>`
-  color: white;
-  border: 1px solid grey;
-  padding: 5px;
-  text-align: ${props => props.left ? "left" : "center"};
-`;
+import { 
+  SNyaaContainer, 
+  SForm, 
+  SInput, 
+  SSubmitButton, 
+  STable, 
+  STableRow, 
+  STableHeader, 
+  STableData,
+} from "./style";
 
 const mapStateToProps = (state: StoreState) => ({
   nyaa: state.nyaa,
@@ -87,7 +55,7 @@ class Nyaa extends React.Component<NyaaProps> {
     this.props.loadResults(searchTerm, postQueryData);
   }
 
-  _renderTable = () => {
+  private renderTable = () => {
     const { nyaa } = this.props;
     return (
       <>
@@ -95,7 +63,9 @@ class Nyaa extends React.Component<NyaaProps> {
           <STableRow key={index}>
             <STableData>{result.category}</STableData>
             <STableData left>{result.name}</STableData>
-            <STableData><a href={result.link}>magnet</a></STableData>
+            <STableData>
+              <a href={result.link}>magnet</a>
+            </STableData>
             <STableData>{result.size}</STableData>
             <STableData>{result.date}</STableData>
             <STableData>{result.seeders}</STableData>
@@ -108,6 +78,7 @@ class Nyaa extends React.Component<NyaaProps> {
   }
 
   render() {
+    const { nyaa } = this.props;
     return (
       <SNyaaContainer>
         <SForm
@@ -118,6 +89,7 @@ class Nyaa extends React.Component<NyaaProps> {
             name="search"
             type="text" 
             placeholder="Boku no hero academia..."
+            defaultValue={nyaa.searchTerm}
           />
           <SSubmitButton
             type="submit"
@@ -139,7 +111,7 @@ class Nyaa extends React.Component<NyaaProps> {
             </STableRow>
           </thead>
           <tbody>
-            {this._renderTable()}
+            {this.renderTable()}
           </tbody>
         </STable>
       </SNyaaContainer>
