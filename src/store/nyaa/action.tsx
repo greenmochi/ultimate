@@ -29,9 +29,9 @@ export const setResults: ActionCreator<Action> = (results: NyaaResult[]) => {
   };
 }
 
-export function loadResults(searchTerm: string, queryData: PostQueryData): ThunkResult<void> {
+export function loadResults(queryData: PostQueryData): ThunkResult<void> {
   return async (dispatch, getState) => {
-    dispatch(setSearchTerm(searchTerm));
+    dispatch(setSearchTerm(queryData.query));
 
     const endpoint = getState().api.gatewayEndpoint + "/nyaa/search";
 

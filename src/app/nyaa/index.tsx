@@ -27,6 +27,9 @@ import {
   STableHeader, 
   STableData,
 } from "./style";
+import {
+  FontAwesomeIcon,
+} from "@fortawesome/react-fontawesome";
 
 const mapStateToProps = (state: StoreState) => ({
   nyaa: state.nyaa,
@@ -51,8 +54,7 @@ class Nyaa extends React.Component<NyaaProps> {
 
     let postQueryData = new PostQueryData();
     postQueryData.query = searchTerm;
-
-    this.props.loadResults(searchTerm, postQueryData);
+    this.props.loadResults(postQueryData);
   }
 
   private renderTable = () => {
@@ -94,7 +96,11 @@ class Nyaa extends React.Component<NyaaProps> {
           <SSubmitButton
             type="submit"
           >
-            search
+            <FontAwesomeIcon 
+              icon="search"
+              size="xs"
+              color="white"
+            />
           </SSubmitButton>
         </SForm>
         <STable>

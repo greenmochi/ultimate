@@ -1,17 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
-import * as serviceWorker from "./serviceWorker";
-import configureStore from "./store";
 import { Provider } from "react-redux";
-
 import { ThemeProvider } from "styled-components";
+import * as serviceWorker from "./serviceWorker";
+import App from "./App";
+import configureStore from "./store";
 import { theme, GlobalStyle } from "./theme";
-
 import * as ipc from "./ipc";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+
+library.add(faSearch);
 
 const store = configureStore();
-
 ipc.setStore(store);
 
 const Root = () => (
