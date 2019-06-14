@@ -8,9 +8,15 @@ import configureStore from "./store";
 import { theme, GlobalStyle } from "./theme";
 import * as ipc from "./ipc";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { 
+  faSearch,
+  faMagnet,
+  faArrowUp,
+  faArrowDown,
+  faCheck,
+} from "@fortawesome/free-solid-svg-icons";
 
-library.add(faSearch);
+library.add(faSearch, faMagnet, faArrowUp, faArrowDown, faCheck);
 
 const store = configureStore();
 ipc.setStore(store);
