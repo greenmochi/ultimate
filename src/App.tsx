@@ -6,7 +6,6 @@ import { Navigation } from "./app/common";
 import { Grid } from "./app/common/Grid";
 import { GridNavigation } from "./app/common/Grid/GridNavigation";
 import { GridApp } from "./app/common/Grid/GridApp";
-import { GridStatus } from "./app/common/Grid/GridStatus";
 
 const App: React.FC = () => {
   return (

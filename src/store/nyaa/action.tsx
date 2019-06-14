@@ -33,20 +33,37 @@ export function loadResults(searchTerm: string, queryData: PostQueryData): Thunk
   return async (dispatch, getState) => {
     dispatch(setSearchTerm(searchTerm));
 
-    const { 
-      api,
-    } = getState();
-    const endpoint = api.gatewayEndpoint + "/nyaa/search";
+    const endpoint = getState().api.gatewayEndpoint + "/nyaa/search";
+
     let results: NyaaResult[] = await fetchResults<NyaaResult[]>(endpoint, queryData)
-      .then((results: any) => {
-        if ("results" in results) {
-          return results["results"];
+      .then((json: any) => {
+        if (!("results" in json)) {
+          return [];
         }
-        return [];
+
+        let resultsArray: [] = json["results"];
+        if (!(json["results"] instanceof Array)) {
+          return [];
+        }
+
+        let nyaaResults: NyaaResult[] = resultsArray.map((data): NyaaResult => ({
+          category:   data["category"]  ?  data["category"]  : "n/a",
+          name:       data["name"]      ?  data["name"]      : "n/a",
+          link:       data["link"]      ?  data["link"]      : "n/a",
+          size:       data["size"]      ?  data["size"]      : "n/a",
+          date:       data["date"]      ?  data["date"]      : "n/a",
+          seeders:    data["seeders"]   ?  data["seeders"]   : 0,
+          leechers:   data["leechers"]  ?  data["leechers"]  : 0,
+          downloads:  data["downloads"] ?  data["downloads"] : 0,
+        }));
+
+        return nyaaResults;
       })
       .catch(error => {
         console.log(error);
+        return [];
       });
+
     dispatch(setResults(results));
   };
 }

@@ -44,6 +44,13 @@ const STableHeader = styled.th`
   border: 1px solid grey;
 `;
 
+const STableDataName = styled.td`
+  color: white;
+  border: 1px solid grey;
+  padding: 5px;
+  text-align: left;
+`;
+
 const STableData = styled.td`
   color: white;
   border: 1px solid grey;
@@ -79,12 +86,13 @@ class Nyaa extends React.Component<NyaaProps> {
 
   _renderTable = () => {
     const { nyaa } = this.props;
+    console.log(nyaa.results[0]);
     return (
       <>
         {nyaa.results.map((result: NyaaResult, index) => (
           <STableRow key={index}>
             <STableData>{result.category}</STableData>
-            <STableData>{result.name}</STableData>
+            <STableDataName>{result.name}</STableDataName>
             <STableData><a href={result.link}>magnet</a></STableData>
             <STableData>{result.size}</STableData>
             <STableData>{result.date}</STableData>
