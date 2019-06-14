@@ -33,6 +33,7 @@
     "@types/react": "^16.8.19",
     "@types/react-dom": "^16.8.4",
     "concurrently": "^4.1.0",
+    "node-fetch": "^2.6.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.3",
@@ -60,7 +61,6 @@
     "electron": "^5.0.1",
     "electron-builder": "^20.40.2",
     "electron-devtools-installer": "^2.2.4",
-    "node-fetch": "^2.6.0",
     "redux-devtools-extension": "^2.13.8",
     "ts-jest": "^24.0.2",
     "tslint": "^5.16.0"
