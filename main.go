@@ -1,39 +1,22 @@
 package main
 
 import (
-	"encoding/json"
 	"flag"
 	"fmt"
-	"net/http"
 	"os"
 	"os/signal"
 	"path/filepath"
-	"strings"
 	"syscall"
 
-	"github.com/greenmochi/kabedon-kokoro/process"
-
-	"github.com/grpc-ecosystem/grpc-gateway/runtime"
-	"golang.org/x/net/context"
-	"google.golang.org/grpc"
-
+	"github.com/greenmochi/kabedon-kokoro/gateway"
+	"github.com/greenmochi/kabedon-kokoro/kokoro"
 	"github.com/greenmochi/kabedon-kokoro/logger"
-	gw "github.com/greenmochi/kabedon-kokoro/proto"
+	"github.com/greenmochi/kabedon-kokoro/process"
 )
 
 func main() {
 	// Setup logger
 	defer logger.Close()
-
-	//var log *logger.KabedonLogger
-	//out, err := os.Create("kabedon-kokoro.log")
-	//if err != nil {
-	//	log = logger.NewKabedonLogger(os.Stderr)
-	//	log.Info("unable to create log file to write to. Write to stderr instead")
-	//} else {
-	//	log = logger.NewKabedonLogger(out)
-	//}
-	//defer out.Close()
 
 	var helpUsage bool
 	var gatewayPort int
@@ -95,12 +78,12 @@ func main() {
 	}()
 
 	// Load and run all gateway handlers on a port
-	endpoints := map[string]string{
-		"nyaa": fmt.Sprintf("localhost:%d", nyaaPort),
-	}
 	go func() {
+		endpoints := map[string]string{
+			"nyaa": fmt.Sprintf("localhost:%d", nyaaPort),
+		}
 		logger.Infof("running gateway server on :%d", gatewayPort)
-		if err := runGateway(gatewayPort, endpoints); err != nil {
+		if err := gateway.Run(gatewayPort, endpoints); err != nil {
 			logger.Fatal(err)
 		}
 	}()
@@ -108,15 +91,16 @@ func main() {
 	// Run secondary server
 	go func() {
 		logger.Infof("running kokoro server on :%d", kokoroPort)
-		if err := runKokoro(kokoroPort, shutdown); err != nil {
+		if err := kokoro.Run(kokoroPort, gatewayPort, shutdown); err != nil {
 			logger.Fatal(err)
 		}
 	}()
 
-	// Graceful shutdown
-	logger.Infof("graceful shutdown loop started")
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt, syscall.SIGTERM)
+
+	// Graceful shutdown
+	logger.Infof("graceful shutdown loop started")
 	for {
 		select {
 		case <-shutdown:
@@ -131,83 +115,6 @@ func main() {
 			return
 		}
 	}
-}
-
-func allowCORS(h http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if origin := r.Header.Get("Origin"); origin == "http://localhost:3000" {
-			w.Header().Set("Access-Control-Allow-Origin", origin)
-			if r.Method == "OPTIONS" && r.Header.Get("Access-Control-Request-Method") != "" {
-				preflightHandler(w, r)
-				return
-			}
-		}
-		h.ServeHTTP(w, r)
-	})
-}
-
-func preflightHandler(w http.ResponseWriter, r *http.Request) {
-	headers := []string{"Content-Type", "Accept"}
-	w.Header().Set("Access-Control-Allow-Headers", strings.Join(headers, ","))
-	methods := []string{"GET", "HEAD", "POST", "PUT", "DELETE"}
-	w.Header().Set("Access-Control-Allow-Methods", strings.Join(methods, ","))
-	// logger.Infof("preflight request for %s", r.URL.Path)
-}
-
-func runGateway(port int, endpoints map[string]string) error {
-	ctx := context.Background()
-	ctx, cancel := context.WithCancel(ctx)
-	defer cancel()
-
-	mux := runtime.NewServeMux()
-	opts := []grpc.DialOption{grpc.WithInsecure()}
-
-	// Register Nyaa service
-	if err := gw.RegisterNyaaHandlerFromEndpoint(ctx, mux, endpoints["nyaa"], opts); err != nil {
-		return err
-	}
-
-	s := &http.Server{
-		Addr:    fmt.Sprintf(":%d", port),
-		Handler: allowCORS(mux),
-	}
-
-	return s.ListenAndServe()
-}
-
-func runKokoro(port int, shutdown chan<- bool) error {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
-		reply, err := json.Marshal(struct{ Message string }{"pong"})
-		if err != nil {
-			logger.Error("unable to marshal reply for pong")
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-		w.Write(reply)
-	})
-	mux.HandleFunc("/shutdown", func(w http.ResponseWriter, r *http.Request) {
-		reply, err := json.Marshal(struct{ Message string }{"shutdown request received"})
-		if err != nil {
-			logger.Error("unable to marshal reply for shutdown")
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-		w.Write(reply)
-
-		logger.Infof("shutdown request received. shutting down.")
-		switch r.Method {
-		case http.MethodGet:
-			shutdown <- true
-		}
-	})
-	return http.ListenAndServe(fmt.Sprintf(":%d", port), mux)
 }
 
 const helpText = `Usage: kabedon-kokoro [options]
