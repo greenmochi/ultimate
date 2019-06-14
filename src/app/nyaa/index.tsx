@@ -39,22 +39,25 @@ const STableRow = styled.tr`
   text-align: center;
 `;
 
-const STableHeader = styled.th`
+interface STableHeaderProps {
+  readonly width?: string;
+}
+
+const STableHeader = styled.th<STableHeaderProps>`
   color: #03DAC5;
   border: 1px solid grey;
+  width: ${props => props.width};
 `;
 
-const STableDataName = styled.td`
+interface STableDataProps {
+  readonly left?: boolean;
+}
+
+const STableData = styled.td<STableDataProps>`
   color: white;
   border: 1px solid grey;
   padding: 5px;
-  text-align: left;
-`;
-
-const STableData = styled.td`
-  color: white;
-  border: 1px solid grey;
-  padding: 5px;
+  text-align: ${props => props.left ? "left" : "center"};
 `;
 
 const mapStateToProps = (state: StoreState) => ({
@@ -86,13 +89,12 @@ class Nyaa extends React.Component<NyaaProps> {
 
   _renderTable = () => {
     const { nyaa } = this.props;
-    console.log(nyaa.results[0]);
     return (
       <>
         {nyaa.results.map((result: NyaaResult, index) => (
           <STableRow key={index}>
             <STableData>{result.category}</STableData>
-            <STableDataName>{result.name}</STableDataName>
+            <STableData left>{result.name}</STableData>
             <STableData><a href={result.link}>magnet</a></STableData>
             <STableData>{result.size}</STableData>
             <STableData>{result.date}</STableData>
@@ -130,7 +132,7 @@ class Nyaa extends React.Component<NyaaProps> {
               <STableHeader>Name</STableHeader>
               <STableHeader>Link</STableHeader>
               <STableHeader>Size</STableHeader>
-              <STableHeader>Date</STableHeader>
+              <STableHeader width="140px">Date</STableHeader>
               <STableHeader>Seeders</STableHeader>
               <STableHeader>Leechers</STableHeader>
               <STableHeader>Complete Downloads</STableHeader>
