@@ -66,11 +66,11 @@ export class KokoroServer {
   }
 
   async close<T>(): Promise<T> {
-    console.log(`sending a shutdown request to ${this._kokoroPort}/shutdown`);
-    return fetch(`${this._kokoroPort}/shutdown`)
+    console.log(`sending a shutdown request to ${this.kokoroEndpoint}/shutdown`);
+    return fetch(`${this.kokoroEndpoint}/shutdown`)
       .then(response => {
         if (!response.ok) {
-          console.log(`unable to send shutdown request to ${this._kokoroPort} status=${response.status}`);
+          console.log(`unable to send shutdown request to ${this.kokoroEndpoint} status=${response.status}`);
         }
         console.log(`shutdown request received status=${response.status}`);
         return response.json();
