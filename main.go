@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
-	"path/filepath"
 	"syscall"
 
 	"github.com/greenmochi/kabedon-kokoro/gateway"
@@ -34,56 +33,55 @@ func main() {
 		}
 	})
 
+	services := map[string]process.Service{
+		"nyaa": process.Service{
+			Name:   "kabedon-nyaa",
+			Binary: "kabedon-nyaa.exe",
+			Dir:    "./kabedon-nyaa",
+			Args: []string{
+				fmt.Sprintf("--port=%d", nyaaPort),
+			},
+			Port:     nyaaPort,
+			Endpoint: fmt.Sprintf("http://localhost:%d", nyaaPort),
+			FullPath: "./kabedon-nyaa/kabedon-nyaa.exe",
+		},
+	}
+
 	shutdown := make(chan bool)
 	exit := make(chan bool)
 	release := make(chan bool)
 
 	// Run all gRPC services
-	go func() {
-		binary := "./kabedon-nyaa.exe"
-		logger.Infof("running %s on port=%d", binary, nyaaPort)
-		cmd, err := process.Start(binary, nyaaPort)
-		if err != nil {
-			fullpath, err := filepath.Abs(binary)
+	for _, service := range services {
+		go func(service process.Service) {
+			cmd, err := process.Start(service.Binary, service.Dir, service.Args)
 			if err != nil {
-				logger.Fatal("couldn't resolve binary full path:", err)
-			} else {
-				logger.Fatal("binary full path:", fullpath)
+				logger.Errorf("unable to start %s: %s", service.Name, err)
+				logger.Errorf("%+v\n", service)
 			}
-		}
+			logger.Infof("running %s on port=%d", service.FullPath, service.Port)
 
-		// Wait for release signal when kabedon-kokoro finishes
-		<-release
+			// Wait for release signal when kabedon-kokoro finishes
+			<-release
 
-		// TODO: Do a graceful shutdown for each gRPC service.
-		// Add a way to search for runaway gRPC servers and kill them by name
+			if err := cmd.Process.Kill(); err != nil {
+				logger.Fatalf("unable to kill %s: %s", service.Binary, err)
+			}
+			logger.Infof("killed %s", service.Binary)
+			logger.Infof("%s exited", service.Binary)
 
-		// if err := cmd.Process.Release(); err != nil {
-		// 	logger.Fatalf("unable to release resources for %s: %s", binary, err)
-		// }
+			exit <- true
+		}(service)
+	}
 
-		// Try to kill process by finding it (if it exists) with FindProcess
-		// if _, err := os.FindProcess(cmd.ProcessState.Pid()); err == nil {
-		// 	if err := cmd.Process.Kill(); err != nil {
-		// 		logger.Fatalf("unable to kill %s: %s", binary, err)
-		// 	}
-		// }
-		if err := cmd.Process.Kill(); err != nil {
-			logger.Fatalf("unable to kill %s: %s", binary, err)
-		}
-		logger.Infof("killed %s", binary)
-		logger.Info(binary, " finished with ", err)
-
-		exit <- true
-	}()
+	// endpoints := map[string]string{
+	// 	"nyaa": fmt.Sprintf("localhost:%d", nyaaPort),
+	// }
 
 	// Load and run all gateway handlers on a port
 	go func() {
-		endpoints := map[string]string{
-			"nyaa": fmt.Sprintf("localhost:%d", nyaaPort),
-		}
 		logger.Infof("running gateway server on :%d", gatewayPort)
-		if err := gateway.Run(gatewayPort, endpoints); err != nil {
+		if err := gateway.Run(gatewayPort, services); err != nil {
 			logger.Fatal(err)
 		}
 	}()
@@ -91,7 +89,7 @@ func main() {
 	// Run secondary server
 	go func() {
 		logger.Infof("running kokoro server on :%d", kokoroPort)
-		if err := kokoro.Run(kokoroPort, gatewayPort, shutdown); err != nil {
+		if err := kokoro.Run(kokoroPort, services, shutdown); err != nil {
 			logger.Fatal(err)
 		}
 	}()
@@ -103,11 +101,11 @@ func main() {
 	logger.Infof("graceful shutdown loop started")
 	for {
 		select {
-		case <-shutdown:
-			logger.Info("shutdown signal received")
-			release <- true
 		case <-interrupt:
 			logger.Info("interrupt signal received")
+			release <- true
+		case <-shutdown:
+			logger.Info("shutdown signal received")
 			release <- true
 		case <-exit:
 			logger.Info("exit signal received. Program exited.")

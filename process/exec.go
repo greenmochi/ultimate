@@ -1,14 +1,16 @@
 package process
 
 import (
-	"fmt"
 	"os/exec"
 )
 
 // Start TODO
-func Start(binary string, port int) (*exec.Cmd, error) {
-	portFlag := fmt.Sprintf("--port=%d", port)
-	cmd := exec.Command(binary, portFlag)
+func Start(binary string, cwd string, args []string) (*exec.Cmd, error) {
+	cmd := &exec.Cmd{
+		Path: binary,
+		Dir:  cwd,
+		Args: args,
+	}
 	if err := cmd.Start(); err != nil {
 		return nil, err
 	}

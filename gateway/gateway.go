@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/greenmochi/kabedon-kokoro/process"
+
 	gw "github.com/greenmochi/kabedon-kokoro/proto"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"golang.org/x/net/context"
@@ -12,7 +14,7 @@ import (
 )
 
 // Run TODO
-func Run(port int, endpoints map[string]string) error {
+func Run(port int, services map[string]process.Service) error {
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
@@ -21,7 +23,7 @@ func Run(port int, endpoints map[string]string) error {
 	opts := []grpc.DialOption{grpc.WithInsecure()}
 
 	// Register Nyaa service
-	if err := gw.RegisterNyaaHandlerFromEndpoint(ctx, mux, endpoints["nyaa"], opts); err != nil {
+	if err := gw.RegisterNyaaHandlerFromEndpoint(ctx, mux, services["nyaa"].Endpoint, opts); err != nil {
 		return err
 	}
 
