@@ -5,9 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/greenmochi/kabedon-kokoro/process"
-
 	"github.com/greenmochi/kabedon-kokoro/logger"
+	"github.com/greenmochi/kabedon-kokoro/process"
 )
 
 // Run TODO

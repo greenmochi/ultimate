@@ -42,7 +42,7 @@ func main() {
 				fmt.Sprintf("--port=%d", nyaaPort),
 			},
 			Port:     nyaaPort,
-			Endpoint: fmt.Sprintf("http://localhost:%d", nyaaPort),
+			Endpoint: fmt.Sprintf("localhost:%d", nyaaPort),
 			FullPath: "./kabedon-nyaa/kabedon-nyaa.exe",
 		},
 	}
@@ -56,29 +56,28 @@ func main() {
 		go func(service process.Service) {
 			cmd, err := process.Start(service.Binary, service.Dir, service.Args)
 			if err != nil {
-				logger.Errorf("unable to start %s: %s", service.Name, err)
-				logger.Errorf("%+v\n", service)
+				logger.Errorf("unable to start %s: %s\n%+v\n", service.Name, err, service)
 			}
-			logger.Infof("running %s on port=%d", service.FullPath, service.Port)
+			logger.Infof("running service=%s on port=%d", service.FullPath, service.Port)
 
 			// Wait for release signal when kabedon-kokoro finishes
 			<-release
 
-			if err := cmd.Process.Kill(); err != nil {
-				logger.Fatalf("unable to kill %s: %s", service.Binary, err)
+			if err := service.Shutdown(); err != nil {
+				logger.Fatalf("could not send shutdown request to %s. %v", service.Endpoint, err)
+				if err := cmd.Process.Kill(); err != nil {
+					logger.Fatalf("unable to kill %s. %s", service.Binary, err)
+				}
+				logger.Infof("killed %s", service.Binary)
+			} else {
+				logger.Info("shutdown request sucessfully sent")
 			}
-			logger.Infof("killed %s", service.Binary)
-			logger.Infof("%s exited", service.Binary)
 
 			exit <- true
 		}(service)
 	}
 
-	// endpoints := map[string]string{
-	// 	"nyaa": fmt.Sprintf("localhost:%d", nyaaPort),
-	// }
-
-	// Load and run all gateway handlers on a port
+	// Run gateway server
 	go func() {
 		logger.Infof("running gateway server on :%d", gatewayPort)
 		if err := gateway.Run(gatewayPort, services); err != nil {
