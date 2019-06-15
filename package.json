@@ -15,9 +15,11 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "start": "cross-env NODE_ENV=development concurrently \"yarn run react:start\" \"yarn run electron:start\"",
-    "start:staging": "cross-env NODE_ENV=staging concurrently \"yarn run react:start\" \"yarn run electron:start\"",
-    "build": "yarn run react:compile && yarn run react:build && yarn run electron:compile && yarn run electron:build",
+    "run": "cross-env NODE_ENV=development concurrently \"yarn run react:start\" \"yarn run electron:start\"",
+    "run:staging": "cross-env NODE_ENV=staging concurrently \"yarn run react:start\" \"yarn run electron:start\"",
+    "package:win": "yarn run react:compile && yarn run react:build && yarn run electron:build && electron-builder -c.extraMetadata.main=./build_electron/main",
+    "package:linux": "yarn run react:compile && yarn run react:build && yarn run electron:build && electron-builder --linux --x64 -c.extraMetadata.main=./build_electron/main",
+    "package:mac": "",
     "test": "jest",
     "test:watch": "jest --watch",
     "react:start": "react-scripts start",
@@ -25,9 +27,8 @@
     "react:build": "react-scripts build",
     "react:test": "react-scripts test",
     "react:eject": "react-scripts eject",
-    "electron:start": "yarn run electron:compile && electron ./build_electron/main",
-    "electron:compile": "tsc -p tsconfig.electron.json",
-    "electron:build": "electron-builder -c.extraMetadata.main=./build_electron/main",
+    "electron:start": "yarn run electron:build && electron ./build_electron/main",
+    "electron:build": "tsc -p tsconfig.electron.json",
     "electron:test": ""
   },
   "dependencies": {
