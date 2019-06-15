@@ -10,7 +10,7 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	gw "github.com/greenmochi/kabedon-kokoro/proto"
+	"github.com/greenmochi/kabedon-kokoro/proto/nyaa"
 )
 
 // Run TODO
@@ -23,7 +23,7 @@ func Run(port int, services map[string]process.Service) error {
 	opts := []grpc.DialOption{grpc.WithInsecure()}
 
 	// Register Nyaa service
-	if err := gw.RegisterNyaaHandlerFromEndpoint(ctx, mux, services["nyaa"].Endpoint, opts); err != nil {
+	if err := nyaa.RegisterNyaaHandlerFromEndpoint(ctx, mux, services["nyaa"].Endpoint, opts); err != nil {
 		return err
 	}
 

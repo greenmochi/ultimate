@@ -8,7 +8,7 @@ import (
 	"google.golang.org/grpc"
 
 	"github.com/greenmochi/kabedon-kokoro/logger"
-	gw "github.com/greenmochi/kabedon-kokoro/proto"
+	"github.com/greenmochi/kabedon-kokoro/proto/nyaa"
 )
 
 // Service holds the necessary information to run a process
@@ -42,8 +42,8 @@ func (s *Service) Shutdown() error {
 
 	switch s.Name {
 	case "kabedon-nyaa":
-		c := gw.NewNyaaClient(conn)
-		message := gw.ShutdownRequest{}
+		c := nyaa.NewNyaaClient(conn)
+		message := nyaa.ShutdownRequest{}
 		_, err = c.Shutdown(ctx, &message)
 	default:
 		err = fmt.Errorf("unable to determine service to send shutdown request to: service name is %s", s.Name)
