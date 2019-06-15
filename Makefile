@@ -6,8 +6,16 @@ all: proto
 	go build -o bin/kabedon-kokoro.exe
 
 proto:
-	protoc nyaa.proto -Iproto/nyaa -I$(GOPATH)/src -I$(GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --grpc-gateway_out=logtostderr=true:proto/nyaa 
-	protoc nyaa.proto -Iproto/nyaa -I$(GOPATH)/src -I$(GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --go_out=plugins=grpc:proto/nyaa
+	protoc nyaa.proto \
+	  -Iproto/nyaa \
+	  -I$(GOPATH)/src \
+	  -I$(GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
+	  --grpc-gateway_out=logtostderr=true:proto/nyaa
+	protoc nyaa.proto \
+	  -Iproto/nyaa \
+	  -I$(GOPATH)/src \
+	  -I$(GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
+	  --go_out=plugins=grpc:proto/nyaa
 
 get-proto:
 	git clone git@github.com:greenmochi/kabedon-proto.git
