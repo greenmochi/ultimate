@@ -10,7 +10,7 @@ import LayoutTitleBar from "./app/common/Layout/LayoutTitleBar";
 
 import TitleBar from "./app/common/TitleBar";
 import TitleBarTitle from "./app/common/TitleBar/TitleBarTitle";
-import TitleBarWindowButtons from "./app/common/TitleBar/TitleBarWindowButtons";
+import TitleBarWindowButtonContainer from "./app/common/TitleBar/TitleBarWindowButtonContainer";
 import TitleBarMenuTitle from "./app/common/TitleBar/TitleBarMenuTitle";
 
 import Navigation from "./app/common/Navigation";
@@ -30,7 +30,7 @@ const App: React.FC = () => {
               <TitleBarMenuTitle>Help</TitleBarMenuTitle>
             </TitleBarMenuTitleContainer>
             <TitleBarTitle title="test"></TitleBarTitle>
-            <TitleBarWindowButtons 
+            <TitleBarWindowButtonContainer
               minimize={() => IpcRenderer.send("kabedon:windowsMinimizeRequest")} 
               maximize={() => IpcRenderer.send("kabedon:windowsMaximizeRequest")} 
               unmaximize={() => IpcRenderer.send("kabedon:windowsUnmaximizeRequest")} 

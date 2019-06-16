@@ -17,14 +17,14 @@ const STitleBarWindowButton = styled.div`
   }
 `;
 
-export interface TitleBarWindowButtonsProps {
+export interface TitleBarWindowButtonContainerProps {
   minimize: () => void;
   maximize: () => void;
   unmaximize: () => void;
   close: () => void;
 }
 
-export default class TitleBarWindowButtons extends React.Component<TitleBarWindowButtonsProps> {
+export default class TitleBarWindowButtonContainer extends React.Component<TitleBarWindowButtonContainerProps> {
   state = {
     isMaximized: false,
   }
