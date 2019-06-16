@@ -2,9 +2,7 @@ import styled from "styled-components";
 
 export const SNyaaContainer = styled.div`
   background-color: #282C3C;
-  padding: 5px; 
   text-align: center;
-  height: 100vh;
   overflow-y: auto;
 `;
 
@@ -36,7 +34,10 @@ export const SSubmitButton = styled.button`
 `;
 
 export const STable = styled.table`
-  margin: auto;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 25px;
   border-spacing: 0;
 `;
 
