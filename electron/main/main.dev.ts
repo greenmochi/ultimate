@@ -1,92 +1,42 @@
 import { 
   app, 
-  BrowserWindow, 
-  ipcMain,
 } from "electron";
-import * as path from "path";
-import { KokoroServer } from "./kokoro";
+import { KokoroServer } from "./kokoroServer";
+import { IpcMain } from "./ipcMain";
+import { MainWindow } from "./browserWindow";
 
-let mainWindow: Electron.BrowserWindow | null;
-
-function createWindow() {
-  // Create the browser window.
-  mainWindow = new BrowserWindow({
-    height: 900,
-    width: 1200,
-    webPreferences: {
-      nodeIntegration: true,
-    },
-    frame: false,
-  });
-
-  // and load the index.html of the app.
-  mainWindow.loadURL("http://localhost:3000");
-  mainWindow.webContents.once('dom-ready', async () => {
-    const devtools = await import("electron-devtools-installer");
-    const {
-      REACT_DEVELOPER_TOOLS,
-      REDUX_DEVTOOLS,
-    } = devtools;
-    const installExtension = devtools.default;
-    installExtension(REACT_DEVELOPER_TOOLS)
-      .then((name) => console.log(`Added extension: ${name}`))
-      .catch((err) => console.log("An error occurred: ", err));
-    installExtension(REDUX_DEVTOOLS)
-      .then((name) => console.log(`Added extension: ${name}`))
-      .catch((err) => console.log("An error occurred: ", err));
-    mainWindow.webContents.openDevTools()
-  });
-  mainWindow.webContents.on("did-finish-load", () => {
-    mainWindow.webContents.send("kokoro-endpoint", kokoroServer.kokoroEndpoint);
-    mainWindow.webContents.send("gateway-endpoint", kokoroServer.gatewayEndpoint);
-  });
-
-  // Emitted when the window is closed.
-  mainWindow.on("closed", () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow = null;
-  });
-}
-
+let mainWindow: MainWindow | null;
 let kokoroServer: KokoroServer | null = null;
+let ipcMain: IpcMain = new IpcMain();
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
 app.on("ready", () => {
   // Test with json-server, or set to different port if you have another mock server
   kokoroServer = new KokoroServer("fake-binary-that-doesn't-exist.exe", "fake-path", "localhost", 9111, 8000);
-  createWindow();
+  ipcMain.registerKokoroServerListener(kokoroServer);
+
+  mainWindow = new MainWindow("http://localhost:3000", false, 900, 1200);
+  mainWindow.create();
+  mainWindow.registerDevtools();
+  mainWindow.sendAfter("kokoro-endpoint", kokoroServer.kokoroEndpoint);
+  mainWindow.sendAfter("gateway-endpoint", kokoroServer.gatewayEndpoint);
 });
 
-// Quit when all windows are closed.
-app.on("window-all-closed", () => {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
+app.on("window-all-closed", async () => {
+  if (kokoroServer) {
+    await kokoroServer.close();
+  }
+
   if (process.platform !== "darwin") {
-    if (kokoroServer) {
-      kokoroServer.close();
-    }
     app.quit();
   }
 });
 
 app.on("activate", () => {
-  // On OS X it"s common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
-    createWindow();
+    mainWindow = new MainWindow("http://localhost:3000", false, 900, 1200);
+    mainWindow.create();
+    mainWindow.registerDevtools();
+    mainWindow.sendAfter("kokoro-endpoint", kokoroServer.kokoroEndpoint);
+    mainWindow.sendAfter("gateway-endpoint", kokoroServer.gatewayEndpoint);
   }
-});
-
-ipcMain.on("kokoro-endpoint", (event: any, arg: any) => {
-  console.log("ipc: kokoro-endpoint request message received");
-  event.reply("kokoro-endpoint", kokoroServer.kokoroEndpoint);
-});
-
-ipcMain.on("gateway-endpoint", (event: any, arg: any) => {
-  console.log("ipc: gateway-endpoint request message received");
-  event.reply("gateway-endpoint", kokoroServer.gatewayEndpoint);
 });
