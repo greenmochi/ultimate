@@ -17,6 +17,10 @@ export default class IpcRenderer {
     this.store = store;
   }
 
+  static send(channel: string, ...args: any[]) {
+    ipcRenderer.send(channel, ...args);
+  }
+  
   registerEndpointsListener() {
     ipcRenderer.on("kabedon:kokoroServerEndpointResponse", (event: Event, kokoroServerEndpoint: string) => {
       console.log("kokoro server listening on", kokoroServerEndpoint);
@@ -32,4 +36,3 @@ export default class IpcRenderer {
     });
   }
 }
-

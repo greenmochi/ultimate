@@ -1,7 +1,6 @@
-import { 
-  app, 
-} from "electron";
+import { app } from "electron";
 import * as path from "path";
+
 import { KokoroServer } from "./kokoroServer";
 import { IpcMain } from "./ipcMain";
 import { MainWindow } from "./browserWindow";
@@ -24,9 +23,10 @@ app.on("ready", () => {
   }
   mainWindow = new MainWindow("http://localhost:3000", false, 900, 1200);
   mainWindow.create();
+  mainWindow.registerWindowsButtonListener();
   mainWindow.registerDevtools();
-  mainWindow.sendAfter("kokoro-endpoint", kokoroServer.kokoroEndpoint);
-  mainWindow.sendAfter("gateway-endpoint", kokoroServer.gatewayEndpoint);
+  mainWindow.sendAfter("kabedon:kokoroServerEndpointResponse", kokoroServer.kokoroEndpoint);
+  mainWindow.sendAfter("kabedon:gatewayServerEndpointResponse", kokoroServer.gatewayEndpoint);
 });
 
 app.on("window-all-closed", async () => {

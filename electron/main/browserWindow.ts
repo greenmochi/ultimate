@@ -1,6 +1,4 @@
-import {
-  BrowserWindow,
-} from "electron";
+import { BrowserWindow, ipcMain } from "electron";
 
 export class MainWindow {
   private mainWindow: BrowserWindow | null;
@@ -43,6 +41,37 @@ export class MainWindow {
     });
   }
 
+  registerWindowsButtonListener() {
+    ipcMain.on("kabedon:windowsMinimizeRequest", (event: Event) => {
+      if (!this.mainWindow) {
+        console.log("unable to minimize window because main window is null");
+        return;
+      }
+      this.mainWindow.minimize();
+    });
+    ipcMain.on("kabedon:windowsMaximizeRequest", (event: Event) => {
+      if (!this.mainWindow) {
+        console.log("unable to maximize window because main window is null");
+        return;
+      }
+      this.mainWindow.maximize();
+    });
+    ipcMain.on("kabedon:windowsUnmaximizeRequest", (event: Event) => {
+      if (!this.mainWindow) {
+        console.log("unable to Unmaximize window because main window is null");
+        return;
+      }
+      this.mainWindow.unmaximize();
+    });
+    ipcMain.on("kabedon:windowsCloseRequest", (event: Event) => {
+      if (!this.mainWindow) {
+        console.log("unable to close window because main window is null");
+        return;
+      }
+      this.mainWindow.close();
+    });
+  }
+
   registerDevtools(): void {
     if (!this.mainWindow) {
       console.log("unable to register devtools because main window is null");
@@ -70,9 +99,9 @@ export class MainWindow {
   }
 
 
-  sendAfter(channel: string, message: string): void {
+  sendAfter(channel: string, ...args: any[]): void {
     this.mainWindow.webContents.on("did-finish-load", () => {
-      this.mainWindow.webContents.send(channel, message);
+      this.mainWindow.webContents.send(channel, ...args);
     });
   }
 }

@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const STitleBarTitle = styled.div`
+  text-align: center;
 `;
 
 export interface TitleBarTitleProps {

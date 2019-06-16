@@ -3,8 +3,9 @@ import styled from "styled-components";
 
 const STitleBar = styled.div`
   display: grid;
-  grid-template-columns: auto 50px auto;
+  grid-template-columns: auto auto auto;
   background-color: green;
+  -webkit-app-region: drag;
 `;
 
 export interface TitleBarProps {

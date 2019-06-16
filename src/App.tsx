@@ -1,6 +1,8 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
+import IpcRenderer from "./ipcRenderer";
+
 import Layout from "./app/common/Layout";
 import LayoutNavigation from "./app/common/Layout/LayoutNavigation";
 import LayoutApp from "./app/common/Layout/LayoutApp";
@@ -25,9 +27,10 @@ const App: React.FC = () => {
             <TitleBarMenu>menu</TitleBarMenu>
             <TitleBarTitle title="test"></TitleBarTitle>
             <TitleBarWindowButtons 
-              minimize={() => {console.log("min")}} 
-              maximize={() => {console.log("max")}} 
-              close={() => {console.log("close")}} 
+              minimize={() => IpcRenderer.send("kabedon:windowsMinimizeRequest")} 
+              maximize={() => IpcRenderer.send("kabedon:windowsMaximizeRequest")} 
+              unmaximize={() => IpcRenderer.send("kabedon:windowsUnmaximizeRequest")} 
+              close={() => IpcRenderer.send("kabedon:windowsCloseRequest")} 
             />
           </TitleBar>
         </LayoutTitleBar>
