@@ -2,8 +2,10 @@ import styled from "styled-components";
 
 export const SNyaaContainer = styled.div`
   background-color: #282C3C;
-  text-align: center;
   padding: 5px; 
+  text-align: center;
+  height: 100vh;
+  overflow-y: auto;
 `;
 
 export const SForm = styled.form`

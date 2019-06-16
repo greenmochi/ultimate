@@ -3,6 +3,9 @@ import styled from "styled-components";
 
 const SLayoutTitleBar = styled.div`
   grid-area: title-bar;
+  // position: sticky;
+  // top: 0;
+  // left: 0;
 `;
 
 export interface LayoutTitleBarProps {

@@ -3,10 +3,10 @@ import styled from "styled-components";
 
 const SLayoutNavigation = styled.div`
   grid-area: navigation;
-  position: sticky;
+  // position: sticky;
   height: 100vh;
-  top: 0;
-  left: 0;
+  // top: 0;
+  // left: 0;
 `;
 
 export interface LayoutNavigationProps {
