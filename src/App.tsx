@@ -10,14 +10,15 @@ import LayoutTitleBar from "./app/common/Layout/LayoutTitleBar";
 
 import TitleBar from "./app/common/TitleBar";
 import TitleBarTitle from "./app/common/TitleBar/TitleBarTitle";
+import TitleBarMenuTitleContainer from "./app/common/TitleBar/TitleBarMenuTitleContainer";
+import TitleBarFileMenu from "./app/common/TitleBar/TitleBarFileMenu";
+import TitleBarHelpMenu from "./app/common/TitleBar/TitleBarHelpMenu";
 import TitleBarWindowButtonContainer from "./app/common/TitleBar/TitleBarWindowButtonContainer";
-import TitleBarMenuTitle from "./app/common/TitleBar/TitleBarMenuTitle";
 
 import Navigation from "./app/common/Navigation";
 
 import Calculator from "./app/calculator";
 import Nyaa from "./app/nyaa";
-import TitleBarMenuTitleContainer from "./app/common/TitleBar/TitleBarMenuTitleContainer";
 
 const App: React.FC = () => {
   return (
@@ -26,8 +27,8 @@ const App: React.FC = () => {
         <LayoutTitleBar>
           <TitleBar>
             <TitleBarMenuTitleContainer>
-              <TitleBarMenuTitle>File</TitleBarMenuTitle>
-              <TitleBarMenuTitle>Help</TitleBarMenuTitle>
+              <TitleBarFileMenu />
+              <TitleBarHelpMenu />
             </TitleBarMenuTitleContainer>
             <TitleBarTitle title="test"></TitleBarTitle>
             <TitleBarWindowButtonContainer
