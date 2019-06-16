@@ -10,13 +10,14 @@ import LayoutTitleBar from "./app/common/Layout/LayoutTitleBar";
 
 import TitleBar from "./app/common/TitleBar";
 import TitleBarTitle from "./app/common/TitleBar/TitleBarTitle";
-import TitleBarWindowButtons from "./app/common/TitleBar/TileBarWindowButtons";
-import TitleBarMenu from "./app/common/TitleBar/TitleBarMenu";
+import TitleBarWindowButtons from "./app/common/TitleBar/TitleBarWindowButtons";
+import TitleBarMenuTitle from "./app/common/TitleBar/TitleBarMenuTitle";
 
 import Navigation from "./app/common/Navigation";
 
 import Calculator from "./app/calculator";
 import Nyaa from "./app/nyaa";
+import TitleBarMenuTitleContainer from "./app/common/TitleBar/TitleBarMenuTitleContainer";
 
 const App: React.FC = () => {
   return (
@@ -24,7 +25,10 @@ const App: React.FC = () => {
       <Layout>
         <LayoutTitleBar>
           <TitleBar>
-            <TitleBarMenu>menu</TitleBarMenu>
+            <TitleBarMenuTitleContainer>
+              <TitleBarMenuTitle>File</TitleBarMenuTitle>
+              <TitleBarMenuTitle>Help</TitleBarMenuTitle>
+            </TitleBarMenuTitleContainer>
             <TitleBarTitle title="test"></TitleBarTitle>
             <TitleBarWindowButtons 
               minimize={() => IpcRenderer.send("kabedon:windowsMinimizeRequest")} 

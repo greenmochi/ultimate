@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const STitleBar = styled.div`
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: 100px auto 150px;
   background-color: green;
   -webkit-app-region: drag;
 `;

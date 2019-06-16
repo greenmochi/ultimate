@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const STitleBarWindowButtons = styled.div`
+const STitleBarWindowButtonContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 50px);
   justify-content: end;
@@ -40,11 +40,11 @@ export default class TitleBarWindowButtons extends React.Component<TitleBarWindo
 
   render() {
     return (
-      <STitleBarWindowButtons>
+      <STitleBarWindowButtonContainer>
         <STitleBarWindowButton onClick={this.props.minimize}>-</STitleBarWindowButton>
         <STitleBarWindowButton onClick={this.handleToggle}>☐</STitleBarWindowButton>
         <STitleBarWindowButton onClick={this.props.close}>X</STitleBarWindowButton>
-      </STitleBarWindowButtons>
+      </STitleBarWindowButtonContainer>
     );
   }
 }
