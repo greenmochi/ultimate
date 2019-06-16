@@ -15,6 +15,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true,
     },
+    frame: false,
   });
 
   mainWindow.loadFile(path.join(__dirname, "../../build/index.html"));
