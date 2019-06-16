@@ -1,26 +1,46 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+
+import Layout from "./app/common/Layout";
+import LayoutNavigation from "./app/common/Layout/LayoutNavigation";
+import LayoutApp from "./app/common/Layout/LayoutApp";
+import LayoutTitleBar from "./app/common/Layout/LayoutTitleBar";
+
+import TitleBar from "./app/common/TitleBar";
+import TitleBarTitle from "./app/common/TitleBar/TitleBarTitle";
+import TitleBarWindowButtons from "./app/common/TitleBar/TileBarWindowButtons";
+import TitleBarMenu from "./app/common/TitleBar/TitleBarMenu";
+
+import Navigation from "./app/common/Navigation";
+
 import Calculator from "./app/calculator";
 import Nyaa from "./app/nyaa";
-import { Navigation } from "./app/common";
-import { Grid } from "./app/common/Grid";
-import { GridNavigation } from "./app/common/Grid/GridNavigation";
-import { GridApp } from "./app/common/Grid/GridApp";
 
 const App: React.FC = () => {
   return (
     <BrowserRouter>
-      <Grid>
-        <GridNavigation>
+      <Layout>
+        <LayoutTitleBar>
+          <TitleBar>
+            <TitleBarMenu>menu</TitleBarMenu>
+            <TitleBarTitle title="test"></TitleBarTitle>
+            <TitleBarWindowButtons 
+              minimize={() => {console.log("min")}} 
+              maximize={() => {console.log("max")}} 
+              close={() => {console.log("close")}} 
+            />
+          </TitleBar>
+        </LayoutTitleBar>
+        <LayoutNavigation>
           <Navigation />
-        </GridNavigation>
-        <GridApp>
+        </LayoutNavigation>
+        <LayoutApp>
           <Switch>
             <Route path="/calculator" component={Calculator} />
             <Route path="/nyaa" component={Nyaa} />
           </Switch>
-        </GridApp>
-      </Grid>
+        </LayoutApp>
+      </Layout>
     </BrowserRouter>
   );
 }

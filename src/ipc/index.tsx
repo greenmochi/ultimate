@@ -27,14 +27,14 @@ export const setStore = (s: typeof store) => {
 // }
 
 ipcRenderer.on("kokoro-endpoint", (event: any, message: any) => {
-  console.log("ipc: kokoro-endpoint reply received:", message);
+  console.log("ipc: kokoro-endpoint received: listening on", message);
   if (store) {
     store.dispatch(setKokoroEndpoint(message as string));
   }
 });
 
 ipcRenderer.on("gateway-endpoint", (event: any, message: any) => {
-  console.log("ipc: gateway-endpoint reply received:", message);
+  console.log("ipc: gateway-endpoint reply received: listening on", message);
   if (store) {
     store.dispatch(setGatewayEndpoint(message as string));
   }

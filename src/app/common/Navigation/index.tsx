@@ -13,7 +13,7 @@ const SNavigation = styled.div`
 export interface NavigationProps {
 }
 
-export class Navigation extends React.Component<NavigationProps> {
+export default class Navigation extends React.Component<NavigationProps> {
   render() {
     return (
       <SNavigation>
