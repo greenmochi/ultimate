@@ -5,15 +5,18 @@ const STitleBarWindowButtonContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 50px);
   justify-content: end;
-  background-color: orange;
+  color: #BBBBBB;
+  background-color: #292C34;
 `;
 
 const STitleBarWindowButton = styled.div`
+  width: 50px:
   justify-self: center;
+  text-align: center;
   user-select: none;
   -webkit-app-region: no-drag;
   &:hover {
-    background-color: darkgrey;
+    background-color: #4b4f59;
   }
 `;
 
@@ -41,7 +44,7 @@ export default class TitleBarWindowButtonContainer extends React.Component<Title
   render() {
     return (
       <STitleBarWindowButtonContainer>
-        <STitleBarWindowButton onClick={this.props.minimize}>-</STitleBarWindowButton>
+        <STitleBarWindowButton onClick={this.props.minimize}>--</STitleBarWindowButton>
         <STitleBarWindowButton onClick={this.handleToggle}>☐</STitleBarWindowButton>
         <STitleBarWindowButton onClick={this.props.close}>X</STitleBarWindowButton>
       </STitleBarWindowButtonContainer>

@@ -6,6 +6,7 @@ const STitleBarMenuTitleContainer = styled.div`
   grid-template-columns: repeat(2, auto);
   user-select: none;
   -webkit-app-region: no-drag;
+  color: #BBBBBB;
 `;
 
 export interface TitleBarMenuTitleContainerProps {

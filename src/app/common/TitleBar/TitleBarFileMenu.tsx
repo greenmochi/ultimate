@@ -5,9 +5,11 @@ import TitleBarMenu from "./TitleBarMenu";
 import TitleBarMenuItem from "./TitleBarMenuItem";
 
 const STitleBarFileMenu = styled.div`
+  width: 100%;
   justify-self: center;
+  text-align: center;
   &:hover {
-    background-color: darkgrey;
+    background-color: #4b4f59;
   }
 `;
 

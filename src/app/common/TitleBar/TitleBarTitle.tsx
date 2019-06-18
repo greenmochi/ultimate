@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 const STitleBarTitle = styled.div`
   text-align: center;
+  color: #BBBBBB;
 `;
 
 export interface TitleBarTitleProps {

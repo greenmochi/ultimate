@@ -30,7 +30,7 @@ const App: React.FC = () => {
               <TitleBarFileMenu />
               <TitleBarHelpMenu />
             </TitleBarMenuTitleContainer>
-            <TitleBarTitle title="test"></TitleBarTitle>
+            <TitleBarTitle title="test window title" />
             <TitleBarWindowButtonContainer
               minimize={() => IpcRenderer.send("kabedon:windowsMinimizeRequest")} 
               maximize={() => IpcRenderer.send("kabedon:windowsMaximizeRequest")} 
