@@ -21,21 +21,56 @@ export default class TitleBarHelpMenu extends React.Component<TitleBarHelpMenuPr
     isVisible: false,
   }
 
+  private fileMenuRef = React.createRef<HTMLDivElement>();
+
+  private hide = () => {
+    this.setState({ isVisible: !this.state.isVisible }) 
+    window.removeEventListener("click", this.handleWindowClick);
+  }
+
+  handleOnClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    this.setState({ isVisible: !this.state.isVisible }) 
+    window.addEventListener("click", this.handleWindowClick);
+  }
+
+  handleWindowClick = (e: MouseEvent) => {
+    let fileMenuNode = this.fileMenuRef.current;
+    let target = e.target as Node;
+    if (fileMenuNode && fileMenuNode != target) {
+      if (!fileMenuNode.contains(target)) {
+        console.log('does not contains')
+        this.hide();
+      }
+    }
+  }
+
+  handleHelp = () => {
+    this.hide();
+    console.log("help clicked");
+  }
+
   private renderMenu = () => {
     if (!this.state.isVisible) {
       return null;
     }
     return (
       <TitleBarMenu>
-        <TitleBarMenuItem name="help" onClick={() => console.log("foo")}>
-        </TitleBarMenuItem>
+        <TitleBarMenuItem name="help" onClick={this.handleHelp} />
+        <TitleBarMenuItem name="help" onClick={this.handleHelp} />
+        <TitleBarMenuItem name="help" onClick={this.handleHelp} />
+        <TitleBarMenuItem name="help" onClick={this.handleHelp} />
+        <TitleBarMenuItem name="help" onClick={this.handleHelp} />
       </TitleBarMenu>
     )
   }
 
   render() {
     return (
-      <STitleBarHelpMenu onClick={() => { this.setState({ isVisible: !this.state.isVisible }) }}>
+      <STitleBarHelpMenu
+        ref={this.fileMenuRef}
+        onClick={this.handleOnClick}
+      >
         Help
         {this.renderMenu()}
       </STitleBarHelpMenu>
