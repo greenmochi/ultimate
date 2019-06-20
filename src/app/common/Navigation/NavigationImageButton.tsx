@@ -2,20 +2,19 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
+const SNavigationImageButtonContainer = styled.div`
+  display: block;
+  width: 100%;
+  height: 50px;
+  &:hover {
+    background-color: #4b4f59;
+  }
+`;
+
 const SLink = styled(Link)`
 `;
 
 const SImage = styled.img`
-  background-color: none;
-  border-left: 5px solid #66FCF1;
-
-  :hover {
-    background-color: white;
-  }
-
-  :focus {
-    background-color: grey;
-  }
 `;
 
 export interface NavigationImageButtonProps {
@@ -30,11 +29,13 @@ export class NavigationImageButton extends React.Component<NavigationImageButton
       image,
     } = this.props;
     return (
-      <SLink 
-        to={to}
-      >
-        <SImage src={image} />
-      </SLink>
+      <SNavigationImageButtonContainer>
+        <SLink 
+          to={to}
+        >
+          <SImage src={image} />
+        </SLink>
+      </SNavigationImageButtonContainer>
     );
   }
 }

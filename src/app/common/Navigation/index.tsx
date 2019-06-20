@@ -6,7 +6,7 @@ import imageB from "../../../asset/B.png";
 import imageC from "../../../asset/C.png";
 
 const SNavigation = styled.div`
-  background-color: tomato;
+  background-color: #22252B;
   text-align: center;
 `;
 
