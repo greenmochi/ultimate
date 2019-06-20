@@ -38,7 +38,7 @@ export default class TitleBarFileMenu extends React.Component<TitleBarFileMenuPr
   handleWindowClick = (e: MouseEvent) => {
     let fileMenuNode = this.fileMenuRef.current;
     let target = e.target as Node;
-    if (fileMenuNode && fileMenuNode != target) {
+    if (fileMenuNode && fileMenuNode !== target) {
       if (!fileMenuNode.contains(target)) {
         console.log('does notcontains')
         this.hide();

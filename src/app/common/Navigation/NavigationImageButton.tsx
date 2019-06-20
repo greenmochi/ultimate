@@ -12,9 +12,15 @@ const SNavigationImageButtonContainer = styled.div`
 `;
 
 const SLink = styled(Link)`
+  user-select: none;
+  user-drag: none;
+  -webkit-user-drag: none;
 `;
 
 const SImage = styled.img`
+  user-select: none;
+  user-drag: none;
+  -webkit-user-drag: none;
 `;
 
 export interface NavigationImageButtonProps {
