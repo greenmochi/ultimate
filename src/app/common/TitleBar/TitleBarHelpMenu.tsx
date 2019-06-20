@@ -14,6 +14,7 @@ const STitleBarHelpMenu = styled.div`
 `;
 
 export interface TitleBarHelpMenuProps {
+  help: () => void;
 }
 
 export default class TitleBarHelpMenu extends React.Component<TitleBarHelpMenuProps> {
@@ -39,7 +40,6 @@ export default class TitleBarHelpMenu extends React.Component<TitleBarHelpMenuPr
     let target = e.target as Node;
     if (fileMenuNode && fileMenuNode != target) {
       if (!fileMenuNode.contains(target)) {
-        console.log('does not contains')
         this.hide();
       }
     }
@@ -47,7 +47,7 @@ export default class TitleBarHelpMenu extends React.Component<TitleBarHelpMenuPr
 
   handleHelp = () => {
     this.hide();
-    console.log("help clicked");
+    this.props.help();
   }
 
   private renderMenu = () => {
@@ -56,10 +56,6 @@ export default class TitleBarHelpMenu extends React.Component<TitleBarHelpMenuPr
     }
     return (
       <TitleBarMenu>
-        <TitleBarMenuItem name="help" onClick={this.handleHelp} />
-        <TitleBarMenuItem name="help" onClick={this.handleHelp} />
-        <TitleBarMenuItem name="help" onClick={this.handleHelp} />
-        <TitleBarMenuItem name="help" onClick={this.handleHelp} />
         <TitleBarMenuItem name="help" onClick={this.handleHelp} />
       </TitleBarMenu>
     )

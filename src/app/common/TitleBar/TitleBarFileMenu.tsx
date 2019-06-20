@@ -14,6 +14,7 @@ const STitleBarFileMenu = styled.div`
 `;
 
 export interface TitleBarFileMenuProps {
+  exit: () => void;
 }
 
 export default class TitleBarFileMenu extends React.Component<TitleBarFileMenuProps> {
@@ -47,7 +48,7 @@ export default class TitleBarFileMenu extends React.Component<TitleBarFileMenuPr
 
   handleExit = () => {
     this.hide();
-    console.log("exit clicked");
+    this.props.exit();
   }
 
   private renderMenu = () => {

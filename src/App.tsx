@@ -27,8 +27,8 @@ const App: React.FC = () => {
         <LayoutTitleBar>
           <TitleBar>
             <TitleBarMenuTitleContainer>
-              <TitleBarFileMenu />
-              <TitleBarHelpMenu />
+              <TitleBarFileMenu exit={() => IpcRenderer.send("kabedon:windowsCloseRequest")} />
+              <TitleBarHelpMenu help={() => {}}/>
             </TitleBarMenuTitleContainer>
             <TitleBarTitle title="test window title" />
             <TitleBarWindowButtonContainer
