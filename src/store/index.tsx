@@ -7,6 +7,8 @@ import {
 import thunk, { ThunkAction, ThunkMiddleware } from "redux-thunk";
 import { devToolsEnhancer } from "redux-devtools-extension";
 
+import { YoutubeActionType } from "./youtube/type";
+import { youtubeReducer } from "./youtube/reducer";
 import { NyaaActionType } from "./nyaa/type";
 import { nyaaReducer } from "./nyaa/reducer";
 import { CalculatorActionType } from "./calculator/type";
@@ -15,13 +17,14 @@ import { APIActionType } from "./api/type";
 import { apiReducer } from "./api/reducer";
 
 const rootReducer = combineReducers({
+  youtube: youtubeReducer,
   nyaa: nyaaReducer,
   calculator: calculatorReducer,
   api: apiReducer,
 });
 
 export type StoreState = ReturnType<typeof rootReducer>;
-export type StoreActions = CalculatorActionType | NyaaActionType | APIActionType;
+export type StoreActions = YoutubeActionType | CalculatorActionType | NyaaActionType | APIActionType;
 export type ThunkResult<R> = ThunkAction<R, StoreState, undefined, StoreActions>;
 
 export default function configureStore() {

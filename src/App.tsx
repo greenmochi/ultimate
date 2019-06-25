@@ -17,6 +17,7 @@ import TitleBarWindowButtonContainer from "./app/common/TitleBar/TitleBarWindowB
 
 import Navigation from "./app/common/Navigation";
 
+import Youtube from "./app/youtube";
 import Calculator from "./app/calculator";
 import Nyaa from "./app/nyaa";
 
@@ -44,6 +45,7 @@ const App: React.FC = () => {
         </LayoutNavigation>
         <LayoutApp>
           <Switch>
+            <Route path="/youtube" component={Youtube} />
             <Route path="/calculator" component={Calculator} />
             <Route path="/nyaa" component={Nyaa} />
           </Switch>

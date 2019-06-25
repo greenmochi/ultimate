@@ -18,7 +18,7 @@ export default class Navigation extends React.Component<NavigationProps> {
     return (
       <SNavigation>
         <NavigationImageButton
-          to="/"
+          to="/youtube"
           image={imageA}
         >
         </NavigationImageButton>
