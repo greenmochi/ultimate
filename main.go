@@ -4,9 +4,9 @@ import (
 	"flag"
 	"os"
 
-	"github.com/greenmochi/kabedon-nyaa/api"
-	"github.com/greenmochi/kabedon-nyaa/grpc"
-	"github.com/greenmochi/kabedon-nyaa/logger"
+	"github.com/greenmochi/ultimate-nyaa/api"
+	"github.com/greenmochi/ultimate-nyaa/grpc"
+	"github.com/greenmochi/ultimate-nyaa/logger"
 )
 
 func main() {

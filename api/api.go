@@ -3,9 +3,9 @@
 package api
 
 import (
-	"github.com/greenmochi/kabedon-nyaa/logger"
-	"github.com/greenmochi/kabedon-nyaa/nyaa"
-	"github.com/greenmochi/kabedon-nyaa/torrent"
+	"github.com/greenmochi/ultimate-nyaa/logger"
+	"github.com/greenmochi/ultimate-nyaa/nyaa"
+	"github.com/greenmochi/ultimate-nyaa/torrent"
 )
 
 // API TODO

@@ -96,8 +96,8 @@ github.com/gopherjs/gopherjs v0.0.0-20181103185306-d547d1d9531e/go.mod h1:wJfORR
 github.com/gopherjs/gopherjs v0.0.0-20190309154008-847fc94819f9/go.mod h1:wJfORRmW1u3UXTncJ5qlYoELFm8eSnnEO6hX4iZ3EWY=
 github.com/gosuri/uilive v0.0.0-20170323041506-ac356e6e42cd/go.mod h1:qkLSc0A5EXSP6B04TrN4oQoxqFI7A8XvoXSlJi8cwk8=
 github.com/gosuri/uiprogress v0.0.0-20170224063937-d0567a9d84a1/go.mod h1:C1RTYn4Sc7iEyf6j8ft5dyoZ4212h8G1ol9QQluh5+0=
-github.com/greenmochi/kabedon-kokoro v0.0.0-20190523000709-433cd815e972 h1:qY3jpGfzYnGJ49zkH5/A8+gkrp+x28XC8v/6DOtMMPY=
-github.com/greenmochi/kabedon-kokoro v0.0.0-20190523000709-433cd815e972/go.mod h1:X412CNRjVd5veJlUFodxx24ckvtfau2GvzslE+aAcJk=
+github.com/greenmochi/ultimate-kokoro v0.0.0-20190523000709-433cd815e972 h1:qY3jpGfzYnGJ49zkH5/A8+gkrp+x28XC8v/6DOtMMPY=
+github.com/greenmochi/ultimate-kokoro v0.0.0-20190523000709-433cd815e972/go.mod h1:X412CNRjVd5veJlUFodxx24ckvtfau2GvzslE+aAcJk=
 github.com/grpc-ecosystem/grpc-gateway v1.9.0 h1:bM6ZAFZmc/wPFaRDi0d5L7hGEZEx/2u+Tmr2evNHDiI=
 github.com/grpc-ecosystem/grpc-gateway v1.9.0/go.mod h1:vNeuVxBJEsws4ogUvrchl83t/GYV9WGTSLVdBhOQFDY=
 github.com/hashicorp/golang-lru v0.5.0/go.mod h1:/m3WP610KZHVQ1SGc6re/UDhFvYD7pJ4Ao+sR/qLZy8=

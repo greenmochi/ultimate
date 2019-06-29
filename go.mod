@@ -1,4 +1,4 @@
-module github.com/greenmochi/kabedon-nyaa
+module github.com/greenmochi/ultimate-nyaa
 
 go 1.12
 

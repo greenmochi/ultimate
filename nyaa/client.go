@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/greenmochi/kabedon-nyaa/logger"
+	"github.com/greenmochi/ultimate-nyaa/logger"
 
 	"github.com/anaskhan96/soup"
 )

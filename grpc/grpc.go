@@ -6,11 +6,11 @@ import (
 	"net"
 	"os"
 
-	a "github.com/greenmochi/kabedon-nyaa/api"
-	"github.com/greenmochi/kabedon-nyaa/logger"
-	nyaa "github.com/greenmochi/kabedon-nyaa/nyaa"
+	a "github.com/greenmochi/ultimate-nyaa/api"
+	"github.com/greenmochi/ultimate-nyaa/logger"
+	nyaa "github.com/greenmochi/ultimate-nyaa/nyaa"
 
-	pb "github.com/greenmochi/kabedon-nyaa/proto"
+	pb "github.com/greenmochi/ultimate-nyaa/proto"
 	"google.golang.org/grpc"
 )
 

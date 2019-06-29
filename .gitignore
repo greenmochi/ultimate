@@ -13,7 +13,7 @@ proto/*
 
 *.mkv
 
-kabedon-nyaa.exe
+ultimate-nyaa.exe
 
-# ignore kabedon-proto repository
-kabedon-proto
+# ignore ultimate-proto repository
+ultimate-proto

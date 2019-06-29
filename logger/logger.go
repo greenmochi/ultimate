@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-const name = "kabedon-nyaa.log"
+const name = "ultimate-nyaa.log"
 
 var file *os.File
 
