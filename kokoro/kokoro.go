@@ -1,12 +1,12 @@
-package kokoro
+package heart
 
 import (
 	"encoding/json"
 	"fmt"
 	"net/http"
 
-	"github.com/greenmochi/kabedon-kokoro/logger"
-	"github.com/greenmochi/kabedon-kokoro/process"
+	"github.com/greenmochi/ultimate-heart/logger"
+	"github.com/greenmochi/ultimate-heart/process"
 )
 
 // Run TODO

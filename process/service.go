@@ -7,8 +7,8 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/greenmochi/kabedon-kokoro/logger"
-	"github.com/greenmochi/kabedon-kokoro/proto/nyaa"
+	"github.com/greenmochi/ultimate-heart/logger"
+	"github.com/greenmochi/ultimate-heart/proto/nyaa"
 )
 
 // Service holds the necessary information to run a process
@@ -41,7 +41,7 @@ func (s *Service) Shutdown() error {
 	defer cancel()
 
 	switch s.Name {
-	case "kabedon-nyaa":
+	case "ultimate-nyaa":
 		c := nyaa.NewNyaaClient(conn)
 		message := nyaa.ShutdownRequest{}
 		_, err = c.Shutdown(ctx, &message)

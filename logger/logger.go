@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-const name = "kabedon-kokoro.log"
+const name = "ultimate-heart.log"
 
 var file *os.File
 

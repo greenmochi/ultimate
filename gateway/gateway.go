@@ -5,12 +5,12 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/greenmochi/kabedon-kokoro/process"
+	"github.com/greenmochi/ultimate-heart/process"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	"github.com/greenmochi/kabedon-kokoro/proto/nyaa"
+	"github.com/greenmochi/ultimate-heart/proto/nyaa"
 )
 
 // Run TODO

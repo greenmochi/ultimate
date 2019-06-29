@@ -5,8 +5,8 @@ import (
 	"testing"
 )
 
-func TestKabedonLogger(t *testing.T) {
-	logger := NewKabedonLogger(os.Stdout)
+func TestultimateLogger(t *testing.T) {
+	logger := NewultimateLogger(os.Stdout)
 	logger.Info("An info message")
 	logger.Infoln("An info message with new line")
 	logger.Infof("An info message with format number=%d and string=%s", 10, "foobar")
@@ -22,7 +22,7 @@ func TestKabedonLogger(t *testing.T) {
 }
 
 func TestConcurrentLogger(t *testing.T) {
-	logger := NewKabedonLogger(os.Stdout)
+	logger := NewultimateLogger(os.Stdout)
 
 	signal1 := make(chan int)
 	signal2 := make(chan int)

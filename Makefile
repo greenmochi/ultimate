@@ -1,9 +1,9 @@
-SERVICE=kokoro
+SERVICE=heart
 
 all: proto
 	@echo GOPATH=$(GOPATH)
 	mkdir -p bin
-	go build -o bin/kabedon-kokoro.exe
+	go build -o bin/ultimate-heart.exe
 
 proto:
 	protoc nyaa.proto \
@@ -18,16 +18,16 @@ proto:
 	  --go_out=plugins=grpc:proto/nyaa
 
 get-proto:
-	git clone git@github.com:greenmochi/kabedon-proto.git
+	git clone git@github.com:greenmochi/ultimate-proto.git
 
 pull-proto:
-	if [ ! -d ./kabedon-proto ]; then make get-proto; fi
-	pushd kabedon-proto; \
+	if [ ! -d ./ultimate-proto ]; then make get-proto; fi
+	pushd ultimate-proto; \
 		git pull; \
 	popd; \
 
 update-proto:
-	if [ ! -d ./kabedon-proto ]; then make pull-proto; fi
-	cp kabedon-proto/nyaa/*.proto proto/
+	if [ ! -d ./ultimate-proto ]; then make pull-proto; fi
+	cp ultimate-proto/nyaa/*.proto proto/
 
 .PHONY: all proto get-proto pull-proto copy-proto update-proto

@@ -3,7 +3,7 @@ proto/*
 
 bin
 
-kabedon-kokoro.log
+ultimate-heart.log
 
 # Ignore protobuf repository
-kabedon-proto
+ultimate-proto

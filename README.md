@@ -1,12 +1,12 @@
-# kabedon-kokoro
-A beating heart to help kabedon-electron control the underworld.
+# ultimate-heart
+A beating heart to help ultimate control the underworld.
 
 # Overview
 **Note:** This is somewhat of an awkward configuration. Due to grpc-gateway not exposing the actual mux that's passed to the http handler, we
 will temporarily use this setup:
 
 - Run grpc-gateway on one local port
-- Run kabedon-kokoro on a different local port
+- Run ultimate-heart on a different local port
 
 We need this extra server to handle middleware logic, though not an actual middleware, and other logistical means like logging and gRPC server liveness.
 
@@ -30,11 +30,11 @@ We need this extra server to handle middleware logic, though not an actual middl
 
 - clone this project (prefer to use go module if possible)
   ```bash
-  $ git clone https://github.com/greenmochi/kabedon-kokoro.git
+  $ git clone https://github.com/greenmochi/ultimate-heart.git
   ```
   or use `go get`
   ```bash
-  $ go get -u github.com/greenmochi/kabedon-kokoro
+  $ go get -u github.com/greenmochi/ultimate-heart
   ```
 
 # Compiling protobufs
@@ -62,34 +62,34 @@ $ make
 # Usage
 Running without flags will use default values.
 ```bash
-$ ./kabedon-kokoro
+$ ./ultimate-heart
 ```
 To run gateway on port 9990, you can pass a flag.
 ```bash
-$ ./kabedon-kokoro --gateway-port=9990
+$ ./ultimate-heart --gateway-port=9990
 ```
 Print help text
 ```bash
-$ ./kabedon-kokoro --help
-Usage: kabedon-nyaa [options]
+$ ./ultimate-heart --help
+Usage: ultimate-heart [options]
 
-kabedon-nyaa converts REST to gRPC calls, and provides a secondary server
+ultimate-heart converts REST to gRPC calls, and provides a secondary server
 to log information and control the gRPC services.
 
 Options:
   --help              Prints program help text
 
   --gateway-port=PORT Run gateway on PORT
-  --kokoro-port=PORT  Run secondary server on PORT
+  --heart-port=PORT  Run secondary server on PORT
 
-  --nyaa-port=PORT    Run kabedon-nyaa service on PORT
+  --nyaa-port=PORT    Run ultimate-nyaa service on PORT
 ```
 
-# Adding gRPC services to kabedon-kokoro
-One of the main goals of kabedon-kokoro is to continuously add as many gRPC we want, though that means we need to recompile each time.
-This is a checklist to make sure a gRPC service is handled correctly in kabedon-kokoro.
+# Adding gRPC services to ultimate-heart
+One of the main goals of ultimate-heart is to continuously add as many gRPC we want, though that means we need to recompile each time.
+This is a checklist to make sure a gRPC service is handled correctly in ultimate-heart.
 
-The example service will be kabedon-youtube, a fake service to download youtube videos.
+The example service will be ultimate-youtube, a fake service to download youtube videos.
 
 - Add protobuf compilation to Makefile
 
@@ -139,11 +139,11 @@ Modify this:
 ```golang
 var helpUsage bool
 var gatewayPort int
-var kokoroPort int
+var heartPort int
 var nyaaPort int
 flag.BoolVar(&helpUsage, "help", false, "Prints help text")
 flag.IntVar(&gatewayPort, "gateway-port", 9990, "Port to serve the gateway server")
-flag.IntVar(&kokoroPort, "kokoro-port", 9991, "Port to serve the kokoro server")
+flag.IntVar(&heartPort, "heart-port", 9991, "Port to serve the heart server")
 flag.IntVar(&nyaaPort, "nyaa-port", 9995, "Nyaa grpc server port")
 flag.Parse()
 flag.Visit(func(fn *flag.Flag) {
@@ -158,12 +158,12 @@ To look like this:
 ```diff
   var helpUsage bool
   var gatewayPort int
-  var kokoroPort int
+  var heartPort int
   var nyaaPort int
 + var youtubePort int
   flag.BoolVar(&helpUsage, "help", false, "Prints help text")
   flag.IntVar(&gatewayPort, "gateway-port", 9990, "Port to serve the gateway server")
-  flag.IntVar(&kokoroPort, "kokoro-port", 9991, "Port to serve the kokoro server")
+  flag.IntVar(&heartPort, "heart-port", 9991, "Port to serve the heart server")
   flag.IntVar(&nyaaPort, "nyaa-port", 9995, "Nyaa grpc server port")
 + flag.IntVar(&youtubePort, "youtube-port", 9996, "Youtube grpc server port")
   flag.Parse()
@@ -181,15 +181,15 @@ Modify this:
 ```golang
 services := map[string]process.Service{
 	"nyaa": process.Service{
-		Name:   "kabedon-nyaa",
-		Binary: "kabedon-nyaa.exe",
-		Dir:    "./kabedon-nyaa",
+		Name:   "ultimate-nyaa",
+		Binary: "ultimate-nyaa.exe",
+		Dir:    "./ultimate-nyaa",
 		Args: []string{
 			fmt.Sprintf("--port=%d", nyaaPort),
 		},
 		Port:     nyaaPort,
 		Endpoint: fmt.Sprintf("localhost:%d", nyaaPort),
-		FullPath: "./kabedon-nyaa/kabedon-nyaa.exe",
+		FullPath: "./ultimate-nyaa/ultimate-nyaa.exe",
 	},
 }
 ```
@@ -201,31 +201,31 @@ services := map[string]process.Service{
                 //...
 	},
 +	"youtube": process.Service{
-+		Name:   "kabedon-youtube",
-+		Binary: "kabedon-youtube.exe",
-+		Dir:    "./kabedon-youtube",
++		Name:   "ultimate-youtube",
++		Binary: "ultimate-youtube.exe",
++		Dir:    "./ultimate-youtube",
 +		Args: []string{
 +			fmt.Sprintf("--port=%d", youtubePort),
 +		},
 +		Port:     youtubePort,
 +		Endpoint: fmt.Sprintf("localhost:%d", youtubePort),
-+		FullPath: "./kabedon-youtube/kabedon-youtube.exe",
++		FullPath: "./ultimate-youtube/ultimate-youtube.exe",
 +	},
 }
 ```
 
-- Add a shutdown request to the respective service to process/service.go. For example, let's add "kabedon-youtube" to the shutdown logic.
+- Add a shutdown request to the respective service to process/service.go. For example, let's add "ultimate-youtube" to the shutdown logic.
 
 Modify this:
 ```golang
 import (
-	"github.com/greenmochi/kabedon-kokoro/proto/nyaa"
+	"github.com/greenmochi/ultimate-heart/proto/nyaa"
 )
 
 func (s *Service) Shutdown() error {
   //...
   switch s.Name {
-  case "kabedon-nyaa":
+  case "ultimate-nyaa":
     c := nyaa.NewNyaaClient(conn)
     message := nyaa.ShutdownRequest{}
     _, err = c.Shutdown(ctx, &message)
@@ -239,18 +239,18 @@ func (s *Service) Shutdown() error {
 To look like this:
 ```diff
 import (
-	"github.com/greenmochi/kabedon-kokoro/proto/nyaa"
-+	"github.com/greenmochi/kabedon-kokoro/proto/youtube"
+	"github.com/greenmochi/ultimate-heart/proto/nyaa"
++	"github.com/greenmochi/ultimate-heart/proto/youtube"
 )
 
 func (s *Service) Shutdown() error {
   //...
   switch s.Name {
-  case "kabedon-nyaa":
+  case "ultimate-nyaa":
     c := nyaa.NewNyaaClient(conn)
     message := nyaa.ShutdownRequest{}
     _, err = c.Shutdown(ctx, &message)
-+ case "kabedon-youtube":
++ case "ultimate-youtube":
 +   c := youtube.NewYoutubeClient(conn)
 +   message := youtube.ShutdownRequest{}
 +   _, err = c.Shutdown(ctx, &message)

@@ -1,4 +1,4 @@
-module github.com/greenmochi/kabedon-kokoro
+module github.com/greenmochi/ultimate-heart
 
 go 1.12
 
