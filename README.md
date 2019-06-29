@@ -1,5 +1,5 @@
-# Kabedon
-This place will provide an overview of the kabedon project. This place should be the center of information for this project,
+# Ultimate
+This place will provide an overview of the ultimate project. This place should be the center of information for this project,
 as well as on how to navigate this project.
 
 # Description
