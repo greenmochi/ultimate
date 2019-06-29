@@ -1,2 +1,2 @@
-# kabedon-proto
-This repository holds all the protobuf files for the kabedon project
+# ultimate-proto
+This repository holds all the protobuf files for the ultimate project
