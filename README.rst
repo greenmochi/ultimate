@@ -9,15 +9,20 @@ for libtorrent.
 
 .. section-numbering::
 
+Requirements
+============
+* python >=3.7
+* pipenv
+
 Building
 ========
 
 Build for Windows
 `````````````````
 
-We recommend you try to build with our instructions first before trying to
-build using libtorrent's instructions. This is because we might do a fork one
-day, have different configurations, or some build issue that cannot be
+Our recommendation is to try to build with our instructions first before trying
+to build using libtorrent's instructions. This is because we might do a
+fork one day, have different configurations, or some build issue that cannot be
 addressed immediately.
 
 Build libtorrent (python bindings)
@@ -32,7 +37,7 @@ Visual C++ Build Tools seem to work too.
 Go to `microsoft downloads page <https://visualstudio.microsoft.com/downloads/>`_
 and look for ``Build Tools for Visual Studio 2019``
 
-Add the build tools to your system path. The path looks something like this:
+Add the build tools to our system path. The path looks something like this:
 
 ``C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Tools
 \MSVC\14.21.27702\bin\Hostx64\x64``
@@ -58,7 +63,7 @@ Go into ``C:\Libraries\boost_1_70_0`` and run ``bootstrap.bat``
 
 A bin with tools should have been created at
 ``C:\Libraries\boost_1_70_0\tools\build\src\engine\bin.ntx86``,
-add that path to your system path.
+add that path to our system path.
 
 Move ``user-config.jam``
 from ``C:\Libraries\boost_1_70_0\tools\build\example\user-config.jam``
@@ -66,12 +71,12 @@ to ``C:\Libraries\boost_1_70_0\tools\build\user-config.jam``.
 
 Add the following lines to the user-config.jam
 (**note:** use forward slash and replace the python path
-and version with yours):
+and version with ours):
 
 .. code-block:: bash
 
     using msvc : 14.0 ;
-    using python : 3.7 : C:/Users/YOUR_USERNAME/AppData/Local/Programs/Python/Python37-32 : C:/Users/YOUR_USERNAME/AppData/Local/Programs/Python/Python37-32/include : C:/Users/YOUR_USERNAME/AppData/Local/Programs/Python/Python37-32/libs ;
+    using python : 3.7 : C:/Users/OUR_USERNAME/AppData/Local/Programs/Python/Python37-32 : C:/Users/OUR_USERNAME/AppData/Local/Programs/Python/Python37-32/include : C:/Users/OUR_USERNAME/AppData/Local/Programs/Python/Python37-32/libs ;
 
 Build libtorrent (python bindings)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -95,11 +100,82 @@ from (libtorrent directory)
 to (ultimate-torrent directory)
 ``ultimate-torrent/ultimte-torrent/libtorrent/``.
 
-Build `libtorrent (python bindings) <https://www.libtorrent.org/python_binding.html>`_ for linux
-------------------------------------------------------------------------------------------------
+Setup ultimate-torrent
+----------------------
+Use pipenv to create a virtual environment to manage our dependencies.
 
-Build `libtorrent (python bindings) <https://www.libtorrent.org/python_binding.html>`_ for macOS
-------------------------------------------------------------------------------------------------
+Start pipenv shell:
+
+.. code-block:: bash
+
+    $ pipenv shell
+
+Check to make sure we are using the virtual environment (looks like this):
+
+.. code-block:: bash
+
+    $ pip -V
+    pip 19.1.1 from c:\users\OUR_USERNAME\.virtualenvs\ultimate-torrent-p47o5uwh\lib\site-packages\pip (python 3.7)
+
+Install dependencies:
+
+.. code-block:: bash
+
+    $ pipenv install
+
+Build for Linux
+```````````````
+
+Build for macOS
+```````````````
+
+Running
+=======
+
+**note:** Always run inside a virtual environment created from pipenv.
+
+Quickstart
+`````````````````
+
+.. code-block:: bash
+
+    $ pipenv shell
+    $ pipenv install
+
+Details
+`````````````````
+
+Start virtual environment:
+
+.. code-block:: bash
+
+    $ pipenv shell
+
+Check if we're running in the virtual environment:
+
+.. code-block:: bash
+
+    $ pip -V
+    pip 19.1.1 from c:\users\OUR_USERNAME\.virtualenvs\ultimate-torrent-p47o5uwh\lib\site-packages\pip (python 3.7)
+
+Add modules:
+
+.. code-block:: bash
+
+    $ pipenv install module_name
+
+Lock dependencies (**note:** always lock after adding modules
+or when the Pipfile changes)
+
+.. code-block:: bash
+
+    $ pipenv lock
+
+Exiting the virtual environment is the same as exiting a shell:
+
+.. code-block:: bash
+
+    $ exit
 
 .. _libtorrent: https://www.libtorrent.org/
 .. _libtorrent_python_bindings: https://www.libtorrent.org/python_binding.html
