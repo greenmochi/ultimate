@@ -11,7 +11,7 @@ for libtorrent.
 
 Requirements
 ============
-* python >=3.7
+* python 3.7+
 * pipenv
 
 Building
@@ -141,6 +141,8 @@ Quickstart
 
     $ pipenv shell
     $ pipenv install
+    $ python setup.py install
+    $ ultimate-torrent [options]
 
 Details
 `````````````````
@@ -165,7 +167,7 @@ Add modules:
     $ pipenv install module_name
 
 Lock dependencies (**note:** always lock after adding modules
-or when the Pipfile changes)
+or when the Pipfile changes):
 
 .. code-block:: bash
 
@@ -176,6 +178,20 @@ Exiting the virtual environment is the same as exiting a shell:
 .. code-block:: bash
 
     $ exit
+
+Check code quality with pylint and autopep8.
+
+.. code-block::
+
+    $ pylint ultimate_torrent
+
+Format the document using autopep8 in vscode.
+
+``shift + alt + f``
+
+or
+
+``ctrl+shift+p format document``
 
 .. _libtorrent: https://www.libtorrent.org/
 .. _libtorrent_python_bindings: https://www.libtorrent.org/python_binding.html
