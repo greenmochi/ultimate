@@ -12,18 +12,21 @@ for libtorrent.
 Building
 ========
 
+Build for Windows
+`````````````````
+
 We recommend you try to build with our instructions first before trying to
 build using libtorrent's instructions. This is because we might do a fork one
 day, have different configurations, or some build issue that cannot be
 addressed immediately.
 
-Build `libtorrent (python bindings) <https://www.libtorrent.org/python_binding.html>`_ for windows
---------------------------------------------------------------------------------------------------
+Build libtorrent (python bindings)
+----------------------------------
 
 Visual C++ Build Tools
 ~~~~~~~~~~~~~~~~~~~~~~
 
-libtorrent says to use Visual C++ 2015 Build Tools, however the latest (2019)
+libtorrent says to use Visual C++ 2015 Build Tools, but the latest (2019)
 Visual C++ Build Tools seem to work too.
 
 Go to `microsoft downloads page <https://visualstudio.microsoft.com/downloads/>`_
@@ -57,10 +60,9 @@ A bin with tools should have been created at
 ``C:\Libraries\boost_1_70_0\tools\build\src\engine\bin.ntx86``,
 add that path to your system path.
 
-Move ``user-config.jam`` from
-``C:\Libraries\boost_1_70_0\tools\build\example\user-config.jam``
-to
-``C:\Libraries\boost_1_70_0\tools\build\user-config.jam``.
+Move ``user-config.jam``
+from ``C:\Libraries\boost_1_70_0\tools\build\example\user-config.jam``
+to ``C:\Libraries\boost_1_70_0\tools\build\user-config.jam``.
 
 Add the following lines to the user-config.jam
 (**note:** notice the forward slash instead of back slash):
@@ -70,8 +72,8 @@ Add the following lines to the user-config.jam
     using msvc : 14.0 ;
     using python : 3.7 : C:/Users/YOUR_USERNAME/AppData/Local/Programs/Python/Python37-32 : C:/Users/YOUR_USERNAME/AppData/Local/Programs/Python/Python37-32/include : C:/Users/YOUR_USERNAME/AppData/Local/Programs/Python/Python35/libs ;
 
-Build libtorrent
-~~~~~~~~~~~~~~~~
+Build libtorrent (python bindings)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Clone libtorrent:
 
@@ -79,9 +81,24 @@ Clone libtorrent:
 
     $ git clone --recurse-submodules https://github.com/arvidn/libtorrent.git
 
+Build libtorrent:
+
+.. code-block:: bash
+
+    $ cd libtorrent/bindings/python
+    $ python setup.py build --bjam
+
+Copy the generated ``libtorrent.pyd``
+from (libtorrent directory)
+``libtorrent/bindings/python/build/lib/libtorrent.pyd``
+to (ultimate-torrent directory)
+``ultimate-torrent/ultimte-torrent/libtorrent/``.
 
 Build `libtorrent (python bindings) <https://www.libtorrent.org/python_binding.html>`_ for linux
---------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------
+
+Build `libtorrent (python bindings) <https://www.libtorrent.org/python_binding.html>`_ for macOS
+------------------------------------------------------------------------------------------------
 
 .. _libtorrent: https://www.libtorrent.org/
 .. _libtorrent_python_bindings: https://www.libtorrent.org/python_binding.html
