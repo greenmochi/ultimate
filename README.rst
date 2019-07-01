@@ -65,12 +65,13 @@ from ``C:\Libraries\boost_1_70_0\tools\build\example\user-config.jam``
 to ``C:\Libraries\boost_1_70_0\tools\build\user-config.jam``.
 
 Add the following lines to the user-config.jam
-(**note:** notice the forward slash instead of back slash):
+(**note:** use forward slash and replace the python path
+and version with yours):
 
 .. code-block:: bash
 
     using msvc : 14.0 ;
-    using python : 3.7 : C:/Users/YOUR_USERNAME/AppData/Local/Programs/Python/Python37-32 : C:/Users/YOUR_USERNAME/AppData/Local/Programs/Python/Python37-32/include : C:/Users/YOUR_USERNAME/AppData/Local/Programs/Python/Python35/libs ;
+    using python : 3.7 : C:/Users/YOUR_USERNAME/AppData/Local/Programs/Python/Python37-32 : C:/Users/YOUR_USERNAME/AppData/Local/Programs/Python/Python37-32/include : C:/Users/YOUR_USERNAME/AppData/Local/Programs/Python/Python37-32/libs ;
 
 Build libtorrent (python bindings)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
