@@ -123,6 +123,12 @@ Install dependencies:
 
     $ pipenv install
 
+Generate gRPC stubs:
+
+.. code-block:: bash
+
+    $ make proto
+
 Build for Linux
 ```````````````
 
