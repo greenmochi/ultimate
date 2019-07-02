@@ -1,5 +1,6 @@
 from setuptools import setup, find_packages
 
+
 setup(
     name="ultimate-torrent",
     version="0.0.1",
@@ -13,9 +14,7 @@ setup(
             "ultimate-torrent = ultimate_torrent.__main__:main",
         ]
     },
-    packages=[
-        "ultimate_torrent",
-    ],
+    packages=find_packages(exclude=["tests"]),
     classifiers=[
         "Programming Language :: Python :: 3.7",
     ],

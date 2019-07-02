@@ -195,3 +195,16 @@ or
 
 .. _libtorrent: https://www.libtorrent.org/
 .. _libtorrent_python_bindings: https://www.libtorrent.org/python_binding.html
+
+VS Code configuration
+=====================
+
+If you're using vscode to develop, it is highly recommended to enable the
+virtual environment through vscode as well.
+
+``Command palette > Python: Select Interpreter``
+
+Select the virtualenv created for this project.
+
+The integrated terminal will also automatically start the virtualenv in its
+shell. As always, check with ``pip -V``.
