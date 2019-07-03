@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package ultimatetorrent;
+package ultimate_torrent;
 
 // The ultimate-torrent's service definition.
 service UltimateTorrent {
