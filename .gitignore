@@ -107,5 +107,5 @@ venv.bak/
 .vscode/
 
 # grpc stub
-ultimatetorrent_pb2.py
-ultimatetorrent_pb2_grpc.py
+ultimate_torrent_pb2.py
+ultimate_torrent_pb2_grpc.py
