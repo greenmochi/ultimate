@@ -20,7 +20,9 @@ message PingReply {
 }
 
 message ShutdownRequest {
+    string message = 1;
 }
 
 message ShutdownReply {
+    string message = 1;
 }

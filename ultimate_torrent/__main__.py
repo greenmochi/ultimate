@@ -4,13 +4,13 @@ import time
 
 import grpc
 
-from ultimate_torrent.service import ultimatetorrent_pb2_grpc
+from ultimate_torrent.service import ultimate_torrent_pb2_grpc
 from ultimate_torrent.service.ultimate_torrent_service import UltimateTorrentService
 
 
 def main():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    ultimatetorrent_pb2_grpc.add_UltimateTorrentServicer_to_server(
+    ultimate_torrent_pb2_grpc.add_UltimateTorrentServicer_to_server(
         UltimateTorrentService(), server)
     server.add_insecure_port("[::]:50051")
     server.start()
