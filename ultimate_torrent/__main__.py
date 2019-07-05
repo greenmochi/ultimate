@@ -4,6 +4,8 @@ import time
 
 import grpc
 
+from ultimate_torrent.libtorrent import libtorrent as lt
+print(lt.session)
 from ultimate_torrent.service import ultimate_torrent_pb2_grpc
 from ultimate_torrent.service.ultimate_torrent_service import UltimateTorrentService
 

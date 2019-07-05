@@ -147,8 +147,10 @@ Quickstart
 
     $ pipenv shell
     $ pipenv install
+    $ python setup.py build
     $ python setup.py install
-    $ ultimate-torrent [options]
+    or
+    $ python -m ultimate_torrent
 
 Details
 `````````````````
@@ -199,8 +201,16 @@ or
 
 ``ctrl+shift+p format document``
 
-.. _libtorrent: https://www.libtorrent.org/
-.. _libtorrent_python_bindings: https://www.libtorrent.org/python_binding.html
+Freezing
+========
+
+Use PyInstaller to freeze the application into a runnable executable.
+
+.. code-block::
+
+    $ pyinstaller ultimate_torrent/__main__.py
+
+The build will be in dist/__main__. Probably should rename this later.
 
 VS Code configuration
 =====================
@@ -214,3 +224,6 @@ Select the virtualenv created for this project.
 
 The integrated terminal will also automatically start the virtualenv in its
 shell. As always, check with ``pip -V``.
+
+.. _libtorrent: https://www.libtorrent.org/
+.. _libtorrent_python_bindings: https://www.libtorrent.org/python_binding.html
