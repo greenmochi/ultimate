@@ -1,7 +1,6 @@
 from os import path
 
 from ultimate_torrent.libtorrent import libtorrent as lt
-print(lt)
 
 class Core():
     """Core is responsible for the main functionality of ultimate-torrent"""

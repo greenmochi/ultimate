@@ -9,11 +9,6 @@ setup(
     author="https://github.com/greenmochi",
     author_email="hueyjj@greenmochi.com",
     license="MIT",
-    entry_points={
-        "console_scripts": [
-            "ultimate-torrent = ultimate_torrent.__main__:main",
-        ]
-    },
     packages=find_packages(exclude=["tests"]),
     include_package_data=True,
     classifiers=[
