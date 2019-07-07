@@ -1,9 +1,2 @@
-proto/*
-!proto/*.proto
-
-bin
-
+bin/
 ultimate-heart.log
-
-# Ignore protobuf repository
-ultimate-proto
