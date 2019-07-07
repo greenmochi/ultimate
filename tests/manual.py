@@ -13,11 +13,14 @@ magnet = "magnet:?xt=urn:btih:04ec27b1cf4629eb4b2206840af7e519c3763021&dn=%5BHor
 handle = c.add_magnet_uri(magnet)
 print(handle.info_hash())
 
-# print(c.find_torrent_by_id(handle.id()))
 try:
     while True:
-        all_status = c.get_status()
-        print(all_status)
+        status = c.get_handle_status(handle)
+        print(status["progress"], status["state"])
+        if status["state"] == "finished":
+            print("done. removing. torrent.")
+            c.remove_torrent(handle)
+            break
         time.sleep(1)
 except KeyboardInterrupt:
     print("script stopped")
