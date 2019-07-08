@@ -5,8 +5,8 @@ package ultimate_torrent;
 // The ultimate-torrent's service definition.
 service UltimateTorrent {
     rpc Ping (PingRequest) returns (PingReply);
-
     rpc Shutdown(ShutdownRequest) returns (ShutdownReply);
+    rpc AllTorrentStatus(AllTorrentStatusRequest) returns (stream AllTorrentStatusReply);
 }
 
 // The ping message containing the user's name.
@@ -24,5 +24,14 @@ message ShutdownRequest {
 }
 
 message ShutdownReply {
+    string message = 1;
+}
+
+
+message AllTorrentStatusRequest {
+    string message = 1;
+}
+
+message AllTorrentStatusReply {
     string message = 1;
 }
