@@ -151,6 +151,8 @@ Quickstart
     $ python setup.py install
     or
     $ python -m ultimate_torrent
+    or
+    $ python -m tests.module
 
 Details
 `````````````````
