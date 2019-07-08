@@ -105,7 +105,3 @@ venv.bak/
 
 # .vscode generated settings
 .vscode/
-
-# grpc stub
-ultimate_torrent_pb2.py
-ultimate_torrent_pb2_grpc.py

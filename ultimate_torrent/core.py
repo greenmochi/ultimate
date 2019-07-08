@@ -37,14 +37,15 @@ class Core():
     def get_handle_status(self, handle):
         status = handle.status()
         return {
-            "hash": status.info_hash,
+            "hash": str(status.info_hash),
             "name": status.name,
             "progress": status.progress,
-            "downloadRate": status.download_rate,
-            "uploadRate": status.upload_rate,
+            "download_rate": status.download_rate,
+            "upload_rate": status.upload_rate,
             "peers": status.num_peers,
-            "state": status.state,
-            "totalSize": status.total_wanted,
+            "seeds": status.num_seeds,
+            "state": str(status.state),
+            "total_size": status.total_wanted,
         }
     
     def get_handles_status(self, handles=None):

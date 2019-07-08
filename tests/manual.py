@@ -16,11 +16,7 @@ print(handle.info_hash())
 try:
     while True:
         status = c.get_handle_status(handle)
-        print(status["progress"], status["state"])
-        if status["state"] == "finished":
-            print("done. removing. torrent.")
-            c.remove_torrent(handle)
-            break
+        print(status["state"])
         time.sleep(1)
 except KeyboardInterrupt:
     print("script stopped")
