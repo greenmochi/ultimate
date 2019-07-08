@@ -4,6 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/greenmochi/ultimate-heart/gateway"
 	"github.com/greenmochi/ultimate-heart/logger"
@@ -50,29 +52,19 @@ func main() {
 	// 	}
 	// }()
 
-	// shutdown := make(chan bool)
-	// exit := make(chan bool)
-	// release := make(chan bool)
-
-	// interrupt := make(chan os.Signal, 1)
-	// signal.Notify(interrupt, os.Interrupt, syscall.SIGTERM)
+	exit := make(chan os.Signal, 1)
+	signal.Notify(exit, os.Interrupt, syscall.SIGTERM)
 
 	// // Graceful shutdown
-	// logger.Infof("graceful shutdown loop started")
-	// for {
-	// 	select {
-	// 	case <-interrupt:
-	// 		logger.Info("interrupt signal received")
-	// 		release <- true
-	// 	case <-shutdown:
-	// 		logger.Info("shutdown signal received")
-	// 		release <- true
-	// 	case <-exit:
-	// 		logger.Info("exit signal received. Program exited.")
-	// 		os.Exit(1)
-	// 		return
-	// 	}
-	// }
+	logger.Infof("graceful shutdown loop started")
+	for {
+		select {
+		case <-exit:
+			logger.Info("exit signal received. Program exited.")
+			os.Exit(1)
+			return
+		}
+	}
 }
 
 const helpText = `Usage: ultimate-heart [options]

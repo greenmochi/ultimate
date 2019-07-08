@@ -42,7 +42,7 @@ func Run(port int, endpoints map[string]string) error {
 
 func allowCORS(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if origin := r.Header.Get("Origin"); origin == "http://localhost:3000" || origin == "file://" {
+		if origin := r.Header.Get("Origin"); origin == "http://localhost:3000" {
 			w.Header().Set("Access-Control-Allow-Origin", origin)
 			if r.Method == "OPTIONS" && r.Header.Get("Access-Control-Request-Method") != "" {
 				preflightHandler(w, r)

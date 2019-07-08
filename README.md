@@ -2,13 +2,10 @@
 A beating heart to help ultimate control the underworld.
 
 # Overview
-**Note:** This is somewhat of an awkward configuration. Due to grpc-gateway not exposing the actual mux that's passed to the http handler, we
-will temporarily use this setup:
-
 - Run grpc-gateway on one local port
 - Run ultimate-heart on a different local port
 
-We need this extra server to handle middleware logic, though not an actual middleware, and other logistical means like logging and gRPC server liveness.
+We need this extra server (ultimate-heart) to handle middleware logic, though not an actual middleware, and other logistical means like logging and gRPC server liveness.
 
 # Requirements
 - [go](https://golang.org/) >= 1.12
@@ -44,17 +41,8 @@ $ make proto
 
 `make proto` essentially executes two command for each gRPC service: one compilation for the gateway and one for the actual gRPC stubs.
 
-Compile gateway manually
-```bash
-$ protoc nyaa.proto -Iproto/nyaa -I$(GOPATH)/src -I$(GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --grpc-gateway_out=logtostderr=true:proto/nyaa
-```
-
-Compile stubs manually
-```bash
-$ protoc nyaa.proto -Iproto/nyaa -I$(GOPATH)/src -I$(GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis --go_out=plugins=grpc:proto/nyaa
-```
-
 # Build
+The binary will be located in the `bin` folder.
 ```bash
 $ make
 ```
@@ -64,51 +52,39 @@ Running without flags will use default values.
 ```bash
 $ ./ultimate-heart
 ```
+
 To run gateway on port 9990, you can pass a flag.
 ```bash
 $ ./ultimate-heart --gateway-port=9990
 ```
+
 Print help text
 ```bash
-$ ./ultimate-heart --help
+$ ./bin/ultimate-heart.exe --help
 Usage: ultimate-heart [options]
 
-ultimate-heart converts REST to gRPC calls, and provides a secondary server
+ultimate-heart converts REST to gRPC calls, and provides a secondary server       
 to log information and control the gRPC services.
 
 Options:
-  --help              Prints program help text
+  --help                            Prints program help text
 
-  --gateway-port=PORT Run gateway on PORT
-  --heart-port=PORT  Run secondary server on PORT
+  --gateway-port=PORT               Run gateway on this PORT
+  --heart-port=PORT                 Run secondary server on this PORT
 
-  --nyaa-port=PORT    Run ultimate-nyaa service on PORT
+  --nyaa-port=PORT                  Run ultimate-nyaa service on this PORT        
+  --ultimate-torrent-port=PORT      Run ultimate-torrent gRPC service on this PORT
 ```
 
 # Adding gRPC services to ultimate-heart
 One of the main goals of ultimate-heart is to continuously add as many gRPC we want, though that means we need to recompile each time.
-This is a checklist to make sure a gRPC service is handled correctly in ultimate-heart.
+This is a checklist to make sure a gRPC service is added correctly to ultimate-heart.
 
 The example service will be ultimate-youtube, a fake service to download youtube videos.
 
 - Add protobuf compilation to Makefile
 
-Modify this:
-```Makefile
-proto:
-    protoc nyaa.proto \
-      -Iproto/nyaa \
-      -I$(GOPATH)/src \
-      -I$(GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
-      --grpc-gateway_out=logtostderr=true:proto/nyaa
-    protoc nyaa.proto \
-      -Iproto/nyaa \
-      -I$(GOPATH)/src \
-      -I$(GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
-      --go_out=plugins=grpc:proto/nyaa
-```
-
-To look like this:
+The Makefile target `proto` should look like this:
 ```diff
 proto:
     protoc nyaa.proto \ 
@@ -135,26 +111,7 @@ proto:
 
 - Add a flag for your service in main.go.
 
-Modify this:
-```golang
-var helpUsage bool
-var gatewayPort int
-var heartPort int
-var nyaaPort int
-flag.BoolVar(&helpUsage, "help", false, "Prints help text")
-flag.IntVar(&gatewayPort, "gateway-port", 9990, "Port to serve the gateway server")
-flag.IntVar(&heartPort, "heart-port", 9991, "Port to serve the heart server")
-flag.IntVar(&nyaaPort, "nyaa-port", 9995, "Nyaa grpc server port")
-flag.Parse()
-flag.Visit(func(fn *flag.Flag) {
-	if fn.Name == "help" {
-		fmt.Print(helpText)
-		os.Exit(1)
-	}
-})
-```
-
-To look like this:
+In main.go, the code for flag passing should look like this:
 ```diff
   var helpUsage bool
   var gatewayPort int
@@ -175,92 +132,17 @@ To look like this:
   })
 ```
 
-- Add a process.Service to the map of services in main.go. It looks something like this at the moment.
+- Add the endpoint to the map of endpoints in main.go. 
 
-Modify this:
-```golang
-services := map[string]process.Service{
-	"nyaa": process.Service{
-		Name:   "ultimate-nyaa",
-		Binary: "ultimate-nyaa.exe",
-		Dir:    "./ultimate-nyaa",
-		Args: []string{
-			fmt.Sprintf("--port=%d", nyaaPort),
-		},
-		Port:     nyaaPort,
-		Endpoint: fmt.Sprintf("localhost:%d", nyaaPort),
-		FullPath: "./ultimate-nyaa/ultimate-nyaa.exe",
-	},
-}
-```
-
-To look like this:
+endpoints should look like this:
 ```diff
-services := map[string]process.Service{
-	"nyaa": process.Service{
-                //...
-	},
-+	"youtube": process.Service{
-+		Name:   "ultimate-youtube",
-+		Binary: "ultimate-youtube.exe",
-+		Dir:    "./ultimate-youtube",
-+		Args: []string{
-+			fmt.Sprintf("--port=%d", youtubePort),
-+		},
-+		Port:     youtubePort,
-+		Endpoint: fmt.Sprintf("localhost:%d", youtubePort),
-+		FullPath: "./ultimate-youtube/ultimate-youtube.exe",
-+	},
-}
-```
-
-- Add a shutdown request to the respective service to process/service.go. For example, let's add "ultimate-youtube" to the shutdown logic.
-
-Modify this:
-```golang
-import (
-	"github.com/greenmochi/ultimate-heart/proto/nyaa"
-)
-
-func (s *Service) Shutdown() error {
-  //...
-  switch s.Name {
-  case "ultimate-nyaa":
-    c := nyaa.NewNyaaClient(conn)
-    message := nyaa.ShutdownRequest{}
-    _, err = c.Shutdown(ctx, &message)
-  default:
-    err = fmt.Errorf("unable to determine service to send shutdown request to: service name is %s", s.Name)
+  endpoints := map[string]string{
+    "nyaa":             fmt.Sprintf("localhost:%d", nyaaPort),
+    "ultimate-torrent": fmt.Sprintf("localhost:%d", ultimateTorrentPort),
++   "ultimate-youtube": fmt.Sprintf("localhost:%d", ultimateYoutubePort),
   }
-  //...
-}
+
 ```
-
-To look like this:
-```diff
-import (
-	"github.com/greenmochi/ultimate-heart/proto/nyaa"
-+	"github.com/greenmochi/ultimate-heart/proto/youtube"
-)
-
-func (s *Service) Shutdown() error {
-  //...
-  switch s.Name {
-  case "ultimate-nyaa":
-    c := nyaa.NewNyaaClient(conn)
-    message := nyaa.ShutdownRequest{}
-    _, err = c.Shutdown(ctx, &message)
-+ case "ultimate-youtube":
-+   c := youtube.NewYoutubeClient(conn)
-+   message := youtube.ShutdownRequest{}
-+   _, err = c.Shutdown(ctx, &message)
-  default:
-    err = fmt.Errorf("unable to determine service to send shutdown request to: service name is %s", s.Name)
-  }
-  //...
-}
-```
-
 
 # Notes
 If gateway is returning an error where the gRPC service is refusing connection even though the gRPC service is running, restart gateway and the respective gRPC service. I am unsure why, but this solves the problem consistently.
