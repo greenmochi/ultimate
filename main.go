@@ -7,11 +7,10 @@ import (
 
 	"github.com/greenmochi/ultimate-heart/gateway"
 	"github.com/greenmochi/ultimate-heart/logger"
-	"github.com/greenmochi/ultimate-heart/process"
 )
 
 func main() {
-	// Setup logger
+	// Close logger at the end
 	defer logger.Close()
 
 	var helpUsage bool
@@ -32,68 +31,16 @@ func main() {
 		}
 	})
 
-	services := map[string]process.Service{
-		"nyaa": process.Service{
-			Name:   "ultimate-nyaa",
-			Binary: "ultimate-nyaa.exe",
-			Dir:    "./ultimate-nyaa",
-			Args: []string{
-				fmt.Sprintf("--port=%d", nyaaPort),
-			},
-			Port:     nyaaPort,
-			Endpoint: fmt.Sprintf("localhost:%d", nyaaPort),
-			FullPath: "./ultimate-nyaa/ultimate-nyaa.exe",
-		},
-		"ultimate-torrent": process.Service{
-			Name:   "ultimate-torrent",
-			Binary: "ultimate-torrent.exe",
-			Dir:    "./ultimate-torrent",
-			Args: []string{
-				fmt.Sprintf("--port=%d", ultimateTorrentPort),
-			},
-			Port:     ultimateTorrentPort,
-			Endpoint: fmt.Sprintf("localhost:%d", ultimateTorrentPort),
-			FullPath: "./ultimate-torrent/ultimate-torrent.exe",
-		},
+	endpoints := map[string]string{
+		"nyaa":             fmt.Sprintf("localhost:%d", nyaaPort),
+		"ultimate-torrent": fmt.Sprintf("localhost:%d", ultimateTorrentPort),
 	}
-
-	// shutdown := make(chan bool)
-	// exit := make(chan bool)
-	// release := make(chan bool)
-
-	// Run all gRPC services
-	// for _, service := range services {
-	// 	go func(service process.Service) {
-	// 		cmd, err := process.Start(service.Binary, service.Dir, service.Args)
-	// 		if err != nil {
-	// 			logger.Errorf("unable to start %s: %s\n%+v\n", service.Name, err, service)
-	// 		}
-	// 		logger.Infof("running service=%s on port=%d", service.FullPath, service.Port)
-
-	// 		// Wait for release signal when ultimate-heart finishes
-	// 		<-release
-
-	// 		if err := service.Shutdown(); err != nil {
-	// 			logger.Fatalf("could not send shutdown request to %s. %v", service.Endpoint, err)
-	// 			if err := cmd.Process.Kill(); err != nil {
-	// 				logger.Fatalf("unable to kill %s. %s", service.Binary, err)
-	// 			}
-	// 			logger.Infof("killed %s", service.Binary)
-	// 		} else {
-	// 			logger.Info("shutdown request sucessfully sent")
-	// 		}
-
-	// 		exit <- true
-	// 	}(service)
-	// }
 
 	// Run gateway server
-	// go func() {
 	logger.Infof("running gateway server on :%d", gatewayPort)
-	if err := gateway.Run(gatewayPort, services); err != nil {
+	if err := gateway.Run(gatewayPort, endpoints); err != nil {
 		logger.Fatal(err)
 	}
-	// }()
 
 	// Run secondary server
 	// go func() {
@@ -102,6 +49,10 @@ func main() {
 	// 		logger.Fatal(err)
 	// 	}
 	// }()
+
+	// shutdown := make(chan bool)
+	// exit := make(chan bool)
+	// release := make(chan bool)
 
 	// interrupt := make(chan os.Signal, 1)
 	// signal.Notify(interrupt, os.Interrupt, syscall.SIGTERM)
@@ -130,10 +81,11 @@ ultimate-heart converts REST to gRPC calls, and provides a secondary server
 to log information and control the gRPC services.
 
 Options:
-  --help              Prints program help text
+  --help                            Prints program help text
   
-  --gateway-port=PORT Run gateway on PORT
-  --heart-port=PORT  Run secondary server on PORT
+  --gateway-port=PORT               Run gateway on this PORT
+  --heart-port=PORT                 Run secondary server on this PORT
   
-  --nyaa-port=PORT    Run ultimate-nyaa service on PORT
+  --nyaa-port=PORT                  Run ultimate-nyaa service on this PORT
+  --ultimate-torrent-port=PORT      Run ultimate-torrent gRPC service on this PORT
 `

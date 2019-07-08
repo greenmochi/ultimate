@@ -1,4 +1,4 @@
-package logger
+package logger 
 
 import (
 	"os"
@@ -6,7 +6,6 @@ import (
 )
 
 func TestultimateLogger(t *testing.T) {
-	logger := NewultimateLogger(os.Stdout)
 	logger.Info("An info message")
 	logger.Infoln("An info message with new line")
 	logger.Infof("An info message with format number=%d and string=%s", 10, "foobar")

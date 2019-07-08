@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/greenmochi/ultimate-heart/process"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
@@ -15,7 +14,7 @@ import (
 )
 
 // Run TODO
-func Run(port int, services map[string]process.Service) error {
+func Run(port int, endpoints map[string]string) error {
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
@@ -24,12 +23,12 @@ func Run(port int, services map[string]process.Service) error {
 	opts := []grpc.DialOption{grpc.WithInsecure()}
 
 	// Register Nyaa service
-	if err := nyaa.RegisterNyaaHandlerFromEndpoint(ctx, mux, services["nyaa"].Endpoint, opts); err != nil {
+	if err := nyaa.RegisterNyaaHandlerFromEndpoint(ctx, mux, endpoints["nyaa"], opts); err != nil {
 		return err
 	}
 
 	// Register ultimate-torrent service
-	if err := ultimate_torrent.RegisterUltimateTorrentHandlerFromEndpoint(ctx, mux, services["ultimate-torrent"].Endpoint, opts); err != nil {
+	if err := ultimate_torrent.RegisterUltimateTorrentHandlerFromEndpoint(ctx, mux, endpoints["ultimate-torrent"], opts); err != nil {
 		return err
 	}
 
