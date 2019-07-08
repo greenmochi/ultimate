@@ -11,6 +11,7 @@ import (
 	"google.golang.org/grpc"
 
 	"github.com/greenmochi/ultimate-heart/proto/nyaa"
+	"github.com/greenmochi/ultimate-heart/proto/ultimate_torrent"
 )
 
 // Run TODO
@@ -27,6 +28,11 @@ func Run(port int, services map[string]process.Service) error {
 		return err
 	}
 
+	// Register ultimate-torrent service
+	if err := ultimate_torrent.RegisterUltimateTorrentHandlerFromEndpoint(ctx, mux, services["ultimate-torrent"].Endpoint, opts); err != nil {
+		return err
+	}
+
 	s := &http.Server{
 		Addr:    fmt.Sprintf(":%d", port),
 		Handler: allowCORS(mux),
@@ -37,7 +43,7 @@ func Run(port int, services map[string]process.Service) error {
 
 func allowCORS(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if origin := r.Header.Get("Origin"); origin == "http://localhost:3000" {
+		if origin := r.Header.Get("Origin"); origin == "http://localhost:3000" || origin == "file://" {
 			w.Header().Set("Access-Control-Allow-Origin", origin)
 			if r.Method == "OPTIONS" && r.Header.Get("Access-Control-Request-Method") != "" {
 				preflightHandler(w, r)

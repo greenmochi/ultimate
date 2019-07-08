@@ -4,11 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"os/signal"
-	"syscall"
 
 	"github.com/greenmochi/ultimate-heart/gateway"
-	"github.com/greenmochi/ultimate-heart/heart"
 	"github.com/greenmochi/ultimate-heart/logger"
 	"github.com/greenmochi/ultimate-heart/process"
 )
@@ -21,10 +18,12 @@ func main() {
 	var gatewayPort int
 	var heartPort int
 	var nyaaPort int
+	var ultimateTorrentPort int
 	flag.BoolVar(&helpUsage, "help", false, "Prints help text")
 	flag.IntVar(&gatewayPort, "gateway-port", 9990, "Port to serve the gateway server")
 	flag.IntVar(&heartPort, "heart-port", 9991, "Port to serve the heart server")
 	flag.IntVar(&nyaaPort, "nyaa-port", 9995, "Nyaa grpc server port")
+	flag.IntVar(&ultimateTorrentPort, "ultimate-torrent-port", 9996, "ultimate-torrent grpc server port")
 	flag.Parse()
 	flag.Visit(func(fn *flag.Flag) {
 		if fn.Name == "help" {
@@ -45,73 +44,84 @@ func main() {
 			Endpoint: fmt.Sprintf("localhost:%d", nyaaPort),
 			FullPath: "./ultimate-nyaa/ultimate-nyaa.exe",
 		},
+		"ultimate-torrent": process.Service{
+			Name:   "ultimate-torrent",
+			Binary: "ultimate-torrent.exe",
+			Dir:    "./ultimate-torrent",
+			Args: []string{
+				fmt.Sprintf("--port=%d", ultimateTorrentPort),
+			},
+			Port:     ultimateTorrentPort,
+			Endpoint: fmt.Sprintf("localhost:%d", ultimateTorrentPort),
+			FullPath: "./ultimate-torrent/ultimate-torrent.exe",
+		},
 	}
 
-	shutdown := make(chan bool)
-	exit := make(chan bool)
-	release := make(chan bool)
+	// shutdown := make(chan bool)
+	// exit := make(chan bool)
+	// release := make(chan bool)
 
 	// Run all gRPC services
-	for _, service := range services {
-		go func(service process.Service) {
-			cmd, err := process.Start(service.Binary, service.Dir, service.Args)
-			if err != nil {
-				logger.Errorf("unable to start %s: %s\n%+v\n", service.Name, err, service)
-			}
-			logger.Infof("running service=%s on port=%d", service.FullPath, service.Port)
+	// for _, service := range services {
+	// 	go func(service process.Service) {
+	// 		cmd, err := process.Start(service.Binary, service.Dir, service.Args)
+	// 		if err != nil {
+	// 			logger.Errorf("unable to start %s: %s\n%+v\n", service.Name, err, service)
+	// 		}
+	// 		logger.Infof("running service=%s on port=%d", service.FullPath, service.Port)
 
-			// Wait for release signal when ultimate-heart finishes
-			<-release
+	// 		// Wait for release signal when ultimate-heart finishes
+	// 		<-release
 
-			if err := service.Shutdown(); err != nil {
-				logger.Fatalf("could not send shutdown request to %s. %v", service.Endpoint, err)
-				if err := cmd.Process.Kill(); err != nil {
-					logger.Fatalf("unable to kill %s. %s", service.Binary, err)
-				}
-				logger.Infof("killed %s", service.Binary)
-			} else {
-				logger.Info("shutdown request sucessfully sent")
-			}
+	// 		if err := service.Shutdown(); err != nil {
+	// 			logger.Fatalf("could not send shutdown request to %s. %v", service.Endpoint, err)
+	// 			if err := cmd.Process.Kill(); err != nil {
+	// 				logger.Fatalf("unable to kill %s. %s", service.Binary, err)
+	// 			}
+	// 			logger.Infof("killed %s", service.Binary)
+	// 		} else {
+	// 			logger.Info("shutdown request sucessfully sent")
+	// 		}
 
-			exit <- true
-		}(service)
-	}
+	// 		exit <- true
+	// 	}(service)
+	// }
 
 	// Run gateway server
-	go func() {
-		logger.Infof("running gateway server on :%d", gatewayPort)
-		if err := gateway.Run(gatewayPort, services); err != nil {
-			logger.Fatal(err)
-		}
-	}()
+	// go func() {
+	logger.Infof("running gateway server on :%d", gatewayPort)
+	if err := gateway.Run(gatewayPort, services); err != nil {
+		logger.Fatal(err)
+	}
+	// }()
 
 	// Run secondary server
-	go func() {
-		logger.Infof("running heart server on :%d", heartPort)
-		if err := heart.Run(heartPort, services, shutdown); err != nil {
-			logger.Fatal(err)
-		}
-	}()
+	// go func() {
+	// 	logger.Infof("running heart server on :%d", heartPort)
+	// 	if err := heart.Run(heartPort, services, shutdown); err != nil {
+	// 		logger.Fatal(err)
+	// 	}
+	// }()
 
-	interrupt := make(chan os.Signal, 1)
-	signal.Notify(interrupt, os.Interrupt, syscall.SIGTERM)
+	// interrupt := make(chan os.Signal, 1)
+	// signal.Notify(interrupt, os.Interrupt, syscall.SIGTERM)
 
-	// Graceful shutdown
-	logger.Infof("graceful shutdown loop started")
-	for {
-		select {
-		case <-interrupt:
-			logger.Info("interrupt signal received")
-			release <- true
-		case <-shutdown:
-			logger.Info("shutdown signal received")
-			release <- true
-		case <-exit:
-			logger.Info("exit signal received. Program exited.")
-			os.Exit(1)
-			return
-		}
-	}
+	// // Graceful shutdown
+	// logger.Infof("graceful shutdown loop started")
+	// for {
+	// 	select {
+	// 	case <-interrupt:
+	// 		logger.Info("interrupt signal received")
+	// 		release <- true
+	// 	case <-shutdown:
+	// 		logger.Info("shutdown signal received")
+	// 		release <- true
+	// 	case <-exit:
+	// 		logger.Info("exit signal received. Program exited.")
+	// 		os.Exit(1)
+	// 		return
+	// 	}
+	// }
 }
 
 const helpText = `Usage: ultimate-heart [options]

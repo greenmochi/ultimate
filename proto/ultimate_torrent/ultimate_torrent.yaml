@@ -1,0 +1,11 @@
+ type: google.api.Service
+ config_version: 3
+
+ http:
+   rules:
+   - selector: ultimate_torrent.UltimateTorrent.Ping
+     post: /ultimate-torrent/ping
+     body: "*"
+   - selector: ultimate_torrent.UltimateTorrent.AllTorrentStatus
+     post: /ultimate-torrent/all-torrent-status
+     body: "*"
