@@ -46,6 +46,9 @@
     "typescript": "^3.4.5"
   },
   "devDependencies": {
+    "@babel/core": "^7.5.0",
+    "@babel/preset-env": "^7.5.2",
+    "@babel/preset-react": "^7.0.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.19",
     "@fortawesome/free-brands-svg-icons": "^5.9.0",
     "@fortawesome/free-regular-svg-icons": "^5.9.0",
@@ -63,6 +66,12 @@
     "electron": "^5.0.1",
     "electron-builder": "^20.40.2",
     "electron-devtools-installer": "^2.2.4",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-typescript": "^5.0.1",
+    "gulp-uglify": "^3.0.2",
     "redux-devtools-extension": "^2.13.8",
     "ts-jest": "^24.0.2",
     "tslint": "^5.16.0"
