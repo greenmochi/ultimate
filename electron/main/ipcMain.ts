@@ -5,12 +5,12 @@ import { KokoroServer } from "./kokoroServer";
 
 export class IpcMain {
   registerKokoroServerListener(kokoroServer: KokoroServer): void {
-    ipcMain.on("kabedon:kokoroServerEndpointRequest", (event: Event) => {
-      event.sender.send("kabedon:kokoroServerEndpointResponse", kokoroServer.kokoroEndpoint);
+    ipcMain.on("ultimate:kokoroServerEndpointRequest", (event: Event) => {
+      event.sender.send("ultimate:kokoroServerEndpointResponse", kokoroServer.kokoroEndpoint);
     });
 
-    ipcMain.on("kabedon:gatewayServerEndpointRequest", (event: Event) => {
-      event.sender.send("kabedon:gatewayServerEndpointResponse", kokoroServer.gatewayEndpoint);
+    ipcMain.on("ultimate:gatewayServerEndpointRequest", (event: Event) => {
+      event.sender.send("ultimate:gatewayServerEndpointResponse", kokoroServer.gatewayEndpoint);
     });
   }
 }

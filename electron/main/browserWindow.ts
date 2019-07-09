@@ -42,28 +42,28 @@ export class MainWindow {
   }
 
   registerWindowsButtonListener() {
-    ipcMain.on("kabedon:windowsMinimizeRequest", (event: Event) => {
+    ipcMain.on("ultimate:windowsMinimizeRequest", (event: Event) => {
       if (!this.mainWindow) {
         console.log("unable to minimize window because main window is null");
         return;
       }
       this.mainWindow.minimize();
     });
-    ipcMain.on("kabedon:windowsMaximizeRequest", (event: Event) => {
+    ipcMain.on("ultimate:windowsMaximizeRequest", (event: Event) => {
       if (!this.mainWindow) {
         console.log("unable to maximize window because main window is null");
         return;
       }
       this.mainWindow.maximize();
     });
-    ipcMain.on("kabedon:windowsUnmaximizeRequest", (event: Event) => {
+    ipcMain.on("ultimate:windowsUnmaximizeRequest", (event: Event) => {
       if (!this.mainWindow) {
         console.log("unable to Unmaximize window because main window is null");
         return;
       }
       this.mainWindow.unmaximize();
     });
-    ipcMain.on("kabedon:windowsCloseRequest", (event: Event) => {
+    ipcMain.on("ultimate:windowsCloseRequest", (event: Event) => {
       if (!this.mainWindow) {
         console.log("unable to close window because main window is null");
         return;

@@ -1,9 +1,9 @@
-# kabedon-electron
+# ultimate
 
 # Setup
 ```bash
-$ git clone https://github.com/greenmochi/kabedon-electron
-$ cd kabedon-electron
+$ git clone https://github.com/greenmochi/ultimate
+$ cd ultimate
 $ yarn install
 ```
 

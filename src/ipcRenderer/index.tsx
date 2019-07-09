@@ -22,13 +22,13 @@ export default class IpcRenderer {
   }
   
   registerEndpointsListener() {
-    ipcRenderer.on("kabedon:kokoroServerEndpointResponse", (event: Event, kokoroServerEndpoint: string) => {
+    ipcRenderer.on("ultimate:kokoroServerEndpointResponse", (event: Event, kokoroServerEndpoint: string) => {
       console.log("kokoro server listening on", kokoroServerEndpoint);
       if (this.store) {
         this.store.dispatch(setKokoroEndpoint(kokoroServerEndpoint));
       }
     });
-    ipcRenderer.on("kabedon:gatewayServerEndpointResponse", (event: Event, gatewayServerEndpoint: string) => {
+    ipcRenderer.on("ultimate:gatewayServerEndpointResponse", (event: Event, gatewayServerEndpoint: string) => {
       console.log("gateway server listening on", gatewayServerEndpoint);
       if (this.store) {
         this.store.dispatch(setGatewayEndpoint(gatewayServerEndpoint));

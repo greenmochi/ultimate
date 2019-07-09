@@ -28,15 +28,15 @@ const App: React.FC = () => {
         <LayoutTitleBar>
           <TitleBar>
             <TitleBarMenuTitleContainer>
-              <TitleBarFileMenu exit={() => IpcRenderer.send("kabedon:windowsCloseRequest")} />
+              <TitleBarFileMenu exit={() => IpcRenderer.send("ultimate:windowsCloseRequest")} />
               <TitleBarHelpMenu help={() => {}}/>
             </TitleBarMenuTitleContainer>
             <TitleBarTitle title="test window title" />
             <TitleBarWindowButtonContainer
-              minimize={() => IpcRenderer.send("kabedon:windowsMinimizeRequest")} 
-              maximize={() => IpcRenderer.send("kabedon:windowsMaximizeRequest")} 
-              unmaximize={() => IpcRenderer.send("kabedon:windowsUnmaximizeRequest")} 
-              close={() => IpcRenderer.send("kabedon:windowsCloseRequest")} 
+              minimize={() => IpcRenderer.send("ultimate:windowsMinimizeRequest")} 
+              maximize={() => IpcRenderer.send("ultimate:windowsMaximizeRequest")} 
+              unmaximize={() => IpcRenderer.send("ultimate:windowsUnmaximizeRequest")} 
+              close={() => IpcRenderer.send("ultimate:windowsCloseRequest")} 
             />
           </TitleBar>
         </LayoutTitleBar>

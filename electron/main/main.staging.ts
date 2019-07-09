@@ -12,7 +12,7 @@ let ipcMain: IpcMain = new IpcMain();
 app.on("ready", () => {
   let binaryPath: string = path.resolve("./service");
   if (binaryPath.length > 0) {
-    kokoroServer = new KokoroServer("kabedon-kokoro.exe", binaryPath, "localhost", 9111, 9990);
+    kokoroServer = new KokoroServer("ultimate-kokoro.exe", binaryPath, "localhost", 9111, 9990);
     kokoroServer.run();
 
     console.log(`Running kokoro server. binaryPath=${binaryPath} endpoint=${kokoroServer.kokoroEndpoint}`);
@@ -25,8 +25,8 @@ app.on("ready", () => {
   mainWindow.create();
   mainWindow.registerWindowsButtonListener();
   mainWindow.registerDevtools();
-  mainWindow.sendAfter("kabedon:kokoroServerEndpointResponse", kokoroServer.kokoroEndpoint);
-  mainWindow.sendAfter("kabedon:gatewayServerEndpointResponse", kokoroServer.gatewayEndpoint);
+  mainWindow.sendAfter("ultimate:kokoroServerEndpointResponse", kokoroServer.kokoroEndpoint);
+  mainWindow.sendAfter("ultimate:gatewayServerEndpointResponse", kokoroServer.gatewayEndpoint);
 });
 
 app.on("window-all-closed", async () => {

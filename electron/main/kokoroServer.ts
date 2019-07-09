@@ -1,7 +1,7 @@
 import * as child from "child_process";
 import fetch from "node-fetch";
 
-// KokoroServer contains the methods needed to control the kabedon-kokoro server.
+// KokoroServer contains the methods needed to control the ultimate-kokoro server.
 export class KokoroServer {
 
   private _binary: string;

@@ -1,6 +1,6 @@
 {
-    "appId": "com.greenmochi.kabedon",
-    "productName": "kabedon",
+    "appId": "com.greenmochi.ultimate",
+    "productName": "ultimate",
     "copyright": "Copyright © 2019 GreenMochi",
     "directories": {
         "output": "release/"
