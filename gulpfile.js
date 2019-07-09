@@ -6,21 +6,37 @@ const uglify = require("gulp-uglify");
 const ts = require("gulp-typescript");
 
 
-function compileWeb() {
-  const webTsProject = ts.createProject("ultimate/web/tsconfig.json");
+function javascript() {
+  const tsProject = ts.createProject("ultimate/web/tsconfig.json");
 
   return gulp.src("ultimate/web/src/**/*.tsx")
     .pipe(sourcemaps.init())
-    .pipe(webTsProject())
+    .pipe(tsProject())
     .pipe(babel({
-      presets: ["@babel/preset-env", "@babel/preset-react"],
+      presets: [
+        ["@babel/preset-env", {
+          targets: {
+            "electron": "5.0.1"
+          }
+        }],
+        ["@babel/preset-react", {
+          targets: {
+            "electron": "5.0.1"
+          }
+        }],
+      ]
     }))
     .pipe(uglify())
-    .pipe(concat("bundle.js"))
+    .pipe(concat("bundle.min.js"))
     .pipe(sourcemaps.write("."))
     .pipe(gulp.dest("build/web"));
 }
 
+function assets() {
+  return gulp.src("ultimate/web/public/*")
+    .pipe(gulp.dest("build/web"));
+}
+
 module.exports = {
-  "compile-web": compileWeb,
+  "build-web": gulp.parallel(javascript, assets),
 };
