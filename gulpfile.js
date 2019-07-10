@@ -7,21 +7,21 @@ const ts = require("gulp-typescript");
 
 
 function javascript() {
-  const tsProject = ts.createProject("ultimate/web/tsconfig.json");
+  const tsProject = ts.createProject("ultimate/ui/tsconfig.json");
 
-  return gulp.src("ultimate/web/src/**/*.tsx")
+  return gulp.src("ultimate/ui/src/**/*.tsx")
     .pipe(sourcemaps.init())
     .pipe(tsProject())
     .pipe(babel({
       presets: [
         ["@babel/preset-env", {
           targets: {
-            "electron": "5.0.1"
+            "electron": "5"
           }
         }],
         ["@babel/preset-react", {
           targets: {
-            "electron": "5.0.1"
+            "electron": "5"
           }
         }],
       ]
@@ -29,14 +29,14 @@ function javascript() {
     .pipe(uglify())
     .pipe(concat("bundle.min.js"))
     .pipe(sourcemaps.write("."))
-    .pipe(gulp.dest("build/web"));
+    .pipe(gulp.dest("build/ui"));
 }
 
 function assets() {
-  return gulp.src("ultimate/web/public/*")
-    .pipe(gulp.dest("build/web"));
+  return gulp.src("ultimate/ui/public/*")
+    .pipe(gulp.dest("build/ui"));
 }
 
 module.exports = {
-  "build-web": gulp.parallel(javascript, assets),
+  "build:ui": gulp.parallel(javascript, assets),
 };

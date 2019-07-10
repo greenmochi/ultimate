@@ -30,7 +30,8 @@
     "electron:start": "yarn run electron:build && electron ./build_electron/main",
     "electron:build": "tsc -p tsconfig.electron.json",
     "electron:test": "",
-    "serve": "serve build/web"
+    "serve": "serve build/web",
+    "webpack": "webpack --color --progress --config webpack.ui.config.js"
   },
   "dependencies": {
     "@types/react": "^16.8.19",
@@ -50,6 +51,7 @@
     "@babel/core": "^7.5.0",
     "@babel/preset-env": "^7.5.2",
     "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.3.3",
     "@fortawesome/fontawesome-svg-core": "^1.2.19",
     "@fortawesome/free-brands-svg-icons": "^5.9.0",
     "@fortawesome/free-regular-svg-icons": "^5.9.0",
@@ -62,6 +64,7 @@
     "@types/react-redux": "^7.0.9",
     "@types/react-router-dom": "^4.3.3",
     "@types/styled-components": "^4.1.15",
+    "babel-loader": "^8.0.6",
     "concurrently": "^4.1.0",
     "cross-env": "^5.2.0",
     "electron": "^5.0.1",
@@ -76,7 +79,9 @@
     "redux-devtools-extension": "^2.13.8",
     "serve": "^11.0.2",
     "ts-jest": "^24.0.2",
-    "tslint": "^5.16.0"
+    "tslint": "^5.16.0",
+    "webpack": "^4.35.3",
+    "webpack-cli": "^3.3.5"
   },
   "browserslist": {
     "production": [
