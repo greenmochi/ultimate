@@ -1,0 +1,20 @@
+{
+    "name": "ultimate-electron",
+    "version": "0.1.0",
+    "description": "Electron-based desktop for Ultimate",
+    "private": true,
+    "license": "MIT",
+    "scripts": {
+        "start": "tsc -p tsconfig.json && electron ./build/index.js"
+    },
+    "dependencies": {
+        "node-fetch": "^2.6.0"
+    },
+    "devDependencies": {
+        "@types/electron-devtools-installer": "^2.2.0",
+        "@types/node-fetch": "^2.3.7",
+        "electron": "^5.0.6",
+        "electron-devtools-installer": "^2.2.4",
+        "typescript": "^3.5.3"
+    }
+}

@@ -4,14 +4,14 @@
     "module": "commonjs",
     "noImplicitAny": true,
     "sourceMap": true,
-    "rootDir": "electron",
-    "outDir": "build_electron",
+    "rootDir": "src",
+    "outDir": "build",
     "baseUrl": ".",
     "paths": {
       "*": ["node_modules/*"]
     }
   },
   "include": [
-    "electron"
+    "src"
   ]
 }

@@ -1,98 +1,29 @@
 {
   "name": "ultimate",
-  "homepage": ".",
-  "description": "An Electron-based desktop application to allows users do X, Y, Z, etc.",
+  "version": "0.1.0",
+  "description": "An Electron-based application to become the very best",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/greemochi/ultimate"
+  },
   "author": {
     "name": "hueyjj",
     "email": "hueyjj@greenmochi.com",
     "url": "https://github.com/hueyjj"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/greemochi/ultimate"
-  },
-  "version": "0.1.0",
-  "private": true,
-  "license": "MIT",
   "scripts": {
-    "run": "cross-env NODE_ENV=development concurrently \"yarn run react:start\" \"yarn run electron:start\"",
-    "run:staging": "cross-env NODE_ENV=staging concurrently \"yarn run react:start\" \"yarn run electron:start\"",
     "package:win": "yarn run react:compile && yarn run react:build && yarn run electron:build && electron-builder -c.extraMetadata.main=./build_electron/main",
-    "package:linux": "yarn run react:compile && yarn run react:build && yarn run electron:build && electron-builder --linux --x64 -c.extraMetadata.main=./build_electron/main",
-    "package:mac": "",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "react:start": "react-scripts start",
-    "react:compile": "tsc -p tsconfig.production.json",
-    "react:build": "react-scripts build",
-    "react:test": "react-scripts test",
-    "react:eject": "react-scripts eject",
-    "electron:start": "yarn run electron:build && electron ./build_electron/main",
-    "electron:build": "tsc -p tsconfig.electron.json",
-    "electron:test": "",
-    "serve": "serve build/web",
-    "webpack": "webpack --color --progress --config webpack.ui.config.js"
-  },
-  "dependencies": {
-    "@types/react": "^16.8.19",
-    "@types/react-dom": "^16.8.4",
-    "node-fetch": "^2.6.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-redux": "^7.0.3",
-    "react-router-dom": "^5.0.0",
-    "react-scripts": "3.0.1",
-    "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0",
-    "styled-components": "^4.2.0",
-    "typescript": "^3.4.5"
+    "package:linux": "yarn run react:compile && yarn run react:build && yarn run electron:build && electron-builder --linux --x64 -c.extraMetadata.main=./build_electron/main"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.0",
-    "@babel/preset-env": "^7.5.2",
-    "@babel/preset-react": "^7.0.0",
-    "@babel/preset-typescript": "^7.3.3",
-    "@fortawesome/fontawesome-svg-core": "^1.2.19",
-    "@fortawesome/free-brands-svg-icons": "^5.9.0",
-    "@fortawesome/free-regular-svg-icons": "^5.9.0",
-    "@fortawesome/free-solid-svg-icons": "^5.9.0",
-    "@fortawesome/react-fontawesome": "^0.1.4",
-    "@types/electron-devtools-installer": "^2.2.0",
-    "@types/jest": "^24.0.13",
-    "@types/node": "12.0.2",
-    "@types/node-fetch": "^2.3.6",
-    "@types/react-redux": "^7.0.9",
-    "@types/react-router-dom": "^4.3.3",
-    "@types/styled-components": "^4.1.15",
-    "babel-loader": "^8.0.6",
-    "concurrently": "^4.1.0",
-    "cross-env": "^5.2.0",
-    "electron": "^5.0.1",
     "electron-builder": "^20.40.2",
-    "electron-devtools-installer": "^2.2.4",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-typescript": "^5.0.1",
-    "gulp-uglify": "^3.0.2",
-    "redux-devtools-extension": "^2.13.8",
-    "serve": "^11.0.2",
-    "ts-jest": "^24.0.2",
-    "tslint": "^5.16.0",
-    "webpack": "^4.35.3",
-    "webpack-cli": "^3.3.5"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "gulp-uglify": "^3.0.2"
   }
 }
