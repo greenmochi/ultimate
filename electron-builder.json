@@ -3,11 +3,10 @@
     "productName": "ultimate",
     "copyright": "Copyright © 2019 GreenMochi",
     "directories": {
-        "output": "release/"
+        "output": "build"
     },
     "files": [
         "build/**/*",
-        "build_electron/**/*",
         "service/**/*"
     ],
     "asarUnpack": [

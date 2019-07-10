@@ -14,10 +14,11 @@
     "url": "https://github.com/hueyjj"
   },
   "scripts": {
-    "package:win": "yarn run react:compile && yarn run react:build && yarn run electron:build && electron-builder -c.extraMetadata.main=./build_electron/main",
-    "package:linux": "yarn run react:compile && yarn run react:build && yarn run electron:build && electron-builder --linux --x64 -c.extraMetadata.main=./build_electron/main"
+    "package:win": "yarn run react:compile && yarn run react:build && yarn run electron:build && electron-builder -c.extraMetadata.main=./build_electron/main"
   },
   "devDependencies": {
+    "concurrently": "^4.1.1",
+    "del": "^5.0.0",
     "electron-builder": "^20.40.2",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",

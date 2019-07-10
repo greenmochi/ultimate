@@ -5,7 +5,8 @@
     "private": true,
     "license": "MIT",
     "scripts": {
-        "start": "tsc -p tsconfig.json && electron ./build/index.js"
+        "start": "tsc -p tsconfig.json && electron ./build/index.js",
+        "build": "tsc -p tsconfig.json"
     },
     "dependencies": {
         "node-fetch": "^2.6.0"
