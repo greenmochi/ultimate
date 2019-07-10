@@ -3,6 +3,12 @@
   "version": "0.1.0",
   "description": "Ultimate user interface made with React, Typescript, and Styled Components",
   "license": "MIT",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.19",
     "@fortawesome/free-brands-svg-icons": "^5.9.0",
@@ -23,11 +29,11 @@
     "styled-components": "^4.3.2",
     "typescript": "3.5.3"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+  "devDependencies": {
+    "@types/react-redux": "^7.1.1",
+    "@types/react-router-dom": "^4.3.4",
+    "@types/styled-components": "^4.1.17",
+    "redux-devtools-extension": "^2.13.8"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -43,11 +49,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@types/react-redux": "^7.1.1",
-    "@types/react-router-dom": "^4.3.4",
-    "@types/styled-components": "^4.1.17",
-    "redux-devtools-extension": "^2.13.8"
   }
 }
