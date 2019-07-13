@@ -1,0 +1,25 @@
+ type: google.api.Service
+ config_version: 3
+
+ http:
+   rules:
+   - selector: ultimate_torrent.UltimateTorrent.Ping
+     post: /ultimate-torrent/ping
+     body: "*"
+   - selector: ultimate_torrent.UltimateTorrent.Shutdown
+     post: /ultimate-torrent/shutdown
+     body: "*"
+   - selector: ultimate_torrent.UltimateTorrent.AddMagnetUri
+     post: /ultimate-torrent/add-magnet-uri
+     body: "*"
+   - selector: ultimate_torrent.UltimateTorrent.RemoveTorrent
+     post: /ultimate-torrent/remove-torrent
+     body: "*"
+   - selector: ultimate_torrent.UltimateTorrent.PauseTorrent
+     post: /ultimate-torrent/pause-torrent
+     body: "*"
+   - selector: ultimate_torrent.UltimateTorrent.ResumeTorrent
+     post: /ultimate-torrent/resume-torrent
+     body: "*"
+   - selector: ultimate_torrent.UltimateTorrent.AllTorrentStatus
+     get: /ultimate-torrent/all-torrent-status
