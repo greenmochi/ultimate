@@ -7,10 +7,11 @@
     },
     "files": [
         "ui/build/**/*",
-        "electron/build/**/*",
-        "service/**/*"
+        "electron/build/**/*"
     ],
     "asarUnpack": [
-        "service/**/*"
+        "ui/build/**/*",
+        "electron/build/**/*",
+        "services/**/*"
     ]
 }
