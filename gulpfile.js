@@ -1,3 +1,4 @@
+const fs = require("fs");
 const path = require("path");
 const exec = require("child_process").exec;
 const del = require("del");
@@ -5,27 +6,29 @@ const del = require("del");
 const gulp = require("gulp");
 const series = gulp.series;
 const parallel = gulp.parallel;
+const src = gulp.src;
+const dest = gulp.dest;
 
-function installUI(cb) {
+function installUI(done) {
   const script = exec("yarn install", {
     cwd: path.resolve(__dirname, "ui"),
   });
   script.stdout.pipe(process.stdout);
   script.stderr.pipe(process.stderr);
   script.stderr.on("error", (error) => {
-    cb(error);
+    done(error);
   });
   return script;
 }
 
-function installElectron(cb) {
+function installElectron(done) {
   const script = exec("yarn install", {
     cwd: path.resolve(__dirname, "electron"),
   });
   script.stdout.pipe(process.stdout);
   script.stderr.pipe(process.stderr);
   script.stderr.on("error", (error) => {
-    cb(error);
+    done(error);
   });
   return script;
 }
@@ -37,7 +40,7 @@ function startUI() {
   script.stdout.pipe(process.stdout);
   script.stderr.pipe(process.stderr);
   script.stderr.on("error", (error) => {
-    cb(error);
+    done(error);
   });
   return script;
 }
@@ -49,31 +52,54 @@ function startElectron() {
   script.stdout.pipe(process.stdout);
   script.stderr.pipe(process.stderr);
   script.stderr.on("error", (error) => {
-    cb(error);
+    done(error);
   });
   return script;
 }
 
-function buildUI(cb) {
+function buildUI(done) {
   const script = exec("yarn build", {
     cwd: path.resolve(__dirname, "ui"),
   });
   script.stdout.pipe(process.stdout);
   script.stderr.pipe(process.stderr);
   script.stderr.on("error", (error) => {
-    cb(error);
+    done(error);
   });
   return script;
 }
 
-function buildElectron(cb) {
+function buildElectron(done) {
   const script = exec("yarn build", {
     cwd: path.resolve(__dirname, "electron"),
   });
   script.stdout.pipe(process.stdout);
   script.stderr.pipe(process.stderr);
   script.stderr.on("error", (error) => {
-    cb(error);
+    done(error);
+  });
+  return script;
+}
+
+function prePackageTask(done) {
+  const buildDir = "./build";
+  if (!fs.existsSync(buildDir)) {
+    fs.mkdirSync(buildDir);
+  }
+  const ui = () => src("ui/build/**/*").pipe(dest("build/ui"));
+  const electron = () => src("electron/build/**/*").pipe(dest("build/electron"));
+  return parallel(ui, electron)(done);
+}
+
+function packageRelease(done) {
+  const cmd = `"node_modules/.bin/electron-builder" -c.extraMetadata.main=./build/electron/bundle.js`;
+  const script = exec(cmd, {
+    cwd: path.join(__dirname),
+  });
+  script.stdout.pipe(process.stdout);
+  script.stderr.pipe(process.stderr);
+  script.stderr.on("error", (error) => {
+    done(error);
   });
   return script;
 }
@@ -90,23 +116,25 @@ function removeElectronBuild() {
   ]);
 }
 
-function removeUINodeModules() {
+function removeNodeModules() {
   return del([
     "ui/node_modules",
-  ]);
-}
-
-
-function removeElectronNodeModules() {
-  return del([
     "electron/node_modules",
   ]);
 }
 
+const install = parallel(installUI, installElectron);
+const start = parallel(startUI, startElectron);
+const build = parallel(buildUI, buildElectron);
+const package = series(prePackageTask, packageRelease);
+const clean = parallel(removeUIBuild, removeElectronBuild);
+const uninstall = series(clean, parallel(removeNodeModules));
+
 module.exports = {
-  "install": parallel(installUI, installElectron),
-  "start": series(install, parallel(startUI, startElectron)),
-  "build": parallel(buildUI, buildElectron),
-  "clean": parallel(removeUIBuild, removeElectronBuild),
-  "uninstall": parallel(removeUINodeModules, removeElectronNodeModules),
+  "install": install,
+  "start": start,
+  "build": build,
+  "package": package,
+  "clean": clean,
+  "uninstall": uninstall,
 };
