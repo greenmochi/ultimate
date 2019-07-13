@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package ultimate_torrent;
+
+// The ultimate-torrent's service definition.
+service UltimateTorrent {
+    rpc Ping (PingRequest) returns (PingReply);
+
+    rpc Shutdown(ShutdownRequest) returns (ShutdownReply);
+}
+
+// The ping message containing the user's name.
+message PingRequest {
+    string message = 1;
+}
+
+// The response message containing the greetings
+message PingReply {
+    string message = 1;
+}
+
+message ShutdownRequest {
+}
+
+message ShutdownReply {
+}
