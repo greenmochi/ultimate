@@ -14,7 +14,7 @@
     "url": "https://github.com/hueyjj"
   },
   "scripts": {
-    "package:win": "yarn run react:compile && yarn run react:build && yarn run electron:build && electron-builder -c.extraMetadata.main=./build_electron/main"
+    "package": "electron-builder -c.extraMetadata.main=./electron/build/bundle.js"
   },
   "devDependencies": {
     "concurrently": "^4.1.1",

@@ -1,4 +1,5 @@
 import { BrowserWindow, ipcMain } from "electron";
+import * as path from "path";
 
 export class MainWindow {
   private mainWindow: BrowserWindow | null;
@@ -39,6 +40,9 @@ export class MainWindow {
     this.mainWindow.on("closed", () => {
       this.mainWindow = null;
     });
+    this.mainWindow.webContents.openDevTools();
+    console.log(path.resolve("."));
+    console.log(path.resolve("./../../ui/build/index.html"));
   }
 
   registerWindowsButtonListener() {

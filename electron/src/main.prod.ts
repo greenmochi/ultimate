@@ -22,7 +22,8 @@ app.on("ready", () => {
     console.log("binaryPath length is not valid: length=", binaryPath.length);
   }
 
-  mainWindow = new MainWindow(path.join(__dirname, "../../build/index.html"), true, 900, 1200);
+  console.log(app.getAppPath());
+  mainWindow = new MainWindow(path.join(app.getAppPath(), "ui/build/index.html"), true, 900, 1200);
   mainWindow.create();
   mainWindow.sendAfter("ultimate:kokoroServerEndpointResponse", kokoroServer.kokoroEndpoint);
   mainWindow.sendAfter("ultimate:gatewayServerEndpointResponse", kokoroServer.gatewayEndpoint);

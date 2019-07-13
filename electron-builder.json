@@ -6,7 +6,8 @@
         "output": "build"
     },
     "files": [
-        "build/**/*",
+        "ui/build/**/*",
+        "electron/build/**/*",
         "service/**/*"
     ],
     "asarUnpack": [
