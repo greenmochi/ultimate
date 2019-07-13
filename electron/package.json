@@ -1,12 +1,11 @@
 {
     "name": "ultimate-electron",
     "version": "0.1.0",
-    "description": "Electron-based desktop for Ultimate",
     "private": true,
     "license": "MIT",
     "scripts": {
-        "start": "tsc -p tsconfig.json && electron ./build/index.js",
-        "build": "tsc -p tsconfig.json"
+        "start": "webpack --config webpack.config.dev.js && electron ./build/bundle.js",
+        "build": "webpack --config webpack.config.prod.js"
     },
     "dependencies": {
         "node-fetch": "^2.6.0"
@@ -16,6 +15,10 @@
         "@types/node-fetch": "^2.3.7",
         "electron": "^5.0.6",
         "electron-devtools-installer": "^2.2.4",
-        "typescript": "^3.5.3"
+        "ts-loader": "^6.0.4",
+        "typescript": "^3.5.3",
+        "webpack": "^4.35.3",
+        "webpack-cli": "^3.3.5",
+        "webpack-merge": "^4.2.1"
     }
 }

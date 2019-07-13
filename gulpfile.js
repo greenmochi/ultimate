@@ -99,37 +99,6 @@ function removeElectronNodeModules() {
   ]);
 }
 
-//function javascript() {
-//  const tsProject = ts.createProject("ultimate/ui/tsconfig.json");
-//
-//  return gulp.src("ultimate/ui/src/**/*.tsx")
-//    .pipe(sourcemaps.init())
-//    .pipe(tsProject())
-//    .pipe(babel({
-//      presets: [
-//        ["@babel/preset-env", {
-//          targets: {
-//            "electron": "5"
-//          }
-//        }],
-//        ["@babel/preset-react", {
-//          targets: {
-//            "electron": "gg5"
-//          }
-//        }],
-//      ]
-//    }))
-//    .pipe(uglify())
-//    .pipe(concat("bundle.min.js"))
-//    .pipe(sourcemaps.write("."))
-//    .pipe(gulp.dest("build/ui"));
-//}
-//
-//function assets() {
-//  return gulp.src("ultimate/ui/public/*")
-//    .pipe(gulp.dest("build/ui"));
-//}
-
 const install = gulp.parallel(
   installUI,
   installElectron,
