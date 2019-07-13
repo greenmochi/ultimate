@@ -7,8 +7,8 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/greenmochi/ultimate-heart/logger"
-	"github.com/greenmochi/ultimate-heart/proto/nyaa"
+	"github.com/greenmochi/ultimate/services/gateway/logger"
+	"github.com/greenmochi/ultimate/services/gateway/proto/nyaa"
 )
 
 // Service holds the necessary information to run a process

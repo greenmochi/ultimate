@@ -7,8 +7,8 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/greenmochi/ultimate-heart/gateway"
-	"github.com/greenmochi/ultimate-heart/logger"
+	"github.com/greenmochi/ultimate/services/gateway/gateway"
+	"github.com/greenmochi/ultimate/services/gateway/logger"
 )
 
 func main() {

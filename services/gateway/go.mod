@@ -1,4 +1,4 @@
-module github.com/greenmochi/ultimate-heart
+module github.com/greenmochi/ultimate/services/gateway
 
 go 1.12
 

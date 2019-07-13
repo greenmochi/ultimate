@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/greenmochi/ultimate-heart/logger"
-	"github.com/greenmochi/ultimate-heart/process"
+	"github.com/greenmochi/ultimate/services/gateway/logger"
+	"github.com/greenmochi/ultimate/services/gateway/process"
 )
 
 // Run TODO

@@ -27,11 +27,11 @@ We need this extra server (ultimate-heart) to handle middleware logic, though no
 
 - clone this project (prefer to use go module if possible)
   ```bash
-  $ git clone https://github.com/greenmochi/ultimate-heart.git
+  $ git clone https://github.com/greenmochi/ultimate/services/gateway.git
   ```
   or use `go get`
   ```bash
-  $ go get -u github.com/greenmochi/ultimate-heart
+  $ go get -u github.com/greenmochi/ultimate/services/gateway
   ```
 
 # Compiling protobufs

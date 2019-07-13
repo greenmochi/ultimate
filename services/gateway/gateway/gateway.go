@@ -9,8 +9,8 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	"github.com/greenmochi/ultimate-heart/proto/nyaa"
-	"github.com/greenmochi/ultimate-heart/proto/ultimate_torrent"
+	"github.com/greenmochi/ultimate/services/gateway/proto/nyaa"
+	"github.com/greenmochi/ultimate/services/gateway/proto/ultimate_torrent"
 )
 
 // Run TODO
