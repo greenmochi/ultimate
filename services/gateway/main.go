@@ -24,7 +24,7 @@ func main() {
 	flag.IntVar(&gatewayPort, "gateway-port", 9990, "Port to serve the gateway server")
 	flag.IntVar(&heartPort, "heart-port", 9991, "Port to serve the heart server")
 	flag.IntVar(&nyaaPort, "nyaa-port", 9995, "Nyaa grpc server port")
-	flag.IntVar(&ultimateTorrentPort, "ultimate-torrent-port", 9996, "ultimate-torrent grpc server port")
+	flag.IntVar(&ultimateTorrentPort, "torrent-port", 9996, "torrent grpc server port")
 	flag.Parse()
 	flag.Visit(func(fn *flag.Flag) {
 		if fn.Name == "help" {
@@ -34,8 +34,8 @@ func main() {
 	})
 
 	endpoints := map[string]string{
-		"nyaa":             fmt.Sprintf("localhost:%d", nyaaPort),
-		"ultimate-torrent": fmt.Sprintf("localhost:%d", ultimateTorrentPort),
+		"nyaa":    fmt.Sprintf("localhost:%d", nyaaPort),
+		"torrent": fmt.Sprintf("localhost:%d", ultimateTorrentPort),
 	}
 
 	// Run gateway server
@@ -79,5 +79,5 @@ Options:
   --heart-port=PORT                 Run secondary server on this PORT
   
   --nyaa-port=PORT                  Run ultimate-nyaa service on this PORT
-  --ultimate-torrent-port=PORT      Run ultimate-torrent gRPC service on this PORT
+  --torrent-port=PORT               Run torrent gRPC service on this PORT
 `

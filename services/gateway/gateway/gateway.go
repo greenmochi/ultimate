@@ -10,7 +10,7 @@ import (
 	"google.golang.org/grpc"
 
 	"github.com/greenmochi/ultimate/services/gateway/proto/nyaa"
-	"github.com/greenmochi/ultimate/services/gateway/proto/ultimate_torrent"
+	"github.com/greenmochi/ultimate/services/gateway/proto/torrent"
 )
 
 // Run TODO
@@ -27,8 +27,8 @@ func Run(port int, endpoints map[string]string) error {
 		return err
 	}
 
-	// Register ultimate-torrent service
-	if err := ultimate_torrent.RegisterUltimateTorrentHandlerFromEndpoint(ctx, mux, endpoints["ultimate-torrent"], opts); err != nil {
+	// Register torrent service
+	if err := torrent.RegisterTorrentHandlerFromEndpoint(ctx, mux, endpoints["torrent"], opts); err != nil {
 		return err
 	}
 

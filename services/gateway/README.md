@@ -73,7 +73,7 @@ Options:
   --heart-port=PORT                 Run secondary server on this PORT
 
   --nyaa-port=PORT                  Run ultimate-nyaa service on this PORT        
-  --ultimate-torrent-port=PORT      Run ultimate-torrent gRPC service on this PORT
+  --torrent-port=PORT               Run torrent gRPC service on this PORT
 ```
 
 # Adding gRPC services to ultimate-heart
@@ -138,7 +138,7 @@ endpoints should look like this:
 ```diff
   endpoints := map[string]string{
     "nyaa":             fmt.Sprintf("localhost:%d", nyaaPort),
-    "ultimate-torrent": fmt.Sprintf("localhost:%d", ultimateTorrentPort),
+    "torrent": fmt.Sprintf("localhost:%d", ultimateTorrentPort),
 +   "ultimate-youtube": fmt.Sprintf("localhost:%d", ultimateYoutubePort),
   }
 

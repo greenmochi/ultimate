@@ -1,0 +1,25 @@
+ type: google.api.Service
+ config_version: 3
+
+ http:
+   rules:
+   - selector: torrent.Torrent.Ping
+     post: /torrent/ping
+     body: "*"
+   - selector: torrent.Torrent.Shutdown
+     post: /torrent/shutdown
+     body: "*"
+   - selector: torrent.Torrent.AddMagnetUri
+     post: /torrent/add-magnet-uri
+     body: "*"
+   - selector: torrent.Torrent.RemoveTorrent
+     post: /torrent/remove-torrent
+     body: "*"
+   - selector: torrent.Torrent.PauseTorrent
+     post: /torrent/pause-torrent
+     body: "*"
+   - selector: torrent.Torrent.ResumeTorrent
+     post: /torrent/resume-torrent
+     body: "*"
+   - selector: torrent.Torrent.AllTorrentStatus
+     get: /torrent/all-torrent-status

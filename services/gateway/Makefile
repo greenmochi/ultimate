@@ -16,16 +16,16 @@ proto:
 	  -I$(GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
 	  --go_out=plugins=grpc:proto/nyaa
 
-	protoc ultimate_torrent.proto \
-	  -Iproto/ultimate_torrent \
+	protoc torrent.proto \
+	  -Iproto/torrent \
 	  -I$(GOPATH)/src \
 	  -I$(GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
-	  --grpc-gateway_out=logtostderr=true,grpc_api_configuration=proto/ultimate_torrent/ultimate_torrent.yaml:proto/ultimate_torrent
+	  --grpc-gateway_out=logtostderr=true,grpc_api_configuration=proto/torrent/torrent.yaml:proto/torrent
 
-	protoc ultimate_torrent.proto \
-	  -Iproto/ultimate_torrent \
+	protoc torrent.proto \
+	  -Iproto/torrent \
 	  -I$(GOPATH)/src \
 	  -I$(GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
-	  --go_out=plugins=grpc:proto/ultimate_torrent
+	  --go_out=plugins=grpc:proto/torrent
 
 .PHONY: all proto

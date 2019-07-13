@@ -1,5 +1,5 @@
 torrent: a python gRPC torrent and torrent manager service
-###################################################################
+##########################################################
 
 torrent is a gRPC service. It allows a gRPC client to add, create,
 and download torrents. torrent torrent core uses the python-bindings
