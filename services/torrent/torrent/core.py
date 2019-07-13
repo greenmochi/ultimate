@@ -1,9 +1,9 @@
 from os import path
 
-import ultimate_torrent.libtorrent as lt
+import torrent.libtorrent as lt
 
 class Core():
-    """Core is responsible for the main functionality of ultimate-torrent"""
+    """Core is responsible for the main functionality of torrent"""
 
     def __init__(self, session_config=None):
         if session_config is None:

@@ -2,10 +2,10 @@ from setuptools import setup, find_packages
 
 
 setup(
-    name="ultimate-torrent",
+    name="torrent",
     version="0.0.1",
     description="A python gRPC torrent and torrent manager service",
-    url="https://github.com/greenmochi/ultimate-torrent",
+    url="https://github.com/greenmochi/ultimate/services/torrent",
     author="https://github.com/greenmochi",
     author_email="hueyjj@greenmochi.com",
     license="MIT",

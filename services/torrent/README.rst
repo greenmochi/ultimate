@@ -1,8 +1,8 @@
-ultimate-torrent: a python gRPC torrent and torrent manager service
+torrent: a python gRPC torrent and torrent manager service
 ###################################################################
 
-ultimate-torrent is a gRPC service. It allows a gRPC client to add, create,
-and download torrents. ultimate-torrent torrent core uses the python-bindings
+torrent is a gRPC service. It allows a gRPC client to add, create,
+and download torrents. torrent torrent core uses the python-bindings
 for libtorrent.
 
 .. contents::
@@ -97,10 +97,10 @@ Build libtorrent:
 Copy the generated ``libtorrent.pyd``
 from (libtorrent directory)
 ``libtorrent/bindings/python/build/lib/libtorrent.pyd``
-to (ultimate-torrent directory)
-``ultimate-torrent/ultimte-torrent/libtorrent/``.
+to (torrent directory)
+``torrent/torrent/libtorrent.pyd``.
 
-Setup ultimate-torrent
+Setup torrent
 ----------------------
 Use pipenv to create a virtual environment to manage our dependencies.
 
@@ -115,7 +115,7 @@ Check to make sure we are using the virtual environment (looks like this):
 .. code-block:: bash
 
     $ pip -V
-    pip 19.1.1 from c:\users\OUR_USERNAME\.virtualenvs\ultimate-torrent-p47o5uwh\lib\site-packages\pip (python 3.7)
+    pip 19.1.1 from c:\users\OUR_USERNAME\.virtualenvs\torrent-p47o5uwh\lib\site-packages\pip (python 3.7)
 
 Install dependencies:
 
@@ -150,7 +150,7 @@ Quickstart
     $ python setup.py build
     $ python setup.py install
     or
-    $ python -m ultimate_torrent
+    $ python -m torrent
     or
     $ python -m tests.module
 
@@ -168,7 +168,7 @@ Check if we're running in the virtual environment:
 .. code-block:: bash
 
     $ pip -V
-    pip 19.1.1 from c:\users\OUR_USERNAME\.virtualenvs\ultimate-torrent-p47o5uwh\lib\site-packages\pip (python 3.7)
+    pip 19.1.1 from c:\users\OUR_USERNAME\.virtualenvs\torrent-p47o5uwh\lib\site-packages\pip (python 3.7)
 
 Add modules:
 
@@ -193,7 +193,7 @@ Check code quality with pylint and autopep8.
 
 .. code-block::
 
-    $ pylint ultimate_torrent
+    $ pylint torrent
 
 Format the document using autopep8 in vscode.
 
@@ -210,7 +210,7 @@ Use PyInstaller to freeze the application into a runnable executable.
 
 .. code-block::
 
-    $ pyinstaller ultimate_torrent/__main__.py
+    $ pyinstaller torrent/__main__.py
 
 The build will be in dist/__main__. Probably should rename this later.
 

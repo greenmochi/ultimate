@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package ultimate_torrent;
+package torrent;
 
-// The ultimate-torrent's service definition.
-service UltimateTorrent {
+// The torrent's service definition.
+service Torrent {
     rpc Ping (PingRequest) returns (PingReply);
     rpc Shutdown(ShutdownRequest) returns (ShutdownReply);
     rpc AddMagnetUri(AddMagnetUriRequest) returns (AddMagnetUriReply);

@@ -1,7 +1,7 @@
 import sys
 import time
 
-from ultimate_torrent import core
+from torrent import core
 
 def dump(obj):
    for attr in dir(obj):

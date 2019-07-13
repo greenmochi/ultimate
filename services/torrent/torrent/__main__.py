@@ -4,22 +4,22 @@ import time
 
 import grpc
 
-import ultimate_torrent.libtorrent as lt
+import torrent.libtorrent as lt
 
-from ultimate_torrent.service import ultimate_torrent_pb2_grpc
-from ultimate_torrent.service.ultimate_torrent_service import UltimateTorrentService
-from ultimate_torrent import core
+from torrent.service import torrent_pb2_grpc
+from torrent.service.torrent_service import TorrentService
+from torrent import core
 
 
 def main():
-    ultimate_torrent_core = core.Core()
+    torrent_core = core.Core()
     print("started libtorrent core")
 
-    ultimate_torrent_service = UltimateTorrentService(ultimate_torrent_core)
+    torrent_service = TorrentService(torrent_core)
 
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    ultimate_torrent_pb2_grpc.add_UltimateTorrentServicer_to_server(
-        ultimate_torrent_service, server)
+    torrent_pb2_grpc.add_TorrentServicer_to_server(
+        torrent_service, server)
     server.add_insecure_port("[::]:50051")
     server.start()
     print("started server on :50051")
