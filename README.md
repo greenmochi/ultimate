@@ -60,3 +60,6 @@ Removes node modules for the ui and electron.
 ```bash
 $ gulp unistall
 ```
+
+# notes
+If you're crazy enough to get this build to work on your own, then you're a god.
