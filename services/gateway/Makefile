@@ -1,7 +1,10 @@
 all: proto
 	@echo GOPATH=$(GOPATH)
-	mkdir -p bin
-	go build -o bin/ultimate-heart.exe
+	mkdir -p build
+	go build -o build/gateway.exe
+
+clean:
+	rm -rf build
 
 proto:
 	protoc nyaa.proto \

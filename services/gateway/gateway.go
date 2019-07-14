@@ -13,8 +13,8 @@ import (
 	"github.com/greenmochi/ultimate/services/gateway/proto/torrent"
 )
 
-// Run TODO
-func Run(port int, endpoints map[string]string) error {
+// Serve TODO
+func Serve(port int, endpoints map[string]string) error {
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()

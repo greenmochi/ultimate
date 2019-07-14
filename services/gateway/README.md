@@ -60,7 +60,7 @@ $ ./ultimate-heart --gateway-port=9990
 
 Print help text
 ```bash
-$ ./bin/ultimate-heart.exe --help
+$ ./build/ultimate-heart.exe --help
 Usage: ultimate-heart [options]
 
 ultimate-heart converts REST to gRPC calls, and provides a secondary server       

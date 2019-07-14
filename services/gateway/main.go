@@ -1,4 +1,4 @@
-package main
+package gateway
 
 import (
 	"flag"
@@ -7,13 +7,17 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/greenmochi/ultimate/services/gateway/gateway"
-	"github.com/greenmochi/ultimate/services/gateway/logger"
+	log "github.com/sirupsen/logrus"
 )
 
 func main() {
-	// Close logger at the end
-	defer logger.Close()
+	file, err := os.OpenFile("gateway.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	if err != nil {
+		log.Info("Failed to log to gateway.log file, using default stderr")
+	} else {
+		log.SetOutput(file)
+	}
+	defer file.Close()
 
 	var helpUsage bool
 	var gatewayPort int
@@ -39,28 +43,24 @@ func main() {
 	}
 
 	// Run gateway server
-	logger.Infof("running gateway server on :%d", gatewayPort)
-	if err := gateway.Run(gatewayPort, endpoints); err != nil {
-		logger.Fatal(err)
+	log.WithFields(log.Fields{
+		"gatewayPort": gatewayPort,
+	}).Infof("Running gateway server on :%d", gatewayPort)
+	if err := Serve(gatewayPort, endpoints); err != nil {
+		log.WithFields(log.Fields{
+			"error": err,
+		}).Fatal(err)
 	}
-
-	// Run secondary server
-	// go func() {
-	// 	logger.Infof("running heart server on :%d", heartPort)
-	// 	if err := heart.Run(heartPort, services, shutdown); err != nil {
-	// 		logger.Fatal(err)
-	// 	}
-	// }()
 
 	exit := make(chan os.Signal, 1)
 	signal.Notify(exit, os.Interrupt, syscall.SIGTERM)
 
 	// // Graceful shutdown
-	logger.Infof("graceful shutdown loop started")
+	log.Info("graceful shutdown loop started")
 	for {
 		select {
 		case <-exit:
-			logger.Info("exit signal received. Program exited.")
+			log.Info("Exit signal received. Program has exited.")
 			os.Exit(1)
 			return
 		}
