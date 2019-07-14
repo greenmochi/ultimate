@@ -38,7 +38,6 @@ func (api *API) Search(url *nyaa.URL) bool {
 		log.Errorf("unable to parse body for query=%s\n", api.nyaa.URL.Query)
 		return false
 	}
-
 	return true
 }
 

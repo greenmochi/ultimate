@@ -2,34 +2,12 @@ syntax = "proto3";
 
 package proto;
 
-import "google/api/annotations.proto";
-
 // The nyaa service definition.
 service Nyaa {
-  rpc Ping (PingRequest) returns (PingReply) {
-    option (google.api.http) = {
-      get: "/nyaa/ping"
-    };
-  }
-
-  rpc Shutdown(ShutdownRequest) returns (ShutdownReply) {
-    option (google.api.http) = {
-      get: "/nyaa/shutdown"
-    };
-  }
-
-  rpc Search(SearchRequest) returns (SearchReply) {
-    option (google.api.http) = {
-      post: "/nyaa/search"
-      body: "*"
-    };
-  }
-
-  rpc CurrentResults(CurrentResultsRequest) returns (CurrentResultsReply) {
-    option (google.api.http) = {
-      get: "/nyaa/current-results"
-    };
-  }
+  rpc Ping (PingRequest) returns (PingReply);
+  rpc Shutdown(ShutdownRequest) returns (ShutdownReply);
+  rpc Search(SearchRequest) returns (SearchReply);
+  rpc CurrentResults(CurrentResultsRequest) returns (CurrentResultsReply);
 }
 
 // The ping message containing the user's name.

@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"net"
-	"os"
 
 	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
@@ -13,10 +12,8 @@ import (
 	pb "github.com/greenmochi/ultimate/services/nyaa/proto"
 )
 
-var shutdown = make(chan bool)
-
 // Serve starts the gRPC service
-func Serve(port int, a *API, ) {
+func Serve(port int, a *API) error {
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
@@ -27,18 +24,7 @@ func Serve(port int, a *API, ) {
 		api: a,
 	})
 
-	log.Infof("listening on :%d", port)
-	go func() {
-		if err := s.Serve(lis); err != nil {
-			log.Fatalf("failed to serve: %v", err)
-			os.Exit(1)
-		}
-	}()
-	select {
-	case <-shutdown:
-		log.Infof("graceful shutdown")
-		s.GracefulStop()
-	}
+	return s.Serve(lis)
 }
 
 // nyaaServer is used to implement nyaa server
@@ -54,9 +40,6 @@ func (s *nyaaServer) Ping(ctx context.Context, in *pb.PingRequest) (*pb.PingRepl
 
 func (s *nyaaServer) Shutdown(ctx context.Context, in *pb.ShutdownRequest) (*pb.ShutdownReply, error) {
 	log.Infof("shutdown request received")
-	defer func() {
-		shutdown <- true
-	}()
 	return &pb.ShutdownReply{}, nil
 }
 

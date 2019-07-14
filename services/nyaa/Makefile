@@ -1,5 +1,3 @@
-SERVICE=nyaa
-
 all: proto
 	@echo GOPATH=$(GOPATH)
 	mkdir -p build
