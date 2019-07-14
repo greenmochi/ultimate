@@ -1,4 +1,4 @@
-package gateway
+package main
 
 import (
 	"flag"
@@ -7,11 +7,12 @@ import (
 	"os/signal"
 	"syscall"
 
+	gateway "github.com/greenmochi/ultimate/services/gateway/gateway"
 	log "github.com/sirupsen/logrus"
 )
 
 func main() {
-	file, err := os.OpenFile("gateway.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	file, err := os.OpenFile("gateway.log", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0666)
 	if err != nil {
 		log.Info("Failed to log to gateway.log file, using default stderr")
 	} else {
@@ -46,7 +47,7 @@ func main() {
 	log.WithFields(log.Fields{
 		"gatewayPort": gatewayPort,
 	}).Infof("Running gateway server on :%d", gatewayPort)
-	if err := Serve(gatewayPort, endpoints); err != nil {
+	if err := gateway.Serve(gatewayPort, endpoints); err != nil {
 		log.WithFields(log.Fields{
 			"error": err,
 		}).Fatal(err)

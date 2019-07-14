@@ -9,6 +9,8 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
+	log "github.com/sirupsen/logrus"
+
 	"github.com/greenmochi/ultimate/services/gateway/proto/nyaa"
 	"github.com/greenmochi/ultimate/services/gateway/proto/torrent"
 )
@@ -36,7 +38,9 @@ func Serve(port int, endpoints map[string]string) error {
 		Addr:    fmt.Sprintf(":%d", port),
 		Handler: allowCORS(mux),
 	}
-
+	log.WithFields(log.Fields{
+		"address": s.Addr,
+	}).Infof("Started server on %s", s.Addr)
 	return s.ListenAndServe()
 }
 
