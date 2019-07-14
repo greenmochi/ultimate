@@ -216,9 +216,9 @@ Use PyInstaller to freeze the application into a runnable executable.
 
 .. code-block::
 
-    $ pyinstaller torrent/__main__.py
+    $ pyinstaller torrent/__main__.py --name torrent
 
-The build will be in dist/__main__. Probably should rename this later.
+Find the executable and related files at dist/torrent.
 
 VS Code configuration
 =====================
