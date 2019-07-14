@@ -82,10 +82,6 @@ function buildElectron(done) {
 }
 
 function prePackageTask(done) {
-  const buildDir = "./build";
-  if (!fs.existsSync(buildDir)) {
-    fs.mkdirSync(buildDir);
-  }
   const ui = () => src("ui/build/**/*").pipe(dest("build/ui"));
   const electron = () => src("electron/build/**/*").pipe(dest("build/electron"));
   const gateway = () => src("services/gateway/build/**/*").pipe(dest("build/services/gateway"));

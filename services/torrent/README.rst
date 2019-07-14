@@ -123,6 +123,12 @@ Install dependencies:
 
     $ pipenv install
 
+Install dev packages:
+
+.. code-block:: bash
+
+    $ pipenv sync -d
+
 Generate gRPC stubs:
 
 .. code-block:: bash
