@@ -88,7 +88,9 @@ function prePackageTask(done) {
   }
   const ui = () => src("ui/build/**/*").pipe(dest("build/ui"));
   const electron = () => src("electron/build/**/*").pipe(dest("build/electron"));
-  return parallel(ui, electron)(done);
+  const gateway = () => src("services/gateway/build/**/*").pipe(dest("build/services/gateway"));
+  const nyaa = () => src("services/nyaa/build/**/*").pipe(dest("build/services/nyaa"));
+  return parallel(ui, electron, gateway, nyaa)(done);
 }
 
 function packageRelease(done) {

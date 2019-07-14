@@ -9,6 +9,6 @@
         "build/**/*"
     ],
     "asarUnpack": [
-        "build/**/*"
+        "build/services/**/*"
     ]
 }
