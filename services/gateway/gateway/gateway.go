@@ -1,15 +1,14 @@
 package gateway
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"strings"
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
-	"golang.org/x/net/context"
-	"google.golang.org/grpc"
-
 	log "github.com/sirupsen/logrus"
+	"google.golang.org/grpc"
 
 	"github.com/greenmochi/ultimate/services/gateway/proto/nyaa"
 	"github.com/greenmochi/ultimate/services/gateway/proto/torrent"

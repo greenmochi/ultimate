@@ -10,10 +10,10 @@ test:
 	go test ./...
 
 proto:
-	protoc proto/nyaa.proto \
-	-Iproto \
+	protoc nyaa.proto \
+	-Iproto/nyaa \
 	-I$(GOPATH)/src \
 	-I$(GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
-	--go_out=plugins=grpc:proto 
+	--go_out=plugins=grpc:proto/nyaa
 
 .PHONY: all clean test proto

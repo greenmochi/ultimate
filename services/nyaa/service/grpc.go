@@ -9,7 +9,7 @@ import (
 	"google.golang.org/grpc"
 
 	nyaa "github.com/greenmochi/ultimate/services/nyaa/nyaa"
-	pb "github.com/greenmochi/ultimate/services/nyaa/proto"
+	pb "github.com/greenmochi/ultimate/services/nyaa/proto/nyaa"
 )
 
 // Serve starts the gRPC service

@@ -20,9 +20,9 @@ def main():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     torrent_pb2_grpc.add_TorrentServicer_to_server(
         torrent_service, server)
-    server.add_insecure_port("[::]:50051")
+    server.add_insecure_port("[::]:9992")
     server.start()
-    print("started server on :50051")
+    print("started server on :9992")
 
     try:
         while True:

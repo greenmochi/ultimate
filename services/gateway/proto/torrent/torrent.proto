@@ -2,9 +2,16 @@ syntax = "proto3";
 
 package torrent;
 
+import "google/api/annotations.proto";
+
 // The torrent's service definition.
 service Torrent {
-    rpc Ping (PingRequest) returns (PingReply);
+    rpc Ping (PingRequest) returns (PingReply) {
+        option (google.api.http) = {
+            post: "/torrent/ping"
+            body: "*"
+        };
+    }
     rpc Shutdown(ShutdownRequest) returns (ShutdownReply);
     rpc AddMagnetUri(AddMagnetUriRequest) returns (AddMagnetUriReply);
     rpc RemoveTorrent(RemoveTorrentRequest) returns (RemoveTorrentReply);
