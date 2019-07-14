@@ -28,7 +28,6 @@ func Serve(port int, endpoints map[string]string) error {
 	if err := nyaa.RegisterNyaaHandlerFromEndpoint(ctx, mux, endpoints["nyaa"], opts); err != nil {
 		return err
 	}
-
 	// Register torrent service
 	if err := torrent.RegisterTorrentHandlerFromEndpoint(ctx, mux, endpoints["torrent"], opts); err != nil {
 		return err
@@ -38,9 +37,12 @@ func Serve(port int, endpoints map[string]string) error {
 		Addr:    fmt.Sprintf(":%d", port),
 		Handler: allowCORS(mux),
 	}
-	log.WithFields(log.Fields{
-		"address": s.Addr,
-	}).Infof("Started server on %s", s.Addr)
+
+	for name, endpoint := range endpoints {
+		log.WithFields(log.Fields{
+			"endpoint": endpoint,
+		}).Infof("Listening to %s service on %s", name, endpoint)
+	}
 	return s.ListenAndServe()
 }
 

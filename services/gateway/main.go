@@ -22,14 +22,12 @@ func main() {
 
 	var helpUsage bool
 	var gatewayPort int
-	var heartPort int
 	var nyaaPort int
-	var ultimateTorrentPort int
+	var torrentPort int
 	flag.BoolVar(&helpUsage, "help", false, "Prints help text")
 	flag.IntVar(&gatewayPort, "gateway-port", 9990, "Port to serve the gateway server")
-	flag.IntVar(&heartPort, "heart-port", 9991, "Port to serve the heart server")
-	flag.IntVar(&nyaaPort, "nyaa-port", 9995, "Nyaa grpc server port")
-	flag.IntVar(&ultimateTorrentPort, "torrent-port", 9996, "torrent grpc server port")
+	flag.IntVar(&nyaaPort, "nyaa-port", 9991, "Nyaa grpc server port")
+	flag.IntVar(&torrentPort, "torrent-port", 9992, "torrent grpc server port")
 	flag.Parse()
 	flag.Visit(func(fn *flag.Flag) {
 		if fn.Name == "help" {
@@ -40,24 +38,26 @@ func main() {
 
 	endpoints := map[string]string{
 		"nyaa":    fmt.Sprintf("localhost:%d", nyaaPort),
-		"torrent": fmt.Sprintf("localhost:%d", ultimateTorrentPort),
+		"torrent": fmt.Sprintf("localhost:%d", torrentPort),
 	}
 
 	// Run gateway server
-	log.WithFields(log.Fields{
-		"gatewayPort": gatewayPort,
-	}).Infof("Running gateway server on :%d", gatewayPort)
-	if err := gateway.Serve(gatewayPort, endpoints); err != nil {
+	go func() {
 		log.WithFields(log.Fields{
-			"error": err,
-		}).Fatal(err)
-	}
+			"gatewayPort": gatewayPort,
+		}).Infof("Running gateway server on :%d", gatewayPort)
+		if err := gateway.Serve(gatewayPort, endpoints); err != nil {
+			log.WithFields(log.Fields{
+				"error": err,
+			}).Fatal(err)
+		}
+	}()
 
 	exit := make(chan os.Signal, 1)
 	signal.Notify(exit, os.Interrupt, syscall.SIGTERM)
 
-	// // Graceful shutdown
-	log.Info("graceful shutdown loop started")
+	// Graceful shutdown
+	log.Info("Graceful shutdown loop started")
 	for {
 		select {
 		case <-exit:
@@ -68,17 +68,18 @@ func main() {
 	}
 }
 
-const helpText = `Usage: ultimate-heart [options]
+const helpText = `Usage: gateway [options]
 
-ultimate-heart converts REST to gRPC calls, and provides a secondary server
-to log information and control the gRPC services.
+example: gateway --gateway-port=2352 --nyaa-port=3252
+
+gateway converts REST to gRPC calls. If not ports are provided for
+the services, then a default value will be chosen.
 
 Options:
-  --help                            Prints program help text
+  --help                Prints program help text
   
-  --gateway-port=PORT               Run gateway on this PORT
-  --heart-port=PORT                 Run secondary server on this PORT
-  
-  --nyaa-port=PORT                  Run ultimate-nyaa service on this PORT
-  --torrent-port=PORT               Run torrent gRPC service on this PORT
+  --gateway-port=PORT   Run gateway on this PORT
+
+  --nyaa-port=PORT      Run nyaa service on this PORT
+  --torrent-port=PORT   Run torrent service on this PORT
 `
