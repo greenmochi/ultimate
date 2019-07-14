@@ -38,8 +38,22 @@ function startGateway() {
   return script;
 }
 
+function startNyaa() {
+  const cmd = `"services/nyaa/build/nyaa`;
+  const script = exec(cmd, {
+    cwd: path.resolve(process.cwd()),
+  });
+  script.stdout.pipe(process.stdout);
+  script.stderr.pipe(process.stderr);
+  script.stderr.on("error", (error) => {
+    done(error);
+  });
+  return script;
+}
+
 module.exports = {
   startUI,
   startElectron,
   startGateway,
+  startNyaa,
 };
