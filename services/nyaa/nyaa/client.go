@@ -6,8 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/greenmochi/ultimate-nyaa/logger"
-
+	log "github.com/sirupsen/logrus"
 	"github.com/anaskhan96/soup"
 )
 
@@ -24,7 +23,7 @@ func (c *Client) Get() (string, error) {
 	}
 
 	url := c.URL.String()
-	logger.Info("GET request for ", url)
+	log.Info("GET request for ", url)
 
 	res, err := http.Get(url)
 	if err != nil {

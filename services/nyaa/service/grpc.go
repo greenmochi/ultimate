@@ -1,4 +1,4 @@
-package grpc
+package service
 
 import (
 	"context"
@@ -6,21 +6,20 @@ import (
 	"net"
 	"os"
 
-	a "github.com/greenmochi/ultimate-nyaa/api"
-	"github.com/greenmochi/ultimate-nyaa/logger"
-	nyaa "github.com/greenmochi/ultimate-nyaa/nyaa"
-
-	pb "github.com/greenmochi/ultimate-nyaa/proto"
+	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
+
+	nyaa "github.com/greenmochi/ultimate/services/nyaa/nyaa"
+	pb "github.com/greenmochi/ultimate/services/nyaa/proto"
 )
 
 var shutdown = make(chan bool)
 
-// Start starts the gRPC service
-func Start(a *a.API, port int) {
+// Serve starts the gRPC service
+func Serve(port int, a *API, ) {
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", port))
 	if err != nil {
-		logger.Fatalf("failed to listen: %v", err)
+		log.Fatalf("failed to listen: %v", err)
 	}
 
 	s := grpc.NewServer()
@@ -28,33 +27,33 @@ func Start(a *a.API, port int) {
 		api: a,
 	})
 
-	logger.Infof("listening on :%d", port)
+	log.Infof("listening on :%d", port)
 	go func() {
 		if err := s.Serve(lis); err != nil {
-			logger.Fatalf("failed to serve: %v", err)
+			log.Fatalf("failed to serve: %v", err)
 			os.Exit(1)
 		}
 	}()
 	select {
 	case <-shutdown:
-		logger.Infof("graceful shutdown")
+		log.Infof("graceful shutdown")
 		s.GracefulStop()
 	}
 }
 
 // nyaaServer is used to implement nyaa server
 type nyaaServer struct {
-	api *a.API
+	api *API
 }
 
 // Ping TODO
 func (s *nyaaServer) Ping(ctx context.Context, in *pb.PingRequest) (*pb.PingReply, error) {
-	logger.Infof("ping request received: %v", in.Message)
+	log.Infof("ping request received: %v", in.Message)
 	return &pb.PingReply{Message: "Ping " + in.Message}, nil
 }
 
 func (s *nyaaServer) Shutdown(ctx context.Context, in *pb.ShutdownRequest) (*pb.ShutdownReply, error) {
-	logger.Infof("shutdown request received")
+	log.Infof("shutdown request received")
 	defer func() {
 		shutdown <- true
 	}()
@@ -64,7 +63,7 @@ func (s *nyaaServer) Shutdown(ctx context.Context, in *pb.ShutdownRequest) (*pb.
 func (s *nyaaServer) getCurrentResults() []*pb.Result {
 	results := s.api.GetCurrentResults()
 	if len(results) <= 0 {
-		logger.Warning("getCurrentResults returned no results.")
+		log.Warning("getCurrentResults returned no results.")
 		return []*pb.Result{}
 	}
 
@@ -85,7 +84,7 @@ func (s *nyaaServer) getCurrentResults() []*pb.Result {
 }
 
 func (s *nyaaServer) Search(ctx context.Context, in *pb.SearchRequest) (*pb.SearchReply, error) {
-	logger.Infof("search request received: %v", in.String())
+	log.Infof("search request received: %v", in.String())
 
 	url := nyaa.DefaultURL()
 	url.Query = in.Query

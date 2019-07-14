@@ -1,8 +1,8 @@
-# ultimate-nyaa
+# nyaa
 A gRPC service to scrape nyaa.si and download torrent.
 
 # Overview
-ultimate-nyaa is meant to be used in joint with ultimate-electron and ultimate-kokoro.
+nyaa is meant to be used in joint with ultimate-electron and ultimate-kokoro.
 
 # Install gRPC
 Download the protobuf compilers and other binaries for your system. Use the latest release and not the pre-release version.
@@ -29,7 +29,7 @@ $ make proto
 
 # Running
 ```bash
-$ bin/ultimate-nyaa
+$ bin/nyaa
 ```
 
 # Managing protobufs
@@ -58,7 +58,7 @@ github.com/anacrolix/torrent uses github.com/anacrolix/go-libutp which is a go w
 
 github.com/anacrolix/torrent client doesn't expose the logger. Unfortunately, it's outputting a lot of noise.
 ```bash
-$ ./ultimate-nyaa
+$ ./nyaa
 go-libutp: 2019/06/06 03:53:10 socket.go:172: ignoring socket read error: read udp4 0.0.0.0:58865: wsarecvfrom: The connection has been broken due to keep-alive activity detecting a failure while the operation was in progress.
 go-libutp: 2019/06/06 03:53:11 socket.go:172: ignoring socket read error: read udp4 0.0.0.0:58865: wsarecvfrom: The connection has been broken due to keep-alive activity detecting a failure while the operation was in progress.
 go-libutp: 2019/06/06 03:53:11 socket.go:172: ignoring socket read error: read udp4 0.0.0.0:58865: wsarecvfrom: The connection has been broken due to keep-alive activity detecting a failure while the operation was in progress.
@@ -71,6 +71,6 @@ It turns out, there exist no clean solution to managing all the .proto files for
 # Issues
 If there is a visual studio code go build error that looks like a link failure because of g++, try recloning the project. It seems to solve the problem temporarily.
 ```
-# github.com/greenmochi/ultimate-nyaa
+# github.com/greenmochi/nyaa
 C:\Go\pkg\tool\windows_amd64\link.exe: running g++ failed: exit status 
 ```

@@ -4,30 +4,35 @@ import (
 	"flag"
 	"os"
 
-	"github.com/greenmochi/ultimate-nyaa/api"
-	"github.com/greenmochi/ultimate-nyaa/grpc"
-	"github.com/greenmochi/ultimate-nyaa/logger"
+	log "github.com/sirupsen/logrus"
+
+	"github.com/greenmochi/ultimate/services/nyaa/service"
 )
 
 func main() {
-	// anacrolix/torrent is outputting crazy noise, turn it off and log to file instead
-	os.Stdout = nil
-	os.Stderr = nil
-	defer logger.Close()
-
-	api, err := api.Setup()
+	file, err := os.OpenFile("nyaa.log", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0666)
 	if err != nil {
-		logger.Fatal("unable to set API up", err)
+		log.Info("Failed to log to gateway.log file, using default stderr")
+	} else {
+		log.SetOutput(file)
+	}
+	defer file.Close()
+
+	api := service.NewAPI()
+	if err != nil {
+		log.WithFields(log.Fields{
+			"error": err,
+		}).Fatal("Unable to setup API")
 		os.Exit(1)
 	}
 	defer api.TearDown()
 
-	logger.Info("API setup successfully.")
+	log.Info("API setup successfully.")
 
 	var port int
-	flag.IntVar(&port, "port", 9995, "Port to serve on")
+	flag.IntVar(&port, "port", 9991, "Port to serve this service on")
 	flag.Parse()
 
 	// Run gRPC service
-	grpc.Start(api, port)
+	service.Serve(port, api)
 }
