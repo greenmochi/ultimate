@@ -86,7 +86,8 @@ function prePackageTask(done) {
   const electron = () => src("electron/build/**/*").pipe(dest("build/electron"));
   const gateway = () => src("services/gateway/build/**/*").pipe(dest("build/services/gateway"));
   const nyaa = () => src("services/nyaa/build/**/*").pipe(dest("build/services/nyaa"));
-  return parallel(ui, electron, gateway, nyaa)(done);
+  const torrent = () => src("services/torrent/dist/**/*").pipe(dest("build/services/torrent"));
+  return parallel(ui, electron, gateway, nyaa, torrent)(done);
 }
 
 function packageRelease(done) {
