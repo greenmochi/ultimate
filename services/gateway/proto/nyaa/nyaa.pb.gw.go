@@ -28,15 +28,15 @@ var _ status.Status
 var _ = runtime.String
 var _ = utilities.NewDoubleArray
 
-var (
-	filter_Nyaa_Ping_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
-)
-
 func request_Nyaa_Ping_0(ctx context.Context, marshaler runtime.Marshaler, client NyaaClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq PingRequest
 	var metadata runtime.ServerMetadata
 
-	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_Nyaa_Ping_0); err != nil {
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
+	}
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -48,6 +48,14 @@ func request_Nyaa_Ping_0(ctx context.Context, marshaler runtime.Marshaler, clien
 func request_Nyaa_Shutdown_0(ctx context.Context, marshaler runtime.Marshaler, client NyaaClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq ShutdownRequest
 	var metadata runtime.ServerMetadata
+
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
+	}
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
 
 	msg, err := client.Shutdown(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
@@ -74,6 +82,14 @@ func request_Nyaa_Search_0(ctx context.Context, marshaler runtime.Marshaler, cli
 func request_Nyaa_CurrentResults_0(ctx context.Context, marshaler runtime.Marshaler, client NyaaClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq CurrentResultsRequest
 	var metadata runtime.ServerMetadata
+
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
+	}
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
 
 	msg, err := client.CurrentResults(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
@@ -118,7 +134,7 @@ func RegisterNyaaHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.
 // "NyaaClient" to call the correct interceptors.
 func RegisterNyaaHandlerClient(ctx context.Context, mux *runtime.ServeMux, client NyaaClient) error {
 
-	mux.Handle("GET", pattern_Nyaa_Ping_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_Nyaa_Ping_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
@@ -138,7 +154,7 @@ func RegisterNyaaHandlerClient(ctx context.Context, mux *runtime.ServeMux, clien
 
 	})
 
-	mux.Handle("GET", pattern_Nyaa_Shutdown_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_Nyaa_Shutdown_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
@@ -178,7 +194,7 @@ func RegisterNyaaHandlerClient(ctx context.Context, mux *runtime.ServeMux, clien
 
 	})
 
-	mux.Handle("GET", pattern_Nyaa_CurrentResults_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_Nyaa_CurrentResults_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)

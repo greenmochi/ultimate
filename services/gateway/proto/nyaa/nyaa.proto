@@ -8,26 +8,26 @@ import "google/api/annotations.proto";
 service Nyaa {
   rpc Ping (PingRequest) returns (PingReply) {
     option (google.api.http) = {
-      get: "/nyaa/ping"
+      post: "/nyaa/ping"
+      body: "*"
     };
   }
-
   rpc Shutdown(ShutdownRequest) returns (ShutdownReply) {
     option (google.api.http) = {
-      get: "/nyaa/shutdown"
+      post: "/nyaa/shutdown"
+      body: "*"
     };
   }
-
   rpc Search(SearchRequest) returns (SearchReply) {
     option (google.api.http) = {
       post: "/nyaa/search"
       body: "*"
     };
   }
-
   rpc CurrentResults(CurrentResultsRequest) returns (CurrentResultsReply) {
     option (google.api.http) = {
-      get: "/nyaa/current-results"
+      post: "/nyaa/current-results"
+      body: "*"
     };
   }
 }

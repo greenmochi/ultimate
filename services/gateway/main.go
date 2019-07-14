@@ -12,14 +12,6 @@ import (
 )
 
 func main() {
-	file, err := os.OpenFile("gateway.log", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0666)
-	if err != nil {
-		log.Info("Failed to log to gateway.log file, using default stderr")
-	} else {
-		log.SetOutput(file)
-	}
-	defer file.Close()
-
 	var helpUsage bool
 	var gatewayPort int
 	var nyaaPort int
@@ -35,6 +27,15 @@ func main() {
 			os.Exit(1)
 		}
 	})
+
+	// Setup logrus
+	file, err := os.OpenFile("gateway.log", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0666)
+	if err != nil {
+		log.Info("Failed to log to gateway.log file, using default stderr")
+	} else {
+		log.SetOutput(file)
+	}
+	defer file.Close()
 
 	endpoints := map[string]string{
 		"nyaa":    fmt.Sprintf("localhost:%d", nyaaPort),
@@ -78,8 +79,8 @@ the services, then a default value will be chosen.
 Options:
   --help                Prints program help text
   
-  --gateway-port=PORT   Run gateway on this PORT
+  --gateway-port=PORT   Run gateway on this port
 
-  --nyaa-port=PORT      Run nyaa service on this PORT
-  --torrent-port=PORT   Run torrent service on this PORT
+  --nyaa-port=PORT      Run nyaa service on this port
+  --torrent-port=PORT   Run torrent service on this port
 `
