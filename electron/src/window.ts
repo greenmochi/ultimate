@@ -26,6 +26,7 @@ export default class Window {
       },
       frame: true,
     });
+    this.window.removeMenu();
 
     if (this.settings.fileUri) {
       this.window.loadFile(this.settings.fileUri);

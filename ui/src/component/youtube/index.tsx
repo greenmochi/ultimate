@@ -1,27 +1,54 @@
 import React from "react";
-import {
-  connect,
-} from "react-redux";
+import { connect } from "react-redux";
 import {
   bindActionCreators,
   Dispatch,
-  AnyAction
+  AnyAction,
 } from "redux";
+import styled from "styled-components";
+import {
+  FontAwesomeIcon,
+} from "@fortawesome/react-fontawesome";
+
 import {
   StoreState,
 } from "../../store";
 import {
   setSearchTerm,
 } from "../../store/youtube/action";
-import {
-  SYoutubeContainer,
-  SForm,
-  SInput,
-  SSubmitButton,
-} from "./style";
-import {
-  FontAwesomeIcon,
-} from "@fortawesome/react-fontawesome";
+
+export const Container = styled.div`
+  background-color: #282C3C;
+  text-align: center;
+  overflow-y: auto;
+`;
+
+export const Form = styled.form`
+  margin: 10px;
+`;
+
+export const Input = styled.input`
+  font-size: 1.3em;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  outline: none;
+`;
+
+export const SubmitButton = styled.button`
+  font-size: 1.3em;
+  margin-left: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 5px;
+  background-color: #F7941D;
+  border: none;
+  outline: none;
+  cursor: pointer;
+`;
 
 const mapStateToProps = (state: StoreState) => ({
   youtube: state.youtube,
@@ -47,11 +74,11 @@ class Youtube extends React.Component<YoutubeProps> {
 
   render() {
     return (
-      <SYoutubeContainer>
-        <SForm
+      <Container>
+        <Form
           onSubmit={this.handleOnSubmit}
         >
-          <SInput
+          <Input
             autoFocus
             id="search"
             name="search"
@@ -59,7 +86,7 @@ class Youtube extends React.Component<YoutubeProps> {
             placeholder="Maroon 5 she will be loved"
             defaultValue={this.props.youtube.searchTerm}
           />
-          <SSubmitButton
+          <SubmitButton
             type="submit"
           >
             <FontAwesomeIcon
@@ -67,9 +94,9 @@ class Youtube extends React.Component<YoutubeProps> {
               size="xs"
               color="white"
             />
-          </SSubmitButton>
-        </SForm>
-      </SYoutubeContainer>
+          </SubmitButton>
+        </Form>
+      </Container>
     );
   }
 }

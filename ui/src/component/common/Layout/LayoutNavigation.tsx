@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const SLayoutNavigation = styled.div`
+const Grid = styled.div`
   grid-area: navigation;
   // position: sticky;
   height: 100vh;
@@ -15,7 +15,7 @@ export interface LayoutNavigationProps {
 export default class LayoutNavigation extends React.Component<LayoutNavigationProps> {
   render() {
     return (
-      <SLayoutNavigation>{this.props.children}</SLayoutNavigation>
+      <Grid>{this.props.children}</Grid>
     );
   }
 }
