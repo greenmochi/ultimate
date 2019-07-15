@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { NavigationImageButton } from "./NavigationImageButton";
-import { NavigationButton } from "./NavigationButton";
+import NavigationButton from "./NavigationButton";
 import imageA from "../../../asset/A.png";
 import imageB from "../../../asset/B.png";
 import imageC from "../../../asset/C.png";

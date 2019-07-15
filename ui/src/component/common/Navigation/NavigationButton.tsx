@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { Link, Redirect } from "react-router-dom";
+import {
+  withRouter,
+  RouteComponentProps,
+} from "react-router-dom";
 
 const Container = styled.div`
   display: block;
@@ -15,54 +18,31 @@ const Container = styled.div`
   }
 `;
 
-const NonDragLink = styled(Link)`
-  line-height: 50px;
-  color: white;
-  text-decoration: none;
-  user-select: none;
-  user-drag: none;
-  -webkit-user-drag: none;
-`;
-
 const Text = styled.span`
+  color: white;
   user-select: none;
   user-drag: none;
   -webkit-user-drag: none;
 `;
 
-export interface NavigationButtonProps {
+export interface NavigationButtonProps extends RouteComponentProps {
   to: string;
   text: string;
 }
 
-export class NavigationButton extends React.Component<NavigationButtonProps> {
-  state = {
-    shouldRedirect: false,
-  };
-
+class NavigationButton extends React.Component<NavigationButtonProps> {
   handleOnClick = () => {
-    this.setState({ shouldRedirect: true });
+    this.props.history.push(this.props.to);
   }
 
   render() {
-    const {
-      to,
-      text,
-    } = this.props;
-
-    if (this.state.shouldRedirect) {
-      this.setState({ shouldRedirect: false });
-      return <Redirect to={to} />
-    }
-
+    const { text } = this.props;
     return (
       <Container onClick={this.handleOnClick}>
-        <NonDragLink 
-          to={to}
-        >
-          <Text>{text}</Text>
-        </NonDragLink>
+        <Text>{text}</Text>
       </Container>
     );
   }
 }
+
+export default withRouter(NavigationButton);
