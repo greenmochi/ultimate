@@ -1,15 +1,29 @@
 import React from "react";
-import styled from "styled-components";
 import {
   withRouter,
   RouteComponentProps,
 } from "react-router-dom";
+import { connect } from "react-redux";
+import {
+  bindActionCreators,
+  Dispatch,
+  AnyAction
+} from "redux";
+import styled from "styled-components";
 
-const Container = styled.div`
+import { StoreState } from "../../../store";
+import { setLocation } from "../../../store/navigation/action";
+
+interface ContainerProps {
+  focus?: boolean;
+}
+const Container = styled.div<ContainerProps>`
   display: block;
   width: 100%;
   height: 50px;
   line-height: 50px;
+  outline: 1px solid ${props => props.focus ? "white" : "none"};
+  outline-offset: -5px;
   user-select: none;
   user-drag: none;
   &:hover {
@@ -25,24 +39,46 @@ const Text = styled.span`
   -webkit-user-drag: none;
 `;
 
-export interface NavigationButtonProps extends RouteComponentProps {
-  to: string;
-  text: string;
-}
+const mapStateToProps = (state: StoreState) => ({
+  navigation: state.navigation,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => (
+  bindActionCreators({
+    setLocation: setLocation,
+  }, dispatch)
+);
+
+export type NavigationButtonProps = RouteComponentProps &
+  ReturnType<typeof mapStateToProps> &
+  ReturnType<typeof mapDispatchToProps> & {
+    to: string;
+    text: string;
+  }
 
 class NavigationButton extends React.Component<NavigationButtonProps> {
   handleOnClick = () => {
+    this.props.setLocation(this.props.to);
     this.props.history.push(this.props.to);
   }
 
   render() {
-    const { text } = this.props;
+    const { 
+      to, 
+      text, 
+    } = this.props;
     return (
-      <Container onClick={this.handleOnClick}>
+      <Container 
+      onClick={this.handleOnClick}
+        focus={this.props.navigation.location === to}
+      >
         <Text>{text}</Text>
       </Container>
     );
   }
 }
 
-export default withRouter(NavigationButton);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withRouter(NavigationButton));

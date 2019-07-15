@@ -4,7 +4,6 @@ import {
 } from "redux";
 import { StoreState } from "../store";
 import { 
-  setKokoroEndpoint, 
   setGatewayEndpoint,
 } from "../store/api/action";
 
