@@ -16,6 +16,9 @@ function startUI() {
 function startElectron() {
   const script = exec("yarn start", {
     cwd: path.resolve(process.cwd(), "electron"),
+    env: {
+      "NODE_ENV": "development",
+    },
   });
   script.stdout.pipe(process.stdout);
   script.stderr.pipe(process.stderr);

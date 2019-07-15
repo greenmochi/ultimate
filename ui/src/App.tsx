@@ -25,7 +25,7 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Layout>
-        <LayoutTitleBar>
+        {/* <LayoutTitleBar>
           <TitleBar>
             <TitleBarMenuTitleContainer>
               <TitleBarFileMenu exit={() => IpcRenderer.send("ultimate:windowsCloseRequest")} />
@@ -39,7 +39,7 @@ const App: React.FC = () => {
               close={() => IpcRenderer.send("ultimate:windowsCloseRequest")} 
             />
           </TitleBar>
-        </LayoutTitleBar>
+        </LayoutTitleBar> */}
         <LayoutNavigation>
           <Navigation />
         </LayoutNavigation>

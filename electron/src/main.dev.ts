@@ -1,31 +1,19 @@
-import { 
-  app, 
-} from "electron";
-import { KokoroServer } from "./kokoroServer";
+import { app } from "electron";
 import { IpcMain } from "./ipcMain";
-import { MainWindow } from "./browserWindow";
+import Window from "./window";
 
-let mainWindow: MainWindow | null;
-let kokoroServer: KokoroServer | null = null;
-let ipcMain: IpcMain = new IpcMain();
+let mainWindow: Window | null;
 
 app.on("ready", () => {
-  // Test with json-server, or set to different port if you have another mock server
-  kokoroServer = new KokoroServer("fake-binary-that-doesn't-exist.exe", "fake-path", "localhost", 9111, 8000);
-  ipcMain.registerKokoroServerListener(kokoroServer);
+  IpcMain.RegisterGatewayServerListener("http://localhost:9990");
 
-  mainWindow = new MainWindow("http://localhost:3000", false, 900, 1200);
-  mainWindow.create();
+  mainWindow = new Window({ url: "http://localhost:3000", height: 900, width: 1200 });
+  mainWindow.registerWindowsButtonListener();
   mainWindow.registerDevtools();
-  mainWindow.sendAfter("kokoro-endpoint", kokoroServer.kokoroEndpoint);
-  mainWindow.sendAfter("gateway-endpoint", kokoroServer.gatewayEndpoint);
+  mainWindow.sendAfterDidFinishLoad("ultimate:gatewayServerEndpointResponse", "http://localhost:9990");
 });
 
 app.on("window-all-closed", async () => {
-  if (kokoroServer) {
-    await kokoroServer.close();
-  }
-
   if (process.platform !== "darwin") {
     app.quit();
   }
@@ -33,10 +21,9 @@ app.on("window-all-closed", async () => {
 
 app.on("activate", () => {
   if (mainWindow === null) {
-    mainWindow = new MainWindow("http://localhost:3000", false, 900, 1200);
-    mainWindow.create();
+    mainWindow = new Window({ url: "http://localhost:3000", height: 900, width: 1200 });
+    mainWindow.registerWindowsButtonListener();
     mainWindow.registerDevtools();
-    mainWindow.sendAfter("kokoro-endpoint", kokoroServer.kokoroEndpoint);
-    mainWindow.sendAfter("gateway-endpoint", kokoroServer.gatewayEndpoint);
+    mainWindow.sendAfterDidFinishLoad("ultimate:gatewayServerEndpointResponse", "http://localhost:9990");
   }
 });
