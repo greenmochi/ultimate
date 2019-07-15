@@ -13,9 +13,6 @@
     "email": "hueyjj@greenmochi.com",
     "url": "https://github.com/hueyjj"
   },
-  "scripts": {
-    "package": "electron-builder -c.extraMetadata.main=./electron/build/bundle.js"
-  },
   "devDependencies": {
     "concurrently": "^4.1.1",
     "del": "^5.0.0",
