@@ -1,11 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import { NavigationImageButton } from "./NavigationImageButton";
+import { NavigationButton } from "./NavigationButton";
 import imageA from "../../../asset/A.png";
 import imageB from "../../../asset/B.png";
 import imageC from "../../../asset/C.png";
 
-const SNavigation = styled.div`
+const Container = styled.div`
   background-color: #22252B;
   text-align: center;
 `;
@@ -16,8 +17,11 @@ export interface NavigationProps {
 export default class Navigation extends React.Component<NavigationProps> {
   render() {
     return (
-      <SNavigation>
-        <NavigationImageButton
+      <Container>
+        <NavigationButton to="/youtube" text="youtube"/>
+        <NavigationButton to="/nyaa" text="nyaa"/>
+        <NavigationButton to="/calculator" text="calculator"/>
+        {/* <NavigationImageButton
           to="/youtube"
           image={imageA}
         >
@@ -31,8 +35,8 @@ export default class Navigation extends React.Component<NavigationProps> {
           to="/calculator"
           image={imageC}
         >
-        </NavigationImageButton>
-      </SNavigation>
+        </NavigationImageButton> */}
+      </Container>
     );
   }
 }

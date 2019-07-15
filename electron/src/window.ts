@@ -21,6 +21,7 @@ export default class Window {
     this.window = new BrowserWindow({
       height: this.settings.height,
       width: this.settings.width,
+      backgroundColor: "#000",
       webPreferences: {
         nodeIntegration: true,
       },

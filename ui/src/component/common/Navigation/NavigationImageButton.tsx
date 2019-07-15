@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-const SNavigationImageButtonContainer = styled.div`
+const Container = styled.div`
   display: block;
   width: 100%;
   height: 50px;
@@ -11,13 +11,13 @@ const SNavigationImageButtonContainer = styled.div`
   }
 `;
 
-const SLink = styled(Link)`
+const NonDragLink = styled(Link)`
   user-select: none;
   user-drag: none;
   -webkit-user-drag: none;
 `;
 
-const SImage = styled.img`
+const Image = styled.img`
   user-select: none;
   user-drag: none;
   -webkit-user-drag: none;
@@ -35,13 +35,13 @@ export class NavigationImageButton extends React.Component<NavigationImageButton
       image,
     } = this.props;
     return (
-      <SNavigationImageButtonContainer>
-        <SLink 
+      <Container>
+        <NonDragLink 
           to={to}
         >
-          <SImage src={image} />
-        </SLink>
-      </SNavigationImageButtonContainer>
+          <Image src={image} />
+        </NonDragLink>
+      </Container>
     );
   }
 }
