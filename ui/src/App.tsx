@@ -13,6 +13,7 @@ import YoutubeDL from "./component/youtube-dl";
 import Nyaa from "./component/nyaa";
 import MyAnimeList from "./component/myanimelist";
 import Calculator from "./component/calculator";
+import Anime from "./component/anime";
 
 const App: React.FC = () => {
   return (
@@ -35,6 +36,7 @@ const App: React.FC = () => {
             <Route path="/youtubedl" component={YoutubeDL} />
             <Route path="/nyaa" component={Nyaa} />
             <Route path="/myanimelist" component={MyAnimeList} />
+            <Route path="/anime" component={Anime} />
             <Route path="/calculator" component={Calculator} />
           </Switch>
         </LayoutApp>

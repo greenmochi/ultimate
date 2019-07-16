@@ -1,10 +1,13 @@
-import { 
+import {
   compose,
   createStore,
   combineReducers,
   applyMiddleware,
 } from "redux";
-import thunk, { ThunkAction, ThunkMiddleware } from "redux-thunk";
+import thunk, {
+  ThunkAction,
+  ThunkMiddleware
+} from "redux-thunk";
 import { devToolsEnhancer } from "redux-devtools-extension";
 
 import { APIActionType } from "./api/type";
@@ -25,6 +28,9 @@ import { nyaaReducer } from "./nyaa/reducer";
 import { myAnimeListReducer } from "./myanimelist/reducer";
 import { MyAnimeListActionType } from "./myanimelist/type";
 
+import { animeReducer } from "./anime/reducer";
+import { AnimeActionType } from "./anime/type";
+
 import { CalculatorActionType } from "./calculator/type";
 import { calculatorReducer } from "./calculator/reducer";
 
@@ -35,6 +41,7 @@ const rootReducer = combineReducers({
   youtubeDL: youtubeDLReducer,
   nyaa: nyaaReducer,
   myAnimeList: myAnimeListReducer,
+  anime: animeReducer,
   calculator: calculatorReducer,
 });
 
@@ -46,21 +53,22 @@ export type StoreActions =
   | YoutubeDLActionType
   | NyaaActionType
   | MyAnimeListActionType
+  | AnimeActionType
   | CalculatorActionType;
 export type ThunkResult<R> = ThunkAction<R, StoreState, undefined, StoreActions>;
 
 export default function configureStore() {
   if (process.env.NODE_ENV === "development") {
     return createStore(
-      rootReducer, 
+      rootReducer,
       compose(
-        applyMiddleware(thunk as ThunkMiddleware<StoreState, StoreActions>), 
+        applyMiddleware(thunk as ThunkMiddleware<StoreState, StoreActions>),
         devToolsEnhancer({}),
       ),
     );
   } else {
     return createStore(
-      rootReducer, 
+      rootReducer,
       applyMiddleware(thunk as ThunkMiddleware<StoreState, StoreActions>),
     );
   }
