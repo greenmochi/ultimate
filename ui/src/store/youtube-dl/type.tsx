@@ -1,4 +1,4 @@
-export interface YoutubeState {
+export interface YoutubeDLState {
   searchTerm: string;
 }
 
@@ -8,4 +8,4 @@ interface SetSearchTermAction {
   type: typeof SET_SEARCH_TERM;
   payload: string;
 }
-export type YoutubeActionType = SetSearchTermAction;
+export type YoutubeDLActionType = SetSearchTermAction;

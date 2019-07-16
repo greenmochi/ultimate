@@ -7,7 +7,7 @@ import LayoutApp from "./component/common/Layout/LayoutApp";
 
 import Navigation from "./component/common/Navigation";
 
-import Youtube from "./component/youtube";
+import YoutubeDL from "./component/youtubedl";
 import Calculator from "./component/calculator";
 import Nyaa from "./component/nyaa";
 
@@ -20,9 +20,9 @@ const App: React.FC = () => {
         </LayoutNavigation>
         <LayoutApp>
           <Switch>
-            <Route path="/youtube" component={Youtube} />
-            <Route path="/calculator" component={Calculator} />
+            <Route path="/youtubedl" component={YoutubeDL} />
             <Route path="/nyaa" component={Nyaa} />
+            <Route path="/calculator" component={Calculator} />
           </Switch>
         </LayoutApp>
       </Layout>

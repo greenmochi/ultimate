@@ -15,7 +15,7 @@ import {
 } from "../../store";
 import {
   setSearchTerm,
-} from "../../store/youtube/action";
+} from "../../store/youtube-dl/action";
 
 export const Container = styled.div`
   background-color: #282C3C;
@@ -51,7 +51,7 @@ export const SubmitButton = styled.button`
 `;
 
 const mapStateToProps = (state: StoreState) => ({
-  youtube: state.youtube,
+  youtubeDL: state.youtubeDL,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => (
@@ -60,11 +60,11 @@ const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => (
   }, dispatch)
 );
 
-type YoutubeProps = ReturnType<typeof mapStateToProps> &
+type YoutubeDLProps = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> & {
   };
 
-class Youtube extends React.Component<YoutubeProps> {
+class YoutubeDL extends React.Component<YoutubeDLProps> {
   handleOnSubmit = (event: any) => {
     event.preventDefault();
     const data = new FormData(event.target);
@@ -84,7 +84,7 @@ class Youtube extends React.Component<YoutubeProps> {
             name="search"
             type="text"
             placeholder="Maroon 5 she will be loved"
-            defaultValue={this.props.youtube.searchTerm}
+            defaultValue={this.props.youtubeDL.searchTerm}
           />
           <SubmitButton
             type="submit"
@@ -104,4 +104,4 @@ class Youtube extends React.Component<YoutubeProps> {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Youtube);
+)(YoutubeDL);

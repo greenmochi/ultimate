@@ -23,12 +23,12 @@ const Container = styled.div<ContainerProps>`
   height: 50px;
   line-height: 50px;
   outline: 1px solid ${props => props.focus ? "white" : "none"};
-  outline-offset: -5px;
+  outline-offset: -2px;
   user-select: none;
   user-drag: none;
+  cursor: pointer;
   &:hover {
-    cursor: pointer;
-    background-color: #4b4f59;
+    background-color: ${props => props.focus ? "none" : "#4b4f59"};
   }
 `;
 

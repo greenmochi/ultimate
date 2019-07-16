@@ -1,17 +1,17 @@
 import {
-  YoutubeState,
+  YoutubeDLState,
   SET_SEARCH_TERM,
-  YoutubeActionType,
+  YoutubeDLActionType,
 } from "./type";
 
-const initialState: YoutubeState = {
+const initialState: YoutubeDLState = {
   searchTerm: "",
 };
 
-export function youtubeReducer(
+export function youtubeDLReducer(
   state = initialState,
-  action: YoutubeActionType,
-): YoutubeState {
+  action: YoutubeDLActionType,
+): YoutubeDLState {
   switch (action.type) {
     case SET_SEARCH_TERM:
       return {
