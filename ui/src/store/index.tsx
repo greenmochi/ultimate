@@ -31,6 +31,9 @@ import { MyAnimeListActionType } from "./myanimelist/type";
 import { animeReducer } from "./anime/reducer";
 import { AnimeActionType } from "./anime/type";
 
+import { musicReducer } from "./music/reducer";
+import { MusicActionType } from "./music/type";
+
 import { CalculatorActionType } from "./calculator/type";
 import { calculatorReducer } from "./calculator/reducer";
 
@@ -42,6 +45,7 @@ const rootReducer = combineReducers({
   nyaa: nyaaReducer,
   myAnimeList: myAnimeListReducer,
   anime: animeReducer,
+  music: musicReducer,
   calculator: calculatorReducer,
 });
 
@@ -54,6 +58,7 @@ export type StoreActions =
   | NyaaActionType
   | MyAnimeListActionType
   | AnimeActionType
+  | MusicActionType
   | CalculatorActionType;
 export type ThunkResult<R> = ThunkAction<R, StoreState, undefined, StoreActions>;
 
