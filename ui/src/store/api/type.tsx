@@ -2,10 +2,10 @@ export interface APIState {
   gatewayEndpoint: string;
 }
 
-export const SET_GATEWAYENDPOINT = "SET_GATEWAYENDPOINT";
+export const SET_GATEWAY_ENDPOINT = "SET_GATEWAY_ENDPOINT";
 
 interface SetGatewayEndpointAction {
-  type: typeof SET_GATEWAYENDPOINT;
+  type: typeof SET_GATEWAY_ENDPOINT;
   payload: string;
 }
 

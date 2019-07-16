@@ -1,7 +1,7 @@
 import {
   APIState,
   APIActionType,
-  SET_GATEWAYENDPOINT,
+  SET_GATEWAY_ENDPOINT,
 } from "./type";
 
 const initialState: APIState = {
@@ -13,7 +13,7 @@ export function apiReducer(
   action: APIActionType
 ): APIState {
   switch (action.type) {
-    case SET_GATEWAYENDPOINT:
+    case SET_GATEWAY_ENDPOINT:
       return {
         ...state,
         gatewayEndpoint: action.payload,

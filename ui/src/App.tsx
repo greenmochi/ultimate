@@ -7,9 +7,10 @@ import LayoutApp from "./component/common/Layout/LayoutApp";
 
 import Navigation from "./component/common/Navigation";
 
-import YoutubeDL from "./component/youtubedl";
+import YoutubeDL from "./component/youtube-dl";
 import Calculator from "./component/calculator";
 import Nyaa from "./component/nyaa";
+import Torrent from "./component/torrent";
 
 const App: React.FC = () => {
   return (
@@ -20,6 +21,7 @@ const App: React.FC = () => {
         </LayoutNavigation>
         <LayoutApp>
           <Switch>
+            <Route path="/torrent" component={Torrent} />
             <Route path="/youtubedl" component={YoutubeDL} />
             <Route path="/nyaa" component={Nyaa} />
             <Route path="/calculator" component={Calculator} />
