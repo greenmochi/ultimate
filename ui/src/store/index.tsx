@@ -22,6 +22,9 @@ import { youtubeDLReducer } from "./youtube-dl/reducer";
 import { NyaaActionType } from "./nyaa/type";
 import { nyaaReducer } from "./nyaa/reducer";
 
+import { myAnimeListReducer } from "./myanimelist/reducer";
+import { MyAnimeListActionType } from "./myanimelist/type";
+
 import { CalculatorActionType } from "./calculator/type";
 import { calculatorReducer } from "./calculator/reducer";
 
@@ -31,6 +34,7 @@ const rootReducer = combineReducers({
   torrent: torrentReducer,
   youtubeDL: youtubeDLReducer,
   nyaa: nyaaReducer,
+  myAnimeList: myAnimeListReducer,
   calculator: calculatorReducer,
 });
 
@@ -41,6 +45,7 @@ export type StoreActions =
   | TorrentActionType
   | YoutubeDLActionType
   | NyaaActionType
+  | MyAnimeListActionType
   | CalculatorActionType;
 export type ThunkResult<R> = ThunkAction<R, StoreState, undefined, StoreActions>;
 

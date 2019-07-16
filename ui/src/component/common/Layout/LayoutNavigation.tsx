@@ -3,10 +3,8 @@ import styled from "styled-components";
 
 const Grid = styled.div`
   grid-area: navigation;
-  // position: sticky;
   height: 100vh;
-  // top: 0;
-  // left: 0;
+  cursor: pointer;
 `;
 
 export interface LayoutNavigationProps {
