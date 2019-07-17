@@ -28,4 +28,12 @@ export default class IpcRenderer {
       }
     });
   }
+
+  registerWhatRunningServicesListener() {
+    ipcRenderer.on("ultimate:whatServicesRunningResponse", (event: Event, services: string[]) => {
+      services.forEach(service => {
+        console.log(`${service} service is running`);
+      })
+    });
+  }
 }

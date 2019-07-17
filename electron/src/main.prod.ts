@@ -5,7 +5,7 @@ import { IpcMain } from "./ipcMain";
 import Window from "./window";
 import * as service from "./service";
 
-function runAllServices() {
+function runServices() {
   let servicesPath: string = path.resolve(app.getAppPath(), "../app.asar.unpacked/build/services")
   if (!servicesPath) {
     console.log(`Unable to path to services directory. Please check if it exist at resources/app.asar.unpacked/build/services from the application directory.`);
@@ -15,7 +15,7 @@ function runAllServices() {
   service.RunService("nyaa", path.resolve(servicesPath, "nyaa"));
   service.RunService("torrent", path.resolve(servicesPath, "torrent"));
 }
-runAllServices();
+runServices();
 
 let mainWindow: Window | null;
 
@@ -25,6 +25,7 @@ app.on("ready", () => {
   mainWindow = new Window({ fileUri: "build/ui/index.html", height: 900, width: 1200 });
   mainWindow.registerWindowsButtonListener();
   mainWindow.sendAfterDidFinishLoad("ultimate:gatewayServerEndpointResponse", "http://localhost:9990");
+  mainWindow.sendAfterDidFinishLoad("ultimate:whatServicesRunningResponse", ["gateway", "nyaa", "torrent"]);
 });
 
 app.on("window-all-closed", async () => {

@@ -23,6 +23,7 @@ const store = configureStore();
 
 const ipcRenderer = new IpcRenderer(store);
 ipcRenderer.registerEndpointsListener();
+ipcRenderer.registerWhatRunningServicesListener();
 
 const Root = () => (
   <ThemeProvider theme={theme}>

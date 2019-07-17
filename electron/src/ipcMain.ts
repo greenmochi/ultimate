@@ -1,6 +1,10 @@
 import { ipcMain, Event, BrowserWindow, } from "electron";
 
 export class IpcMain {
+  static Send(window: BrowserWindow, channel: string, ...args: any[]): void {
+    window.webContents.send(channel, ...args);
+  }
+
   static RegisterGatewayServerListener(endpoint: string): void {
     ipcMain.on("ultimate:gatewayServerEndpointRequest", (event: Event) => {
       event.sender.send("ultimate:gatewayServerEndpointResponse", endpoint);
