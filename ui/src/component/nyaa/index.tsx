@@ -8,14 +8,12 @@ import {
   AnyAction
 } from "redux";
 import {
-  StoreState,
-} from "../../store";
-import {
-  loadResults,
-} from "../../store/nyaa/action";
-import {
-  NyaaResult,
-} from "../../store/nyaa/type";
+  FontAwesomeIcon,
+} from "@fortawesome/react-fontawesome";
+
+import { StoreState } from "../../store";
+import { NyaaResult } from "../../store/nyaa/type";
+import { loadResults } from "../../store/nyaa/action";
 import PostQueryData from "../../api/nyaa/query";
 import {
   SNyaaContainer,
@@ -27,9 +25,6 @@ import {
   STableHeader,
   STableData,
 } from "./style";
-import {
-  FontAwesomeIcon,
-} from "@fortawesome/react-fontawesome";
 
 const mapStateToProps = (state: StoreState) => ({
   nyaa: state.nyaa,

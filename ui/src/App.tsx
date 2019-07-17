@@ -8,13 +8,13 @@ import LayoutApp from "./component/common/Layout/LayoutApp";
 import Navigation from "./component/common/Navigation";
 import NavigationButton from "./component/common/Navigation/NavigationButton";
 
-import Torrent from "./component/torrent";
-import YoutubeDL from "./component/youtube-dl";
-import Nyaa from "./component/nyaa";
-import MyAnimeList from "./component/myanimelist";
-import Calculator from "./component/calculator";
-import Anime from "./component/anime";
-import Music from "./component/music";
+import Torrent from "./component/Torrent";
+import YoutubeDL from "./component/YoutubeDL";
+import Nyaa from "./component/Nyaa";
+import MyAnimeList from "./component/MyAnimeList";
+import Calculator from "./component/Calculator";
+import Anime from "./component/Anime";
+import Music from "./component/Music";
 
 const App: React.FC = () => {
   return (
