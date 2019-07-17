@@ -22,13 +22,17 @@ const Container = styled.div<ContainerProps>`
   width: 100%;
   height: 50px;
   line-height: 50px;
-  outline: 1px solid ${props => props.focus ? "white" : "none"};
+  outline: 1px solid ${props => props.focus ? "#30fffe" : "none"};
   outline-offset: -2px;
+  transition: all 250ms ease;
   user-select: none;
   user-drag: none;
   cursor: pointer;
   &:hover {
     background-color: ${props => props.focus ? "none" : "#4b4f59"};
+  }
+  &:active {
+    background-color: ${props => props.focus ? "none" : "#383b42"};
   }
 `;
 

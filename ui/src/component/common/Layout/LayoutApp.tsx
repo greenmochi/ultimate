@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 const Grid = styled.div`
   grid-area: app;
+  height: 100vh;
   overflow: hidden;
 `;
 
