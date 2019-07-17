@@ -15,6 +15,7 @@ import MyAnimeList from "./component/MyAnimeList";
 import Calculator from "./component/Calculator";
 import Anime from "./component/Anime";
 import Music from "./component/Music";
+import Configuration from "./component/Configuration";
 
 const App: React.FC = () => {
   return (
@@ -29,6 +30,7 @@ const App: React.FC = () => {
             <NavigationButton to="/anime" text="anime" />
             <NavigationButton to="/music" text="music" />
             <NavigationButton to="/calculator" text="calculator" />
+            <NavigationButton to="/configuration" text="config" />
           </Navigation>
         </LayoutNavigation>
         <LayoutApp>
@@ -40,6 +42,7 @@ const App: React.FC = () => {
             <Route path="/anime" component={Anime} />
             <Route path="/music" component={Music} />
             <Route path="/calculator" component={Calculator} />
+            <Route path="/configuration" component={Configuration} />
           </Switch>
         </LayoutApp>
       </Layout>

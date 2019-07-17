@@ -82,7 +82,8 @@ interface TableDataProps {
   readonly left?: boolean;
 }
 const TableData = styled.td<TableDataProps>`
-  color: ${props => props.color ? props.color : "#A1A9B5"};
+  // color: ${props => props.color ? props.color : "#A1A9B5"};
+  color: ${props => props.theme.colors.main}
   border: 1px solid grey;
   padding: 5px;
   text-align: ${props => props.left ? "left" : "center"};

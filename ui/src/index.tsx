@@ -14,19 +14,20 @@ import {
 
 import App from "./App";
 import configureStore from "./store";
-import { theme, GlobalStyle } from "./theme";
+import { GlobalStyle } from "./theme";
 import IpcRenderer from "./ipcRenderer";
 
 library.add(faSearch, faMagnet, faArrowUp, faArrowDown, faCheck);
 
 const store = configureStore();
+let defaultTheme = store.getState().theme.defaultTheme;
 
 const ipcRenderer = new IpcRenderer(store);
 ipcRenderer.registerEndpointsListener();
 ipcRenderer.registerWhatRunningServicesListener();
 
 const Root = () => (
-  <ThemeProvider theme={theme}>
+  <ThemeProvider theme={defaultTheme}>
     <Provider store={store}>
       <GlobalStyle />
       <App />
