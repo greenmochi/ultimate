@@ -41,7 +41,7 @@ const Input = styled.input`
   outline: none;
 `;
 
-const SubmitButton = styled.button`
+const SearchButton = styled.button`
   font-size: 1.3em;
   margin-left: 10px;
   padding-left: 15px;
@@ -49,16 +49,22 @@ const SubmitButton = styled.button`
   padding-top: 5px;
   padding-bottom: 5px;
   border-radius: 5px;
-  background-color: #F7941D;
+  background-color: transparent;
   border: none;
   outline: none;
   cursor: pointer;
+  &:hover {
+    background-color: grey;
+  }
+  &:active {
+    background-color: darkgrey;
+  }
 `;
 
 const TableWrapper = styled.div`
   width: 90%;
   height: 90%;
-  overflow-y: scroll;
+  // overflow: scroll;
   margin: auto;
   margin-bottom: 150px;
 `;
@@ -135,7 +141,7 @@ class Nyaa extends React.Component<NyaaProps> {
             placeholder="Boku no hero academia..."
             defaultValue={nyaa.searchTerm}
           />
-          <SubmitButton
+          <SearchButton
             type="submit"
           >
             <FontAwesomeIcon
@@ -143,7 +149,7 @@ class Nyaa extends React.Component<NyaaProps> {
               size="xs"
               color="white"
             />
-          </SubmitButton>
+          </SearchButton>
         </Form>
         <TableWrapper>
           <Table>
