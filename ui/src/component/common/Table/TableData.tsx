@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 
 interface TableDataWrapperProps {
-  readonly color?: string;
   readonly left?: boolean;
+  readonly color?: string;
 }
 const TableDataWrapper = styled.td<TableDataWrapperProps>`
   color: ${props => props.color ? props.color : "#A1A9B5"};
@@ -13,12 +13,14 @@ const TableDataWrapper = styled.td<TableDataWrapperProps>`
 `;
 
 export interface TableDataProps {
+  readonly left?: boolean;
+  readonly color?: string;
 }
 
 export default class TableData extends React.Component<TableDataProps> {
   render() {
     return (
-      <TableDataWrapper>
+      <TableDataWrapper {...this.props}>
         {this.props.children}
       </TableDataWrapper>
     );

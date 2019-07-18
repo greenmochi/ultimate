@@ -11,7 +11,7 @@ export interface TableProps {
 export default class Table extends React.Component<TableProps> {
   render() {
     return (
-      <TableWrapper>
+      <TableWrapper {...this.props}>
         {this.props.children}
       </TableWrapper>
     );

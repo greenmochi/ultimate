@@ -9,12 +9,13 @@ const TableRowWrapper = styled.tr<TableRowWrapperProps>`
 `;
 
 export interface TableRowProps {
+  readonly textAlign?: string;
 }
 
 export default class TableRow extends React.Component<TableRowProps> {
   render() {
     return (
-      <TableRowWrapper>
+      <TableRowWrapper {...this.props}>
         {this.props.children}
       </TableRowWrapper>
     );

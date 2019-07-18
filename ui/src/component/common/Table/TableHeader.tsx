@@ -17,12 +17,14 @@ const TableHeaderWrapper = styled.th<TableHeaderWrapperProps>`
 `;
 
 export interface TableHeaderProps {
+  readonly width?: string;
+  readonly minWidth?: string;
 }
 
 export default class TableHeader extends React.Component<TableHeaderProps> {
   render() {
     return (
-      <TableHeaderWrapper>
+      <TableHeaderWrapper {...this.props}>
         {this.props.children}
       </TableHeaderWrapper>
     );

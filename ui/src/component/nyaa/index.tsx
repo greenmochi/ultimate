@@ -17,10 +17,15 @@ import { NyaaResult } from "../../store/nyaa/type";
 import { loadResults } from "../../store/nyaa/action";
 import PostQueryData from "../../api/nyaa/query";
 
+import Table from "../common/Table";
+import TableHeader from "../common/Table/TableHeader";
+import TableRow from "../common/Table/TableRow";
+import TableData from "../common/Table/TableData";
+
 const Container = styled.div`
   background-color: #282C3C;
   text-align: center;
-  overflow-y: auto;
+  overflow: hidden;
 `;
 
 const Form = styled.form`
@@ -50,43 +55,12 @@ const SubmitButton = styled.button`
   cursor: pointer;
 `;
 
-const Table = styled.table`
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 25px;
-  border-spacing: 0;
-`;
-
-const TableRow = styled.tr`
-  text-align: center;
-`;
-
-interface TableHeaderProps {
-  readonly width?: string;
-  readonly minWidth?: string;
-}
-const TableHeader = styled.th<TableHeaderProps>`
-  color: #03DAC5;
-  border: 1px solid grey;
-  width: ${props => props.width};
-  min-width: ${props => props.minWidth};
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-`;
-
-interface TableDataProps {
-  readonly color?: string;
-  readonly left?: boolean;
-}
-const TableData = styled.td<TableDataProps>`
-  // color: ${props => props.color ? props.color : "#A1A9B5"};
-  color: ${props => props.theme.colors.main}
-  border: 1px solid grey;
-  padding: 5px;
-  text-align: ${props => props.left ? "left" : "center"};
+const TableWrapper = styled.div`
+  width: 90%;
+  height: 90%;
+  overflow-y: scroll;
+  margin: auto;
+  margin-bottom: 150px;
 `;
 
 const mapStateToProps = (state: StoreState) => ({
@@ -119,7 +93,7 @@ class Nyaa extends React.Component<NyaaProps> {
     return (
       <>
         {nyaa.results.map((result: NyaaResult, index) => (
-          <TableRow key={index}>
+          <TableRow textAlign="center" key={index}>
             <TableData>{result.category}</TableData>
             <TableData
               left
@@ -171,29 +145,31 @@ class Nyaa extends React.Component<NyaaProps> {
             />
           </SubmitButton>
         </Form>
-        <Table>
-          <thead>
-            <TableRow>
-              <TableHeader minWidth="100px">Category</TableHeader>
-              <TableHeader minWidth="100px">Name</TableHeader>
-              <TableHeader>Link</TableHeader>
-              <TableHeader minWidth="100px">Size</TableHeader>
-              <TableHeader width="140px">Date</TableHeader>
-              <TableHeader>
-                <FontAwesomeIcon icon="arrow-up" />
-              </TableHeader>
-              <TableHeader>
-                <FontAwesomeIcon icon="arrow-down" />
-              </TableHeader>
-              <TableHeader>
-                <FontAwesomeIcon icon="check" />
-              </TableHeader>
-            </TableRow>
-          </thead>
-          <tbody>
-            {this.renderTable()}
-          </tbody>
-        </Table>
+        <TableWrapper>
+          <Table>
+            <thead>
+              <TableRow>
+                <TableHeader minWidth="100px">Category</TableHeader>
+                <TableHeader minWidth="100px">Name</TableHeader>
+                <TableHeader>Link</TableHeader>
+                <TableHeader minWidth="100px">Size</TableHeader>
+                <TableHeader width="140px">Date</TableHeader>
+                <TableHeader>
+                  <FontAwesomeIcon icon="arrow-up" />
+                </TableHeader>
+                <TableHeader>
+                  <FontAwesomeIcon icon="arrow-down" />
+                </TableHeader>
+                <TableHeader>
+                  <FontAwesomeIcon icon="check" />
+                </TableHeader>
+              </TableRow>
+            </thead>
+            <tbody>
+              {this.renderTable()}
+            </tbody>
+          </Table>
+        </TableWrapper>
       </Container>
     );
   }
