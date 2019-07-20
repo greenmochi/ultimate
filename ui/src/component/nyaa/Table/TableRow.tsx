@@ -1,18 +1,33 @@
 import React from "react";
 import styled from "styled-components";
 
-const Wrapper = styled.div`
-  overflow-hidden;
-  height: 50px;
+interface WrapperProps {
+  header?: boolean;
+  height?: string;
+  borderTopColor?: string;
+  borderBottomColor?: string;
+  borderLeftColor?: string;
+  borderRightColor?: string;
+}
+
+const Wrapper = styled.div<WrapperProps>`
+  ${props => props.header ? "grid-area: header" : null};
+  height: ${props => props.height ? props.height : "50px"};
+  overflow: hidden;
   white-space: nowrap;
   text-align: left;
-  border: 1px solid #F600FC;
+  border-top: 1px solid ${props => props.borderTopColor ? props.borderTopColor : "transparent"};
+  border-bottom: 1px solid ${props => props.borderBottomColor ? props.borderBottomColor : "transparent"};
+  border-left: 1px solid ${props => props.borderLeftColor ? props.borderLeftColor : "transparent"};
+  border-right: 1px solid ${props => props.borderRightColor ? props.borderRightColor : "transparent"};
 `;
 
 export interface TableRowProps {
 }
 
-export default class TableRow extends React.Component<TableRowProps> {
+type Props = TableRowProps & WrapperProps;
+
+export default class TableRow extends React.Component<Props> {
   render() {
     return (
       <Wrapper {...this.props}>

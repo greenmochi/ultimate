@@ -2,9 +2,16 @@ import React from "react";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
-  display: inline-block;
-  width: 90%;
-  height: 80%;
+  display: grid;
+  margin: auto;
+  width: 80%;
+  min-width: 600px;
+  height: 90vh;
+  grid-row-gap: 0;
+  grid-template-rows: 50px auto;
+  grid-template-areas:
+    "header"
+    "body";
 `;
 
 export interface TableProps {

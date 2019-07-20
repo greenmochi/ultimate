@@ -4,6 +4,7 @@ import styled from "styled-components";
 interface WrapperProps {
   readonly width?: string;
 }
+
 const Wrapper = styled.div<WrapperProps>`
   display: inline-block;
   margin-left: 15px;
@@ -17,10 +18,11 @@ const Content = styled.span`
 `;
 
 export interface TableHeaderProps {
-  readonly width?: string;
 }
 
-export default class TableHeader extends React.Component<TableHeaderProps> {
+type Props = TableHeaderProps & WrapperProps;
+
+export default class TableHeader extends React.Component<Props> {
   render() {
     return (
       <Wrapper {...this.props}>

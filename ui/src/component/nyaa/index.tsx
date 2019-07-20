@@ -1,16 +1,12 @@
 import React from "react";
-import {
-  connect,
-} from "react-redux";
+import { connect } from "react-redux";
 import {
   bindActionCreators,
   Dispatch,
   AnyAction
 } from "redux";
 import styled from "styled-components";
-import {
-  FontAwesomeIcon,
-} from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { StoreState } from "../../store";
 import { NyaaResult } from "../../store/nyaa/type";
@@ -41,7 +37,7 @@ const Input = styled.input`
   padding-right: 10px;
   padding-top: 5px;
   padding-bottom: 5px;
-  outline: none;
+  border: none;
 `;
 
 const SearchButton = styled.button`
@@ -54,7 +50,7 @@ const SearchButton = styled.button`
   border-radius: 5px;
   background-color: transparent;
   border: none;
-  outline: none;
+  border: none;
   cursor: pointer;
   &:hover {
     background-color: grey;
@@ -72,10 +68,6 @@ const TableWrapper = styled.div`
   margin-bottom: 150px;
 `;
 
-interface State {
-  headerWidth: string;
-};
-
 const mapStateToProps = (state: StoreState) => ({
   nyaa: state.nyaa,
 });
@@ -89,6 +81,10 @@ const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => (
 type NyaaProps = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> & {
   };
+
+interface State {
+  headerWidth: string;
+};
 
 class Nyaa extends React.Component<NyaaProps, State> {
   state = {
@@ -110,10 +106,17 @@ class Nyaa extends React.Component<NyaaProps, State> {
     return (
       <>
         {nyaa.results.map((result: NyaaResult, index) => (
-          <TableRow key={index}>
+          <TableRow 
+            key={index}
+            borderBottomColor="#F600FC"
+          >
             <TableData>{result.category}</TableData>
             <TableData width={this.state.headerWidth}>{result.name}</TableData>
-            <TableData><a href={result.link}><FontAwesomeIcon icon="magnet" color="#F64C72" /></a></TableData>
+            <TableData>
+              <a href={result.link}>
+                <FontAwesomeIcon icon="magnet" color="#F64C72" />
+              </a>
+            </TableData>
             <TableData>{result.size}</TableData>
             <TableData>{result.date}</TableData>
             <TableData>{result.seeders}</TableData>
@@ -124,38 +127,6 @@ class Nyaa extends React.Component<NyaaProps, State> {
       </>
     );
   }
-
-  // private renderTable = () => {
-  //   const { nyaa } = this.props;
-  //   return (
-  //     <>
-  //       {nyaa.results.map((result: NyaaResult, index) => (
-  //         <TableRow textAlign="center" key={index}>
-  //           <TableData>{result.category}</TableData>
-  //           <TableData
-  //             left
-  //             color="#75CFFA"
-  //           >
-  //             {result.name}
-  //           </TableData>
-  //           <TableData>
-  //             <a href={result.link}>
-  //               <FontAwesomeIcon
-  //                 icon="magnet"
-  //                 color="#F64C72"
-  //               />
-  //             </a>
-  //           </TableData>
-  //           <TableData>{result.size}</TableData>
-  //           <TableData>{result.date}</TableData>
-  //           <TableData color="green">{result.seeders}</TableData>
-  //           <TableData color="red">{result.leechers}</TableData>
-  //           <TableData>{result.downloads}</TableData>
-  //         </TableRow>
-  //       ))}
-  //     </>
-  //   );
-  // }
 
   render() {
     const { nyaa } = this.props;
@@ -183,7 +154,14 @@ class Nyaa extends React.Component<NyaaProps, State> {
           </SearchButton>
         </Form>
         <Table>
-          <TableRow>
+          <TableRow 
+            header
+            height="100%"
+            borderTopColor="#50E2D7"
+            borderBottomColor="#50E2D7"
+            borderLeftColor="#50E2D7"
+            borderRightColor="#50E2D7"
+          >
             <TableHeader>Category</TableHeader>
             <TableHeader width={this.state.headerWidth}>Name</TableHeader>
             <TableHeader>Link</TableHeader>
@@ -193,45 +171,14 @@ class Nyaa extends React.Component<NyaaProps, State> {
             <TableHeader><FontAwesomeIcon icon="arrow-down" /></TableHeader>
             <TableHeader><FontAwesomeIcon icon="check" /></TableHeader>
           </TableRow>
-          <TableBody>
+          <TableBody
+            borderBottomColor="#FDFC31"
+            borderLeftColor="#FDFC31"
+            borderRightColor="#FDFC31"
+          >
             {this.renderTable()}
-            {/* <TableRow>
-              <TableData>Subs</TableData>
-              <TableData>Naruto</TableData>
-              <TableData>magnet link</TableData>
-              <TableData>50mb</TableData>
-              <TableData>tuesday</TableData>
-              <TableData>500</TableData>
-              <TableData>600</TableData>
-              <TableData>900</TableData>
-            </TableRow> */}
           </TableBody>
         </Table>
-        {/* <TableWrapper>
-          <Table>
-            <thead>
-              <TableRow>
-                <TableHeader minWidth="100px">Category</TableHeader>
-                <TableHeader minWidth="100px">Name</TableHeader>
-                <TableHeader>Link</TableHeader>
-                <TableHeader minWidth="100px">Size</TableHeader>
-                <TableHeader width="140px">Date</TableHeader>
-                <TableHeader>
-                  <FontAwesomeIcon icon="arrow-up" />
-                </TableHeader>
-                <TableHeader>
-                  <FontAwesomeIcon icon="arrow-down" />
-                </TableHeader>
-                <TableHeader>
-                  <FontAwesomeIcon icon="check" />
-                </TableHeader>
-              </TableRow>
-            </thead>
-            <tbody>
-              {this.renderTable()}
-            </tbody>
-          </Table>
-        </TableWrapper> */}
       </Container>
     );
   }
