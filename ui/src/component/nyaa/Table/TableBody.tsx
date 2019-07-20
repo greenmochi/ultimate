@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
   overflow-y: scroll;
-  height: 500px;
 `;
 
 export interface TableBodyProps {

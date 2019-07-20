@@ -72,6 +72,10 @@ const TableWrapper = styled.div`
   margin-bottom: 150px;
 `;
 
+interface State {
+  headerWidth: string;
+};
+
 const mapStateToProps = (state: StoreState) => ({
   nyaa: state.nyaa,
 });
@@ -86,7 +90,11 @@ type NyaaProps = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> & {
   };
 
-class Nyaa extends React.Component<NyaaProps> {
+class Nyaa extends React.Component<NyaaProps, State> {
+  state = {
+    headerWidth: "150px",
+  }
+
   handleOnSubmit = (event: any) => {
     event.preventDefault();
     const data = new FormData(event.target);
@@ -104,7 +112,7 @@ class Nyaa extends React.Component<NyaaProps> {
         {nyaa.results.map((result: NyaaResult, index) => (
           <TableRow key={index}>
             <TableData>{result.category}</TableData>
-            <TableData>{result.name}</TableData>
+            <TableData width={this.state.headerWidth}>{result.name}</TableData>
             <TableData><a href={result.link}><FontAwesomeIcon icon="magnet" color="#F64C72" /></a></TableData>
             <TableData>{result.size}</TableData>
             <TableData>{result.date}</TableData>
@@ -177,7 +185,7 @@ class Nyaa extends React.Component<NyaaProps> {
         <Table>
           <TableRow>
             <TableHeader>Category</TableHeader>
-            <TableHeader>Name</TableHeader>
+            <TableHeader width={this.state.headerWidth}>Name</TableHeader>
             <TableHeader>Link</TableHeader>
             <TableHeader>Size</TableHeader>
             <TableHeader>Date</TableHeader>

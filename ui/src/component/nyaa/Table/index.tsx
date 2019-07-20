@@ -4,7 +4,7 @@ import styled from "styled-components";
 const Wrapper = styled.div`
   display: inline-block;
   width: 90%;
-  height: auto;
+  height: 80%;
 `;
 
 export interface TableProps {
