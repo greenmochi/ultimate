@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 
-interface TableDataWrapperProps {
+interface WrapperProps {
   readonly left?: boolean;
   readonly color?: string;
 }
-const TableDataWrapper = styled.td<TableDataWrapperProps>`
+const Wrapper = styled.td<WrapperProps>`
   color: ${props => props.color ? props.color : "#A1A9B5"};
   border: 1px solid grey;
   padding: 5px;
@@ -20,9 +20,9 @@ export interface TableDataProps {
 export default class TableData extends React.Component<TableDataProps> {
   render() {
     return (
-      <TableDataWrapper {...this.props}>
+      <Wrapper {...this.props}>
         {this.props.children}
-      </TableDataWrapper>
+      </Wrapper>
     );
   }
 }

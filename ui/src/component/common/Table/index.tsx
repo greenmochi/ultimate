@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const TableWrapper = styled.table`
+const Wrapper = styled.table`
   border-spacing: 0;
 `;
 
@@ -11,9 +11,9 @@ export interface TableProps {
 export default class Table extends React.Component<TableProps> {
   render() {
     return (
-      <TableWrapper {...this.props}>
+      <Wrapper {...this.props}>
         {this.props.children}
-      </TableWrapper>
+      </Wrapper>
     );
   }
 }
