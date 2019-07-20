@@ -17,10 +17,13 @@ import { NyaaResult } from "../../store/nyaa/type";
 import { loadResults } from "../../store/nyaa/action";
 import PostQueryData from "../../api/nyaa/query";
 
-import Table from "../common/Table";
-import TableHeader from "../common/Table/TableHeader";
-import TableRow from "../common/Table/TableRow";
-import TableData from "../common/Table/TableData";
+import Table from "./Table";
+import TableHeader from "./Table/TableHeader";
+import TableRow from "./Table/TableRow";
+import TableBody from "./Table/TableBody";
+import TableData from "./Table/TableData";
+
+import List from "../common/List";
 
 const Container = styled.div`
   background-color: #282C3C;
@@ -99,32 +102,52 @@ class Nyaa extends React.Component<NyaaProps> {
     return (
       <>
         {nyaa.results.map((result: NyaaResult, index) => (
-          <TableRow textAlign="center" key={index}>
+          <TableRow key={index}>
             <TableData>{result.category}</TableData>
-            <TableData
-              left
-              color="#75CFFA"
-            >
-              {result.name}
-            </TableData>
-            <TableData>
-              <a href={result.link}>
-                <FontAwesomeIcon
-                  icon="magnet"
-                  color="#F64C72"
-                />
-              </a>
-            </TableData>
+            <TableData>{result.name}</TableData>
+            <TableData><a href={result.link}><FontAwesomeIcon icon="magnet" color="#F64C72" /></a></TableData>
             <TableData>{result.size}</TableData>
             <TableData>{result.date}</TableData>
-            <TableData color="green">{result.seeders}</TableData>
-            <TableData color="red">{result.leechers}</TableData>
+            <TableData>{result.seeders}</TableData>
+            <TableData>{result.leechers}</TableData>
             <TableData>{result.downloads}</TableData>
           </TableRow>
         ))}
       </>
     );
   }
+
+  // private renderTable = () => {
+  //   const { nyaa } = this.props;
+  //   return (
+  //     <>
+  //       {nyaa.results.map((result: NyaaResult, index) => (
+  //         <TableRow textAlign="center" key={index}>
+  //           <TableData>{result.category}</TableData>
+  //           <TableData
+  //             left
+  //             color="#75CFFA"
+  //           >
+  //             {result.name}
+  //           </TableData>
+  //           <TableData>
+  //             <a href={result.link}>
+  //               <FontAwesomeIcon
+  //                 icon="magnet"
+  //                 color="#F64C72"
+  //               />
+  //             </a>
+  //           </TableData>
+  //           <TableData>{result.size}</TableData>
+  //           <TableData>{result.date}</TableData>
+  //           <TableData color="green">{result.seeders}</TableData>
+  //           <TableData color="red">{result.leechers}</TableData>
+  //           <TableData>{result.downloads}</TableData>
+  //         </TableRow>
+  //       ))}
+  //     </>
+  //   );
+  // }
 
   render() {
     const { nyaa } = this.props;
@@ -151,7 +174,32 @@ class Nyaa extends React.Component<NyaaProps> {
             />
           </SearchButton>
         </Form>
-        <TableWrapper>
+        <Table>
+          <TableRow>
+            <TableHeader>Category</TableHeader>
+            <TableHeader>Name</TableHeader>
+            <TableHeader>Link</TableHeader>
+            <TableHeader>Size</TableHeader>
+            <TableHeader>Date</TableHeader>
+            <TableHeader><FontAwesomeIcon icon="arrow-up" /></TableHeader>
+            <TableHeader><FontAwesomeIcon icon="arrow-down" /></TableHeader>
+            <TableHeader><FontAwesomeIcon icon="check" /></TableHeader>
+          </TableRow>
+          <TableBody>
+            {this.renderTable()}
+            {/* <TableRow>
+              <TableData>Subs</TableData>
+              <TableData>Naruto</TableData>
+              <TableData>magnet link</TableData>
+              <TableData>50mb</TableData>
+              <TableData>tuesday</TableData>
+              <TableData>500</TableData>
+              <TableData>600</TableData>
+              <TableData>900</TableData>
+            </TableRow> */}
+          </TableBody>
+        </Table>
+        {/* <TableWrapper>
           <Table>
             <thead>
               <TableRow>
@@ -175,7 +223,7 @@ class Nyaa extends React.Component<NyaaProps> {
               {this.renderTable()}
             </tbody>
           </Table>
-        </TableWrapper>
+        </TableWrapper> */}
       </Container>
     );
   }
