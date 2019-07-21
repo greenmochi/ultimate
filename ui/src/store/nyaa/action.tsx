@@ -2,13 +2,12 @@ import {
   ActionCreator, 
   Action,
 } from "redux";
-import { 
-  ThunkResult, 
-} from "..";
+import { ThunkResult } from "..";
 import {
   NyaaResult,
   SET_SEARCH_TERM, 
   SET_RESULTS,
+  FETCHING_RESULTS,
 } from "./type";
 import { 
   fetchResults,
@@ -31,6 +30,7 @@ export const setResults: ActionCreator<Action> = (results: NyaaResult[]) => {
 
 export function loadResults(queryData: PostQueryData): ThunkResult<void> {
   return async (dispatch, getState) => {
+    dispatch(fetchingResults(true));
     dispatch(setSearchTerm(queryData.query));
 
     const endpoint = getState().api.gatewayEndpoint + "/nyaa/search";
@@ -63,7 +63,14 @@ export function loadResults(queryData: PostQueryData): ThunkResult<void> {
         console.log(error);
         return [];
       });
-
+    dispatch(fetchingResults(false));
     dispatch(setResults(results));
+  };
+}
+
+export const fetchingResults: ActionCreator<Action> = (fetching: boolean) => {
+  return {
+    type: FETCHING_RESULTS,
+    payload: fetching,
   };
 }

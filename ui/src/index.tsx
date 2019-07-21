@@ -10,6 +10,8 @@ import {
   faArrowUp,
   faArrowDown,
   faCheck,
+  faCogs,
+  faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 
 import App from "./App";
@@ -17,7 +19,7 @@ import configureStore from "./store";
 import { GlobalStyle } from "./theme";
 import IpcRenderer from "./ipcRenderer";
 
-library.add(faSearch, faMagnet, faArrowUp, faArrowDown, faCheck);
+library.add(faSearch, faMagnet, faArrowUp, faArrowDown, faCheck, faCogs, faHeart);
 
 const store = configureStore();
 let defaultTheme = store.getState().theme.defaultTheme;

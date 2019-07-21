@@ -1,13 +1,7 @@
 export interface NyaaState {
   searchTerm: string;
   results: NyaaResult[];
-}
-
-export const SET_SEARCH_TERM = "SET_SEARCH_TERM";
-
-interface SetSearchTermAction {
-  type: typeof SET_SEARCH_TERM;
-  payload: string;
+  fetchingResults: boolean;
 }
 
 export interface NyaaResult {
@@ -21,11 +15,26 @@ export interface NyaaResult {
   downloads:  number;
 }
 
+export const SET_SEARCH_TERM = "SET_SEARCH_TERM";
 export const SET_RESULTS = "SET_RESULTS";
+export const FETCHING_RESULTS = "FETCHING_RESULTS";
+
+interface SetSearchTermAction {
+  type: typeof SET_SEARCH_TERM;
+  payload: string;
+}
 
 interface SetResultsAction {
   type: typeof SET_RESULTS;
   payload: NyaaResult[];
 }
 
-export type NyaaActionType = SetSearchTermAction | SetResultsAction;
+interface FetchingResultsAction {
+  type: typeof FETCHING_RESULTS;
+  payload: boolean;
+}
+
+export type NyaaActionType = 
+  | SetSearchTermAction 
+  | SetResultsAction
+  | FetchingResultsAction;

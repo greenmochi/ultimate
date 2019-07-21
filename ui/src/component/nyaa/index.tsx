@@ -20,6 +20,7 @@ import TableBody from "./Table/TableBody";
 import TableData from "./Table/TableData";
 
 import List from "../common/List";
+import Loading from "./Loading";
 
 const Container = styled.div`
   background-color: #1D1D1D;
@@ -38,6 +39,9 @@ const Input = styled.input`
   padding-top: 5px;
   padding-bottom: 5px;
   border: none;
+  color: #CBCBCB;
+  background-color: transparent;
+  outline: none;
 `;
 
 const SearchButton = styled.button`
@@ -50,20 +54,17 @@ const SearchButton = styled.button`
   border-radius: 5px;
   background-color: transparent;
   border: none;
-  border: none;
+  outline: none;
   cursor: pointer;
+  color: white;
   &:hover {
-    background-color: grey;
-  }
-  &:active {
-    background-color: darkgrey;
+    color: #CBCBCB;
   }
 `;
 
 const TableWrapper = styled.div`
   width: 90%;
   height: 90%;
-  // overflow: scroll;
   margin: auto;
   margin-bottom: 150px;
 `;
@@ -117,6 +118,13 @@ class Nyaa extends React.Component<NyaaProps, State> {
 
   private renderTable = () => {
     const { nyaa } = this.props;
+
+    if (nyaa.fetchingResults) {
+      return (
+        <Loading />
+      )
+    }
+
     return (
       <>
         {nyaa.results.map((result: NyaaResult, index) => (
@@ -197,7 +205,6 @@ class Nyaa extends React.Component<NyaaProps, State> {
             <FontAwesomeIcon
               icon="search"
               size="xs"
-              color="white"
             />
           </SearchButton>
         </Form>

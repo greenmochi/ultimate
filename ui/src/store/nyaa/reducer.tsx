@@ -3,11 +3,13 @@ import {
   SET_SEARCH_TERM,
   NyaaActionType,
   SET_RESULTS,
+  FETCHING_RESULTS,
 } from "./type";
 
 const initialState: NyaaState = {
   searchTerm: "",
   results: [],
+  fetchingResults: false,
 };
 
 export function nyaaReducer(
@@ -25,6 +27,11 @@ export function nyaaReducer(
         ...state,
         results: action.payload,
       };
+    case FETCHING_RESULTS:
+      return {
+        ...state,
+        fetchingResults: action.payload,
+      }
     default:
       return state;
   }

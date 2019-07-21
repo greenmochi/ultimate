@@ -20,9 +20,6 @@ const Wrapper = styled.div<WrapperProps>`
   text-align: ${props => props.textAlign ? props.textAlign : "center"};
   line-height: 50px;
   white-space: nowrap; 
-  &:hover {
-    outline: 1px solid blue;
-  }
 `;
 
 export interface TableDataProps {
