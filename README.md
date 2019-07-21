@@ -34,7 +34,7 @@ $ gulp install
 
 ## gulp start
 
-Runs development server for the ui. Bundles electron files and run electron.
+Runs development server for the ui. Bundles electron files and run electron. Also runs all the service binaries from their build directory.
 
 ```bash
 $ gulp start
