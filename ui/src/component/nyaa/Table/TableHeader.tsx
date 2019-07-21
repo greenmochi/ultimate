@@ -2,16 +2,26 @@ import React from "react";
 import styled from "styled-components";
 
 interface WrapperProps {
-  readonly width?: string;
+  width?: string;
+  borderTopColor?: string;
+  borderBottomColor?: string;
+  borderLeftColor?: string;
+  borderRightColor?: string;
+  textAlign?: string;
 }
 
 const Wrapper = styled.div<WrapperProps>`
   display: inline-block;
-  margin-left: 15px;
-  margin-right: 15px;
   width: ${props => props.width ? props.width : "50px"};
+  border-top: 1px solid ${props => props.borderTopColor ? props.borderTopColor : "transparent"};
+  border-bottom: 1px solid ${props => props.borderBottomColor ? props.borderBottomColor : "transparent"};
+  border-left: 1px solid ${props => props.borderLeftColor ? props.borderLeftColor : "transparent"};
+  border-right: 1px solid ${props => props.borderRightColor ? props.borderRightColor : "transparent"};
+  margin-left: 5px;
+  margin-right: 5px;
   color: white;
-  height: 50px;
+  text-align: ${props => props.textAlign ? props.textAlign : "center"};
+  line-height: 2em;
 `;
 
 const Content = styled.span`

@@ -19,7 +19,7 @@ import {
 } from "../../store/theme/action";
 
 export const Container = styled.div`
-  background-color: #282C3C;
+  background-color: #1D1D1D;
   text-align: center;
   overflow-y: auto;
 `;

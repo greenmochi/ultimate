@@ -2,20 +2,24 @@ import React from "react";
 import styled from "styled-components";
 
 interface WrapperProps {
-  readonly width?: string;
+  width?: string;
+  textAlign?: string;
+  color?: string;
 }
 
 const Wrapper = styled.div<WrapperProps>`
   display: inline-block;
-  margin-left: 15px;
-  margin-right: 15px;
-  color: red;
-  height: 50px;
   width: ${props => props.width ? props.width : "50px"};
-  white-space: nowrap; 
+  height: 50px;
+  margin-left: 5px;
+  margin-right: 5px;
   overflow: hidden;
-  text-overflow: ellipsis;
   padding: 1px;
+  color: ${props => props.color ? props.color : "red"};
+  text-overflow: ellipsis;
+  text-align: ${props => props.textAlign ? props.textAlign : "center"};
+  line-height: 50px;
+  white-space: nowrap; 
   &:hover {
     outline: 1px solid blue;
   }

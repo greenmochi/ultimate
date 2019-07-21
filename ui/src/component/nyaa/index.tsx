@@ -22,7 +22,7 @@ import TableData from "./Table/TableData";
 import List from "../common/List";
 
 const Container = styled.div`
-  background-color: #282C3C;
+  background-color: #1D1D1D;
   text-align: center;
   overflow: hidden;
 `;
@@ -83,12 +83,26 @@ type NyaaProps = ReturnType<typeof mapStateToProps> &
   };
 
 interface State {
-  headerWidth: string;
+  categoryWidth: string;
+  nameWidth: string;
+  linkWidth: string;
+  sizeWidth: string;
+  dateWidth: string;
+  seedersWidth: string;
+  leechersWidth: string;
+  downloadWidth: string;
 };
 
 class Nyaa extends React.Component<NyaaProps, State> {
   state = {
-    headerWidth: "150px",
+    categoryWidth: "100px",
+    nameWidth: "500px",
+    linkWidth: "25px",
+    sizeWidth: "100px",
+    dateWidth: "150px",
+    seedersWidth: "30px",
+    leechersWidth: "30px",
+    downloadWidth: "30px",
   }
 
   handleOnSubmit = (event: any) => {
@@ -108,20 +122,54 @@ class Nyaa extends React.Component<NyaaProps, State> {
         {nyaa.results.map((result: NyaaResult, index) => (
           <TableRow 
             key={index}
-            borderBottomColor="#F600FC"
+            borderBottomColor="#666565"
           >
-            <TableData>{result.category}</TableData>
-            <TableData width={this.state.headerWidth}>{result.name}</TableData>
-            <TableData>
+            <TableData 
+              width={this.state.categoryWidth}
+              color="#CFA719"
+            >
+              {result.category}
+            </TableData>
+            <TableData 
+              width={this.state.nameWidth}
+              color="#CBCBCB"
+              textAlign="left"
+            >
+              {result.name}
+            </TableData>
+            <TableData width={this.state.linkWidth}>
               <a href={result.link}>
                 <FontAwesomeIcon icon="magnet" color="#F64C72" />
               </a>
             </TableData>
-            <TableData>{result.size}</TableData>
-            <TableData>{result.date}</TableData>
-            <TableData>{result.seeders}</TableData>
-            <TableData>{result.leechers}</TableData>
-            <TableData>{result.downloads}</TableData>
+            <TableData 
+              width={this.state.sizeWidth}
+              color="#CBCBCB"
+            >
+              {result.size}
+            </TableData>
+            <TableData 
+              width={this.state.dateWidth}
+              color="#CBCBCB"
+            >
+              {result.date}
+            </TableData>
+            <TableData 
+              width={this.state.seedersWidth}
+              color="#00FF00"
+            >
+              {result.seeders}
+            </TableData>
+            <TableData 
+              width={this.state.leechersWidth}
+              color="red"
+            >
+              {result.leechers}
+            </TableData>
+            <TableData 
+              width={this.state.downloadWidth}
+              color="#CBCBCB"
+            >{result.downloads}</TableData>
           </TableRow>
         ))}
       </>
@@ -162,14 +210,19 @@ class Nyaa extends React.Component<NyaaProps, State> {
             borderLeftColor="#50E2D7"
             borderRightColor="#50E2D7"
           >
-            <TableHeader>Category</TableHeader>
-            <TableHeader width={this.state.headerWidth}>Name</TableHeader>
-            <TableHeader>Link</TableHeader>
-            <TableHeader>Size</TableHeader>
-            <TableHeader>Date</TableHeader>
-            <TableHeader><FontAwesomeIcon icon="arrow-up" /></TableHeader>
-            <TableHeader><FontAwesomeIcon icon="arrow-down" /></TableHeader>
-            <TableHeader><FontAwesomeIcon icon="check" /></TableHeader>
+            <TableHeader width={this.state.categoryWidth}>Category</TableHeader>
+            <TableHeader 
+              width={this.state.nameWidth}
+              textAlign="left"
+            >
+              Name
+            </TableHeader>
+            <TableHeader width={this.state.linkWidth}>Link</TableHeader>
+            <TableHeader width={this.state.sizeWidth}>Size</TableHeader>
+            <TableHeader width={this.state.dateWidth}>Date</TableHeader>
+            <TableHeader width={this.state.seedersWidth}><FontAwesomeIcon icon="arrow-up" /></TableHeader>
+            <TableHeader width={this.state.leechersWidth}><FontAwesomeIcon icon="arrow-down" /></TableHeader>
+            <TableHeader width={this.state.downloadWidth}><FontAwesomeIcon icon="check" /></TableHeader>
           </TableRow>
           <TableBody
             borderBottomColor="#FDFC31"
