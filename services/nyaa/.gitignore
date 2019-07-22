@@ -2,9 +2,6 @@
 
 build
 
-proto/*
-!proto/*.proto
-
 *.log
 
 *.mkv
