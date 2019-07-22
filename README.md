@@ -1,5 +1,8 @@
 # ultimate
 
+**note:** The current ui design is purely for functional and testing purposes. An actual ui design will come later when all
+service binaries are complete and an official release nears.
+
 ## preview 0.1.0
 ![alpha.0.1.0](https://raw.githubusercontent.com/greenmochi/ultimate/master/screenshots/alpha.0.1.0.png)
 
