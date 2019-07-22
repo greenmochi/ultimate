@@ -7,6 +7,3 @@ build
 *.mkv
 
 nyaa.exe
-
-# ignore proto repository
-proto

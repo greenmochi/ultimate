@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package nyaa;
+
+import "google/api/annotations.proto";
+
+// The nyaa service definition.
+service Nyaa {
+  rpc Ping (PingRequest) returns (PingReply) {
+    option (google.api.http) = {
+      post: "/nyaa/ping"
+      body: "*"
+    };
+  }
+  rpc Shutdown(ShutdownRequest) returns (ShutdownReply) {
+    option (google.api.http) = {
+      post: "/nyaa/shutdown"
+      body: "*"
+    };
+  }
+  rpc Search(SearchRequest) returns (SearchReply) {
+    option (google.api.http) = {
+      post: "/nyaa/search"
+      body: "*"
+    };
+  }
+  rpc CurrentResults(CurrentResultsRequest) returns (CurrentResultsReply) {
+    option (google.api.http) = {
+      post: "/nyaa/current-results"
+      body: "*"
+    };
+  }
+}
+
+// The ping message containing the user's name.
+message PingRequest {
+  string message = 1;
+}
+
+// The response message containing the greetings
+message PingReply {
+  string message = 1;
+}
+
+message ShutdownRequest {
+}
+
+message ShutdownReply {
+}
+
+message SearchRequest {
+  string query    = 1;
+  string filter   = 2;
+  string category = 3;
+  string sort     = 4;
+  string order    = 5;
+  uint32 page     = 6;
+}
+
+message Result {
+  string category   = 1;
+  string name       = 2;
+  string link       = 3;
+  string size       = 4;
+  string date       = 5;
+  uint32 seeders    = 6;
+  uint32 leechers   = 7;
+  uint32 downloads  = 8;
+}
+
+message SearchReply {
+  repeated Result results = 1;
+}
+
+message CurrentResultsRequest {
+}
+
+message CurrentResultsReply {
+  repeated Result results = 1;
+}
