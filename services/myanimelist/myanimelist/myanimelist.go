@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
+	"github.com/greenmochi/ultimate/services/myanimelist/myanimelist/data"
 	"github.com/greenmochi/ultimate/services/myanimelist/myanimelist/parser"
 )
 
@@ -13,7 +14,7 @@ type MyAnimeList struct {
 }
 
 // FetchUserAnimeList todo
-func (mal *MyAnimeList) FetchUserAnimeList(user string) (*AnimeList, error) {
+func (mal *MyAnimeList) FetchUserAnimeList(user string) (*data.AnimeList, error) {
 	url := fmt.Sprintf("https://myanimelist.net/animelist/%s", user)
 	resp, err := http.Get(url)
 	if err != nil {
