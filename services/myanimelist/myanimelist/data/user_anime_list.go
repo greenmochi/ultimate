@@ -11,17 +11,18 @@ type UserAnimeList struct {
 
 // UserAnime TODO
 type UserAnime struct {
-	Status             int    `json:"status"`
-	Score              int    `json:"score"`
-	Tags               string `json:"tags"`
-	IsRewatching       int    `json:"is_rewatching"`
-	NumWatchedEpisodes int    `json:"num_watched_episodes"`
-	AnimeTitle         string `json:"anime_title"`
-	AnimeNumEpisodes   int    `json:"anime_num_episodes"`
-	AnimeAiringStatus  int    `json:"anime_airing_status"`
-	AnimeID            int    `json:"anime_id"`
-	AnimeStudios       string `json:"anime_studios"`
-	AnimeLicensors     string `json:"anime_licensors"`
+	Status int    `json:"status"`
+	Score  int    `json:"score"`
+	Tags   string `json:"tags"`
+	// IsRewatching the json can be an integer or a string. Just ignore this value...
+	IsRewatching       interface{} `json:"is_rewatching"`
+	NumWatchedEpisodes int         `json:"num_watched_episodes"`
+	AnimeTitle         string      `json:"anime_title"`
+	AnimeNumEpisodes   int         `json:"anime_num_episodes"`
+	AnimeAiringStatus  int         `json:"anime_airing_status"`
+	AnimeID            int         `json:"anime_id"`
+	AnimeStudios       string      `json:"anime_studios"`
+	AnimeLicensors     string      `json:"anime_licensors"`
 	AnimeSeason        struct {
 		Year   int
 		Season string

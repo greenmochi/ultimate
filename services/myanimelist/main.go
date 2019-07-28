@@ -19,9 +19,8 @@ func main() {
 	defer file.Close()
 
 	mal := myanimelist.New()
-	if mal != nil {
-	}
 	mal.InitDB()
 	defer mal.CloseDB()
 	mal.GetUserAnimeList("choco1drop")
+	mal.GetUserAnimeList("censky")
 }
