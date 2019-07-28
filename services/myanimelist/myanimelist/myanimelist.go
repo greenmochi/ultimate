@@ -54,29 +54,33 @@ func (mal *MyAnimeList) fetchUserAnimeList(user string) (*data.UserAnimeList, er
 	if err != nil {
 		return nil, err
 	}
-	animeList, err := parser.ParseAnimeList(body)
+	userAnimeList, err := parser.ParseUserAnimeList(body)
 	if err != nil {
 		log.Errorf("Failed to parse %s anime list. %s", user, err)
 		return nil, err
 	}
-	return animeList, nil
+	return userAnimeList, nil
 }
 
 // StoreAnimeList TODO
-func (mal *MyAnimeList) storeUserAnimeList(user string, animeList *data.UserAnimeList) error {
-	// store the data into the store
-	mal.store.SetUserAnimeList(user, animeList)
-
-	// store the data into the database
+func (mal *MyAnimeList) storeUserAnimeList(user string, userAnimeList *data.UserAnimeList) error {
+	mal.store.SetUserAnimeList(user, userAnimeList)
+	if err := mal.db.InsertUserAnimeList(userAnimeList); err != nil {
+		log.Error(err)
+		return err
+	}
 	return nil
 }
 
 // GetUserAnimeList TODO
 func (mal *MyAnimeList) GetUserAnimeList(user string) error {
 	// Fetch user anime list (and stores it)
-	_, err := mal.fetchUserAnimeList(user)
+	userAnimeList, err := mal.fetchUserAnimeList(user)
 	if err != nil {
 		log.Error(err)
+	}
+	if err := mal.storeUserAnimeList(user, userAnimeList); err != nil {
+		return err
 	}
 	return nil
 }
