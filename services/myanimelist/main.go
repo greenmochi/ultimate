@@ -8,5 +8,5 @@ func main() {
 	}
 	mal.InitDB()
 	defer mal.CloseDB()
-	mal.GetAnimeList("choco1drop")
+	mal.GetUserAnimeList("choco1drop")
 }

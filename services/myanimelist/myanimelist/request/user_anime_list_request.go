@@ -6,8 +6,8 @@ import (
 	"strconv"
 )
 
-// AnimeListRequest TODO
-type AnimeListRequest struct {
+// UserAnimeListRequest TODO
+type UserAnimeListRequest struct {
 	// User is the username of the anime list
 	User string
 	// Status is the category the page lists (currently watching,
@@ -21,9 +21,9 @@ type AnimeListRequest struct {
 	Offset int
 }
 
-// NewAnimeListRequest TODO
-func NewAnimeListRequest(user string) *AnimeListRequest {
-	return &AnimeListRequest{
+// NewUserAnimeListRequest TODO
+func NewUserAnimeListRequest(user string) *UserAnimeListRequest {
+	return &UserAnimeListRequest{
 		User:   user,
 		Status: 7, // All anime category
 		Offset: 0, // 0 to limit (uknown, we cannot predict server response) results
@@ -31,7 +31,7 @@ func NewAnimeListRequest(user string) *AnimeListRequest {
 }
 
 // Build TODO
-func (alr *AnimeListRequest) Build() string {
+func (alr *UserAnimeListRequest) Build() string {
 	u := url.URL{}
 	u.Scheme = "https"
 	u.Host = "myanimelist.net"

@@ -6,26 +6,26 @@ import (
 
 // Store TODO
 type Store struct {
-	animeLists map[string]*data.AnimeList
+	userAnimeLists map[string]*data.UserAnimeList
 }
 
 // New creates a new store
 func New() *Store {
 	return &Store{
-		animeLists: make(map[string]*data.AnimeList),
+		userAnimeLists: make(map[string]*data.UserAnimeList),
 	}
 }
 
-// SetAnimeList TODO
-func (s *Store) SetAnimeList(user string, animeList *data.AnimeList) {
-	s.animeLists[user] = animeList
+// SetUserAnimeList TODO
+func (s *Store) SetUserAnimeList(user string, userAnimeList *data.UserAnimeList) {
+	s.userAnimeLists[user] = userAnimeList
 }
 
-// GetAnimeList TODO
-func (s *Store) GetAnimeList(user string) *data.AnimeList {
-	if animeList, ok := s.animeLists[user]; ok {
+// GetUserAnimeList TODO
+func (s *Store) GetUserAnimeList(user string) *data.UserAnimeList {
+	if userAnimeList, ok := s.userAnimeLists[user]; ok {
 		// Consider returning a copy (immutable) instead to avoid side effects
-		return animeList
+		return userAnimeList
 	}
 	return nil
 }

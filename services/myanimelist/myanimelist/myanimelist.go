@@ -42,8 +42,8 @@ func (mal *MyAnimeList) CloseDB() {
 }
 
 // FetchAnimeList TODO
-func (mal *MyAnimeList) fetchAnimeList(user string) (*data.AnimeList, error) {
-	url := request.NewAnimeListRequest(user).Build()
+func (mal *MyAnimeList) fetchUserAnimeList(user string) (*data.UserAnimeList, error) {
+	url := request.NewUserAnimeListRequest(user).Build()
 	log.Infof("Sending GET request to %s", url)
 	resp, err := http.Get(url)
 	if err != nil {
@@ -55,23 +55,23 @@ func (mal *MyAnimeList) fetchAnimeList(user string) (*data.AnimeList, error) {
 		return nil, err
 	}
 	//log.WithField("json", string(body)).Infof("Received json data for %s", user)
-	animeList := parser.ParseAnimeList(string(body))
+	animeList := parser.ParseAnimeList(body)
 	return animeList, nil
 }
 
 // StoreAnimeList TODO
-func (mal *MyAnimeList) storeAnimeList(user string, animeList *data.AnimeList) error {
+func (mal *MyAnimeList) storeUserAnimeList(user string, animeList *data.UserAnimeList) error {
 	// store the data into the store
-	mal.store.SetAnimeList(user, animeList)
+	mal.store.SetUserAnimeList(user, animeList)
 
 	// store the data into the database
 	return nil
 }
 
-// GetAnimeList TODO
-func (mal *MyAnimeList) GetAnimeList(user string) error {
+// GetUserAnimeList TODO
+func (mal *MyAnimeList) GetUserAnimeList(user string) error {
 	// Fetch user anime list (and stores it)
-	_, err := mal.fetchAnimeList(user)
+	_, err := mal.fetchUserAnimeList(user)
 	if err != nil {
 		log.Error(err)
 	}
