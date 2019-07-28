@@ -54,8 +54,11 @@ func (mal *MyAnimeList) fetchUserAnimeList(user string) (*data.UserAnimeList, er
 	if err != nil {
 		return nil, err
 	}
-	//log.WithField("json", string(body)).Infof("Received json data for %s", user)
-	animeList := parser.ParseAnimeList(body)
+	animeList, err := parser.ParseAnimeList(body)
+	if err != nil {
+		log.Errorf("Failed to parse %s anime list. %s", user, err)
+		return nil, err
+	}
 	return animeList, nil
 }
 
