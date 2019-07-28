@@ -34,3 +34,9 @@ $ build/myanimelist
 
 # Backlog
 - (If MyAnimeList.net's api is fixed) Provide full account functionality such as modifying ratings, adding anime, etc.
+- Refactor forming the endpoints
+    - Build query params (e.g. status=7) generally
+
+# Reference
+- Building MAL requests
+    - https://github.com/jikan-me/jikan

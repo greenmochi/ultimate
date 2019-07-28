@@ -1,3 +1,4 @@
 myanimelist.exe
 myanimelist.log
 *.db
+*.db-journal

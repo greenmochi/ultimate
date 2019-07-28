@@ -6,4 +6,7 @@ func main() {
 	mal := myanimelist.New()
 	if mal != nil {
 	}
+	mal.InitDB()
+	defer mal.CloseDB()
+	mal.GetAnimeList("choco1drop")
 }
