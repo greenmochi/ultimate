@@ -21,11 +21,14 @@ $ build/myanimelist
 ```
 
 # Goals
-- Get a user's animelist and expose it through an endpoint with ultimate's gateway 
+- (User Interface) Allow a user to browse through anime
+    - Random, popular, featured, discover, airing.
+    - Similar to Netflix and Youtube's home page.
+- Retrieve a user's animelist and expose it through an endpoint with ultimate's gateway 
     - e.g. myanimelist/animelist/[USERNAME]
 - Store multiple user's animelist in the database
 - Send a signal to torrent a specific anime (like a shortcut) to the torrent gRPC service
-- Retrieve information on a specific anime
+- Retrieve information for a specific anime
     - e.g. Dr. Stone's information https://myanimelist.net/anime/38691/Dr_Stone
 - Store all data in a local database (e.g. SQLite)
     - Enables caching benefits
@@ -34,7 +37,7 @@ $ build/myanimelist
 
 # Backlog
 - (If MyAnimeList.net's api is fixed) Provide full account functionality such as modifying ratings, adding anime, etc.
-- Refactor forming the endpoints
+- Refactor forming the request and endpoints
     - Build query params (e.g. status=7) generally
 
 # Reference
