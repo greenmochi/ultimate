@@ -86,3 +86,33 @@ func (mal *MyAnimeList) GetUserAnimeList(user string) error {
 	}
 	return nil
 }
+
+func (mal *MyAnimeList) fetchSearchAnime(query string) error {
+	url := request.NewAnimeSearchRequest(query).Build()
+	log.Infof("Sending GET request to %s", url)
+	resp, err := http.Get(url)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return err
+	}
+	log.Infof("%+v\n", string(body))
+	// userAnimeList, err := parser.ParseUserAnimeList(body)
+	// if err != nil {
+	// 	log.Errorf("Failed to parse %s anime list. %s", user, err)
+	// 	return nil, err
+	// }
+	// userAnimeList.User = user
+	return nil
+}
+
+func (mal *MyAnimeList) SearchAnime(query string) error {
+	err := mal.fetchSearchAnime(query)
+	if err != nil {
+		log.Error(err)
+	}
+	return nil
+}

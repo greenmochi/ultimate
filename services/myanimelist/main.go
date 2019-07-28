@@ -23,4 +23,6 @@ func main() {
 	defer mal.CloseDB()
 	mal.GetUserAnimeList("choco1drop")
 	mal.GetUserAnimeList("censky")
+
+	mal.SearchAnime("psycho pass")
 }
