@@ -1,1 +1,3 @@
 github.com/greenmochi/ultimate v0.0.0-20190727095612-8975943e2767 h1:cHF55hSuK9dbEdoLClUrd5j0kfMrLWaYcjtTA6CCvko=
+github.com/mattn/go-sqlite3 v1.11.0 h1:LDdKkqtYlom37fkvqs8rMPFKAMe8+SgjbwZ6ex1/A/Q=
+github.com/mattn/go-sqlite3 v1.11.0/go.mod h1:FPy6KqzDD04eiIsT53CuJW3U88zkxoIYsOqkbpncsNc=
