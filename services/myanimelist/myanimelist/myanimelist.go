@@ -59,6 +59,7 @@ func (mal *MyAnimeList) fetchUserAnimeList(user string) (*data.UserAnimeList, er
 		log.Errorf("Failed to parse %s anime list. %s", user, err)
 		return nil, err
 	}
+	userAnimeList.User = user
 	return userAnimeList, nil
 }
 
@@ -69,6 +70,7 @@ func (mal *MyAnimeList) storeUserAnimeList(user string, userAnimeList *data.User
 		log.Error(err)
 		return err
 	}
+	log.Infof("Successfully saved user %s anime list in the database", user)
 	return nil
 }
 

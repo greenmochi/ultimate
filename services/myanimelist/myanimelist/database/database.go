@@ -3,7 +3,7 @@ package database
 import (
 	"database/sql"
 
-	_ "github.com/mattn/go-sqlite3"
+	s "github.com/mattn/go-sqlite3"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/greenmochi/ultimate/services/myanimelist/myanimelist/data"
@@ -20,6 +20,12 @@ func New() *Database {
 }
 
 func (d *Database) Open(name string) error {
+	libVersion, libVersionNumber, sourceID := s.Version()
+	log.WithFields(log.Fields{
+		"libVersion":       libVersion,
+		"libVersionNumber": libVersionNumber,
+		"sourceID":         sourceID,
+	}).Info("go-sqlite3 version")
 	db, err := sql.Open("sqlite3", name)
 	if err != nil {
 		return err
@@ -36,10 +42,10 @@ func (d *Database) Close() {
 func (d *Database) createTables() {
 	stmt := `
 	CREATE TABLE IF NOT EXISTS user_anime_list (
-		username STRING NOT NULL PRIMARY KEY
+		username TEXT NOT NULL PRIMARY KEY CHECK(username <> '')
 	);
 	CREATE TABLE IF NOT EXISTS user_anime (
-		username STRING NOT NULL,
+		username TEXT NOT NULL CHECK(username <> ''),
 		status INTEGER,
 		score INTEGER,
 		tags TEXT,
@@ -72,6 +78,7 @@ func (d *Database) createTables() {
 		storage_string TEXT,
 		priority_string TEXT,
 
+		PRIMARY KEY (username, anime_id),
 		FOREIGN KEY (username) REFERENCES user_anime_list (username) ON DELETE CASCADE ON UPDATE CASCADE
 	);
 	`
@@ -90,7 +97,7 @@ func (d *Database) InsertUserAnimeList(userAnimeList *data.UserAnimeList) error 
 	}
 
 	userStmt, err := tx.Prepare(`
-	INSERT INTO user_anime_list (username) VALUES (?);
+	INSERT INTO user_anime_list (username) VALUES (?) ON CONFLICT DO NOTHING;
 	`)
 	if err != nil {
 		log.Error(err)
@@ -105,7 +112,7 @@ func (d *Database) InsertUserAnimeList(userAnimeList *data.UserAnimeList) error 
 	INSERT INTO user_anime (
 		username, status, score, tags, is_rewatching, num_watched_episodes, anime_title,
 		anime_num_episodes, anime_airing_status, anime_id, anime_studios, anime_licensors,
-		anime_season_year, anime_seasion_season, 
+		anime_season_year, anime_season_season, 
 		has_episode_video, has_promotion_video, has_video, anime_url, anime_image_path,
 		is_added_to_list, anime_media_type_string, anime_mpaa_rating_string, start_date_string, finish_date_string, 
 		anime_start_date_string, anime_end_date_string, days_string, storage_string, priority_string
@@ -117,7 +124,8 @@ func (d *Database) InsertUserAnimeList(userAnimeList *data.UserAnimeList) error 
 		?, ?, ?, ?, ?, ?, ?,
 		?, ?, ?, ?, ?,
 		?, ?, ?, ?, ?
-	);
+	)
+	ON CONFLICT DO NOTHING;
 	`)
 	if err != nil {
 		log.Error(err)
