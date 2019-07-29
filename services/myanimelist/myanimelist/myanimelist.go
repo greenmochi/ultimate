@@ -87,32 +87,37 @@ func (mal *MyAnimeList) GetUserAnimeList(user string) error {
 	return nil
 }
 
-func (mal *MyAnimeList) fetchSearchAnime(query string) error {
+func (mal *MyAnimeList) fetchAnimeSearchResults(query string) ([]*data.AnimeSearchResult, error) {
 	url := request.NewAnimeSearchRequest(query).Build()
 	log.Infof("Sending GET request to %s", url)
 	resp, err := http.Get(url)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	log.Infof("%+v\n", string(body))
-	// userAnimeList, err := parser.ParseUserAnimeList(body)
-	// if err != nil {
-	// 	log.Errorf("Failed to parse %s anime list. %s", user, err)
-	// 	return nil, err
-	// }
-	// userAnimeList.User = user
-	return nil
+	results, err := parser.ParseAnimeSearchResults(body)
+	if err != nil {
+		log.Errorf("Failed to parse %s search results. %s", query, err)
+		return nil, err
+	}
+	return results, nil
 }
 
+func (mal *MyAnimeList) storeAnimeSearchResults(results []*data.AnimeSearchResult) {
+	mal.store.SetAnimeSearchResults(results)
+	log.Infof("Stored %d anime search results", len(results))
+}
+
+// SearchAnime TODO
 func (mal *MyAnimeList) SearchAnime(query string) error {
-	err := mal.fetchSearchAnime(query)
+	results, err := mal.fetchAnimeSearchResults(query)
 	if err != nil {
 		log.Error(err)
 	}
+	mal.storeAnimeSearchResults(results)
 	return nil
 }
