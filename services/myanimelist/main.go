@@ -24,5 +24,8 @@ func main() {
 	mal.GetUserAnimeList("choco1drop")
 	mal.GetUserAnimeList("censky")
 
-	mal.SearchAnime("psycho pass")
+	results, err := mal.SearchAnime("psycho pass")
+	if err == nil {
+		mal.GetAnimeBySearchResult(results[0])
+	}
 }

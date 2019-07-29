@@ -113,11 +113,54 @@ func (mal *MyAnimeList) storeAnimeSearchResults(results []*data.AnimeSearchResul
 }
 
 // SearchAnime TODO
-func (mal *MyAnimeList) SearchAnime(query string) error {
+func (mal *MyAnimeList) SearchAnime(query string) ([]*data.AnimeSearchResult, error) {
 	results, err := mal.fetchAnimeSearchResults(query)
 	if err != nil {
 		log.Error(err)
+		return nil, err
 	}
 	mal.storeAnimeSearchResults(results)
+	return results, nil
+}
+
+func (mal *MyAnimeList) fetchAnimeBySearchResult(result *data.AnimeSearchResult) (*data.Anime, error) {
+	url := request.NewAnimeRequest().FullURL(result.Link).Build()
+	log.Infof("Sending GET request to %s", url)
+	resp, err := http.Get(url)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	anime, err := parser.ParseAnime(body)
+	if err != nil {
+		log.Errorf("Failed to parse %s anime. %s", result.Title, err)
+		return nil, err
+	}
+	return anime, nil
+}
+
+func (mal *MyAnimeList) storeAnime() error {
 	return nil
 }
+
+// GetAnimeBySearchResult TODO
+func (mal *MyAnimeList) GetAnimeBySearchResult(result *data.AnimeSearchResult) (*data.Anime, error) {
+	anime, err := mal.fetchAnimeBySearchResult(result)
+	if err != nil {
+		log.Error(err)
+		return nil, err
+	}
+	return anime, nil
+}
+
+// func (mal *MyAnimeList) fetchAnimeByID(url string) error {
+// 	return nil
+// }
+
+// func (mal *MyAnimeList) GetAnimeByID(id int) error {
+// 	return nil
+// }

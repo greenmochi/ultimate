@@ -57,3 +57,8 @@ func ParseAnimeSearchResults(htmlBytes []byte) ([]*data.AnimeSearchResult, error
 	}
 	return results, nil
 }
+
+// ParseAnime TODO
+func ParseAnime(htmlBytes []byte) (*data.Anime, error) {
+	return nil, nil
+}
