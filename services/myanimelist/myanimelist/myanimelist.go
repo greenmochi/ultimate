@@ -154,6 +154,7 @@ func (mal *MyAnimeList) GetAnimeBySearchResult(result *data.AnimeSearchResult) (
 		log.Error(err)
 		return nil, err
 	}
+	log.Infof("%+v", anime)
 	return anime, nil
 }
 

@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/anaskhan96/soup"
+	log "github.com/sirupsen/logrus"
 
 	"github.com/greenmochi/ultimate/services/myanimelist/myanimelist/data"
 )
@@ -60,5 +61,70 @@ func ParseAnimeSearchResults(htmlBytes []byte) ([]*data.AnimeSearchResult, error
 
 // ParseAnime TODO
 func ParseAnime(htmlBytes []byte) (*data.Anime, error) {
-	return nil, nil
+	doc := soup.HTMLParse(string(htmlBytes))
+
+	urlTag := doc.Find("meta", "property", "og:url")
+	id, err := GetIDFromURL(urlTag.Attrs()["content"])
+	if err != nil {
+		return nil, err
+	}
+
+	anime := &data.Anime{}
+	anime.ID = id
+
+	// Try to fill as much anime information as possible (best effort).
+	titleTag := doc.Find("meta", "property", "og:title")
+	if titleTag.Error == nil {
+		anime.Title = titleTag.Attrs()["content"]
+	}
+	imgTag := doc.Find("meta", "property", "og:image")
+	if imgTag.Error == nil {
+		anime.ImgSrc = imgTag.Attrs()["content"]
+	}
+	descTag := doc.Find("meta", "property", "og:description")
+	if descTag.Error == nil {
+		anime.Description = descTag.Attrs()["content"]
+	}
+
+	for _, divTag := range doc.FindAll("div") {
+		if divTag.Error != nil {
+			continue
+		}
+		// We expect the <span class="dark_text"> is the first child
+		// of our target div.
+		children := divTag.Children()
+		if len(children) < 1 {
+			continue
+		}
+		// Alternative titles, information, and statistics each use a
+		// span to preface their text. We can ignore divs whose first child isn't
+		// <span class="dark_text">.
+		darkTextSpanTag := children[0]
+		if darkTextSpanTag.Error != nil || darkTextSpanTag.NodeValue != "span" || darkTextSpanTag.Attrs()["class"] != "dark_text" {
+			// log.Infof("value=%s attrs=%+v", darkTextSpanTag.NodeValue, darkTextSpanTag.Attrs())
+			log.Infof("Pointer.Type=%v Pointer.Data=%s", darkTextSpanTag.Pointer.Type, darkTextSpanTag.Pointer.Data)
+			continue
+		}
+		log.Info(divTag)
+		fullText := divTag.FullText()
+		switch darkText := darkTextSpanTag.Text(); darkText {
+		case "Synonyms:":
+			anime.AltTitles.Synonyms = fullText
+		case "English:":
+			anime.AltTitles.English = fullText
+		case "Japanese:":
+			anime.AltTitles.Japanese = fullText
+		}
+		// if strings.Contains(fullText, "Synonyms:") {
+		// 	anime.AltTitles.Synonyms = strings.TrimSpace(altTitleTag.Text())
+		// }
+		// if strings.Contains(fullText, "Japanese:") {
+		// 	anime.AltTitles.Japanese = strings.TrimSpace(altTitleTag.Text())
+		// }
+		// if strings.Contains(fullText, "English:") {
+		// 	anime.AltTitles.English = strings.TrimSpace(altTitleTag.Text())
+		// }
+	}
+
+	return anime, nil
 }
