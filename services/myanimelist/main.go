@@ -12,11 +12,13 @@ func main() {
 	// Setup logrus
 	file, err := os.OpenFile("myanimelist.log", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0666)
 	if err != nil {
-		log.Info("Failed to log to myanimelist.log file, defaulting to using stderr")
+		log.Info("Failed to open log to myanimelist.log file, defaulting to using stderr")
+		log.SetOutput(os.Stderr)
 	} else {
 		log.SetOutput(file)
 	}
 	defer file.Close()
+	log.SetFormatter(&log.JSONFormatter{})
 
 	mal := myanimelist.New()
 	mal.InitDB()
