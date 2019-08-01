@@ -95,9 +95,7 @@ func ParseAnime(htmlBytes []byte) (*data.Anime, error) {
 		if len(children) < 1 {
 			continue
 		}
-		// Alternative titles, information, and statistics each use a
-		// span to preface their text. We can ignore divs whose first child isn't
-		// <span class="dark_text">.
+		// Scan the div's direct children for the dark text span tag
 		darkTextSpanTag := children[0]
 		for _, child := range children {
 			if child.NodeValue == "span" && child.Attrs()["class"] == "dark_text" {
@@ -105,17 +103,13 @@ func ParseAnime(htmlBytes []byte) (*data.Anime, error) {
 			}
 		}
 		if darkTextSpanTag.Error != nil || darkTextSpanTag.NodeValue != "span" || darkTextSpanTag.Attrs()["class"] != "dark_text" {
-			// log.Infof("value=%s attrs=%+v", darkTextSpanTag.NodeValue, darkTextSpanTag.Attrs())
-			//log.Infof("Pointer.Type=%v Pointer.Data=%s", darkTextSpanTag.Pointer.Type, darkTextSpanTag.Pointer.Data)
 			continue
 		}
-		// log.Printf("%+v\n", darkTextSpanTag.Attrs())
-		// log.Info(divTag)
-		// log.WithFields(log.Fields{
-		// 	"text": divTag.Text(),
-		// }).Infof("%+v\n", divTag)
-		text := strings.TrimSpace(divTag.FullText())
+
 		darkText := darkTextSpanTag.Text()
+		// Remove the dark (bold) text
+		text := strings.TrimSpace(strings.Replace(divTag.FullText(), darkText, "", 1))
+
 		switch darkText {
 		case "Synonyms:":
 			anime.AltTitles.Synonyms = text
