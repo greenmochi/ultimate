@@ -28,12 +28,11 @@ func New() *MyAnimeList {
 }
 
 // InitDB TODO
-func (mal *MyAnimeList) InitDB() {
-	database := "myanimelist.db"
-	if err := mal.db.Open(database); err != nil {
+func (mal *MyAnimeList) InitDB(path string) {
+	if err := mal.db.Open(path); err != nil {
 		log.Error(err)
 	}
-	log.Infof("Successfully initialized database: %s", database)
+	log.Infof("Successfully initialized database: %s", path)
 }
 
 // CloseDB TODO
