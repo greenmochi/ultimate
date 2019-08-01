@@ -111,7 +111,10 @@ func ParseAnime(htmlBytes []byte) (*data.Anime, error) {
 		}
 		// log.Printf("%+v\n", darkTextSpanTag.Attrs())
 		// log.Info(divTag)
-		text := strings.TrimSpace(divTag.Text())
+		// log.WithFields(log.Fields{
+		// 	"text": divTag.Text(),
+		// }).Infof("%+v\n", divTag)
+		text := strings.TrimSpace(divTag.FullText())
 		darkText := darkTextSpanTag.Text()
 		switch darkText {
 		case "Synonyms:":
