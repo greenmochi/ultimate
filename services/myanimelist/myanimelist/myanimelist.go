@@ -143,7 +143,12 @@ func (mal *MyAnimeList) fetchAnimeBySearchResult(result *data.AnimeSearchResult)
 	return anime, nil
 }
 
-func (mal *MyAnimeList) storeAnime() error {
+func (mal *MyAnimeList) storeAnime(anime *data.Anime) error {
+	mal.store.SetAnime(anime.ID, anime)
+	if err := mal.db.InsertAnime(anime); err != nil {
+		log.Errorf("Failed to insert anime %s into database: %s", anime.Title, err)
+	}
+	log.Infof("Successfully saved anime %s to the database", anime.Title)
 	return nil
 }
 
@@ -154,10 +159,10 @@ func (mal *MyAnimeList) GetAnimeBySearchResult(result *data.AnimeSearchResult) (
 		log.Error(err)
 		return nil, err
 	}
-	// log.Infof("%+v", anime)
-	log.WithFields(log.Fields{
-		"anime": anime,
-	}).Info()
+	if err := mal.storeAnime(anime); err != nil {
+		log.Errorf("Failed to save anime: %s", err)
+		return anime, nil
+	}
 	return anime, nil
 }
 

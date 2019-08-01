@@ -8,6 +8,7 @@ import (
 type Store struct {
 	userAnimeLists     map[string]*data.UserAnimeList
 	animeSearchResults map[string]*data.AnimeSearchResult
+	anime              map[int]*data.Anime
 }
 
 // New creates a new store
@@ -15,6 +16,7 @@ func New() *Store {
 	return &Store{
 		userAnimeLists:     make(map[string]*data.UserAnimeList),
 		animeSearchResults: make(map[string]*data.AnimeSearchResult),
+		anime:              make(map[int]*data.Anime),
 	}
 }
 
@@ -43,6 +45,17 @@ func (s *Store) SetAnimeSearchResults(results []*data.AnimeSearchResult) {
 func (s *Store) GetAnimeSearchResult(title string) *data.AnimeSearchResult {
 	if result, ok := s.animeSearchResults[title]; ok {
 		return result
+	}
+	return nil
+}
+
+func (s *Store) SetAnime(id int, anime *data.Anime) {
+	s.anime[id] = anime
+}
+
+func (s *Store) GetAnime(id int) *data.Anime {
+	if anime, ok := s.anime[id]; ok {
+		return anime
 	}
 	return nil
 }

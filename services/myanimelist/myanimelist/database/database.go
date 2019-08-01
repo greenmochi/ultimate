@@ -81,6 +81,36 @@ func (d *Database) createTables() {
 		PRIMARY KEY (username, anime_id),
 		FOREIGN KEY (username) REFERENCES user_anime_list (username) ON DELETE CASCADE ON UPDATE CASCADE
 	);
+	CREATE TABLE IF NOT EXISTS anime (
+		id 			INTEGER PRIMARY KEY,
+		title 		TEXT,
+		img_src 	TEXT,
+		description TEXT,
+
+		synonyms 	TEXT,
+		english 	TEXT,
+		japanese 	TEXT,
+
+		type 		TEXT,
+		episodes  	TEXT,
+		status    	TEXT,
+		aired     	TEXT,
+		premiered 	TEXT,
+		broadcast 	TEXT,
+		producers 	TEXT,
+		licensors 	TEXT,
+		studios   	TEXT,
+		source    	TEXT,
+		genres    	TEXT,
+		duration  	TEXT,
+		rating    	TEXT,
+
+		score      	TEXT,
+		ranked     	TEXT,
+		popularity 	TEXT,
+		members    	TEXT,
+		favorites  	TEXT
+	);
 	`
 	_, err := d.db.Exec(stmt)
 	if err != nil {
@@ -93,19 +123,19 @@ func (d *Database) createTables() {
 func (d *Database) InsertUserAnimeList(userAnimeList *data.UserAnimeList) error {
 	tx, err := d.db.Begin()
 	if err != nil {
-		log.Error(err)
+		return err
 	}
 
 	userStmt, err := tx.Prepare(`
 	INSERT INTO user_anime_list (username) VALUES (?) ON CONFLICT DO NOTHING;
 	`)
 	if err != nil {
-		log.Error(err)
+		return err
 	}
 	defer userStmt.Close()
 	_, err = userStmt.Exec(userAnimeList.User)
 	if err != nil {
-		log.Error(err)
+		return err
 	}
 
 	animeStmt, err := tx.Prepare(`
@@ -128,7 +158,7 @@ func (d *Database) InsertUserAnimeList(userAnimeList *data.UserAnimeList) error 
 	ON CONFLICT DO NOTHING;
 	`)
 	if err != nil {
-		log.Error(err)
+		return err
 	}
 	defer animeStmt.Close()
 	for _, a := range userAnimeList.Anime {
@@ -141,8 +171,46 @@ func (d *Database) InsertUserAnimeList(userAnimeList *data.UserAnimeList) error 
 			a.AnimeStartDateString, a.AnimeEndDateString, a.DaysString, a.StorageString, a.PriorityString,
 		)
 		if err != nil {
-			log.Error(err)
+			return err
 		}
+	}
+	tx.Commit()
+	return nil
+}
+
+func (d *Database) InsertAnime(anime *data.Anime) error {
+	tx, err := d.db.Begin()
+	if err != nil {
+		return err
+	}
+
+	stmt, err := tx.Prepare(`
+	INSERT INTO anime (
+		id, title, img_src, description,
+		synonyms, english, japanese,
+		type, episodes, status, aired, premiered, broadcast, producers, licensors, studios, source, genres, duration, rating,
+		score, ranked, popularity, members, favorites
+	) 
+	VALUES (
+		?, ?, ?, ?,
+		?, ?, ?,
+		?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
+		?, ?, ?, ?, ?
+	) 
+	ON CONFLICT DO NOTHING;
+	`)
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+	_, err = stmt.Exec(
+		anime.ID, anime.Title, anime.ImgSrc, anime.Description,
+		anime.AltTitles.Synonyms, anime.AltTitles.English, anime.AltTitles.Japanese,
+		anime.Info.Type, anime.Info.Episodes, anime.Info.Status, anime.Info.Aired, anime.Info.Premiered, anime.Info.Broadcast, anime.Info.Producers, anime.Info.Licensors, anime.Info.Studios, anime.Info.Source, anime.Info.Genres, anime.Info.Duration, anime.Info.Rating,
+		anime.Stats.Score, anime.Stats.Ranked, anime.Stats.Popularity, anime.Stats.Members, anime.Stats.Favorites,
+	)
+	if err != nil {
+		return err
 	}
 	tx.Commit()
 	return nil
