@@ -4,6 +4,7 @@ type Anime struct {
 	ID          int
 	Title       string
 	ImgSrc      string
+	ImgBlob     []byte
 	Description string
 	AltTitles   AlternativeTitles
 	Info        AnimeInformation
