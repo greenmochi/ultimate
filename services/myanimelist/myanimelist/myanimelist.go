@@ -50,6 +50,10 @@ func (mal *MyAnimeList) storeUserAnimeList(user string, userAnimeList *data.User
 
 // GetUserAnimeList TODO
 func (mal *MyAnimeList) GetUserAnimeList(user string) (*data.UserAnimeList, error) {
+	if ok := mal.db.UserAnimeList(user); ok {
+		log.Info(ok)
+	}
+
 	userAnimeList, err := fetch.UserAnimeList(user)
 	if err != nil {
 		return nil, err
