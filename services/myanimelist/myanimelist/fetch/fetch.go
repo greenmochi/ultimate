@@ -54,6 +54,7 @@ func AnimeSearchResults(query string) ([]*data.AnimeSearchResult, error) {
 	return results, nil
 }
 
+// getImage retrives the anime image at a url
 func getImage(url string) ([]byte, error) {
 	log.Infof("Sending GET request to %s", url)
 	resp, err := http.Get(url)
