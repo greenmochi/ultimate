@@ -92,14 +92,15 @@ func (d *Database) RetrieveUserAnimeList(username string) (*data.UserAnimeList, 
 	}
 	for rows.Next() {
 		userAnime := &data.UserAnime{}
-		if err := rows.Scan(
+		err := rows.Scan(
 			&userAnimeList.User, &userAnime.Status, &userAnime.Score, &userAnime.Tags, &userAnime.IsRewatching, &userAnime.NumWatchedEpisodes, &userAnime.AnimeTitle,
 			&userAnime.AnimeNumEpisodes, &userAnime.AnimeAiringStatus, &userAnime.AnimeID, &userAnime.AnimeStudios, &userAnime.AnimeLicensors,
 			&userAnime.AnimeSeason.Year, &userAnime.AnimeSeason.Season,
 			&userAnime.HasEpisodeVideo, &userAnime.HasPromotionVideo, &userAnime.HasVideo, &userAnime.AnimeURL, &userAnime.AnimeImagePath,
 			&userAnime.IsAddedToList, &userAnime.AnimeMediaTypeString, &userAnime.AnimeMPAARatingString, &userAnime.StartDateString, &userAnime.FinishDateString,
 			&userAnime.AnimeStartDateString, &userAnime.AnimeEndDateString, &userAnime.DaysString, &userAnime.StorageString, &userAnime.PriorityString,
-		); err != nil {
+		)
+		if err != nil {
 			log.Warn(err)
 		}
 	}
@@ -109,28 +110,30 @@ func (d *Database) RetrieveUserAnimeList(username string) (*data.UserAnimeList, 
 	return userAnimeList, nil
 }
 
-// UserAnimeList checks if the username already exists and if there is at least
-// user anime associated with the username
-func (d *Database) UserAnimeList(username string) bool {
-	rows, err := d.db.Query(fmt.Sprintf(`
+// UserAnimeListExists checks if the username is in the user_anime_list and user_anime table
+func (d *Database) UserAnimeListExists(username string) bool {
+	rows, err := d.db.Query(`
 	SELECT
-		EXISTS(SELECT 1 FROM user_anime_list WHERE username = '%s')
+		EXISTS(SELECT 1 FROM user_anime_list WHERE username = ?)
 	AND
-		EXISTS(SELECT 1 FROM user_anime WHERE username = '%s');
-	`, username, username))
+		EXISTS(SELECT 1 FROM user_anime WHERE username = ?);
+	`, username, username)
 	if err != nil {
 		log.Errorf("Failed to query for %s user anime list: %s", username, err)
 		return false
 	}
-	rows.Next()
 	defer rows.Close()
+	if ok := rows.Next(); !ok {
+		log.Warnf("Couldn't find a row for %s user anime list even through the query succeeded", username)
+		return false
+	}
 
 	var ok bool
 	if err := rows.Scan(&ok); err != nil {
-		log.Warnf("Scanning went wrong for %s anime list: %s", username, err)
+		log.Warnf("Scanning went wrong when searching for %s in the user_anime_list and user_anime table. %s", username, err)
 	}
 	if err := rows.Err(); err != nil {
-		log.Errorf("Error when checking if %s anime list exists in the database: %s", username, err)
+		log.Errorf("Error when checking if %s anime list exists in the user_anime_list and User_anime table. %s", username, err)
 	}
 	return ok
 }

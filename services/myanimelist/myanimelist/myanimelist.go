@@ -50,18 +50,18 @@ func (mal *MyAnimeList) storeUserAnimeList(user string, userAnimeList *data.User
 
 // GetUserAnimeList TODO
 func (mal *MyAnimeList) GetUserAnimeList(user string) (*data.UserAnimeList, error) {
-	// Check if store already has the user's anime list
+	// Check if the store already has the user's anime list
 	if userAnimeList := mal.store.GetUserAnimeList(user); userAnimeList != nil {
 		return userAnimeList, nil
 	}
-	// Check if database already has the user's anime list
-	if ok := mal.db.UserAnimeList(user); ok {
+	// Check if the database already has the user's anime list
+	if ok := mal.db.UserAnimeListExists(user); ok {
 		if userAnimeList, err := mal.db.RetrieveUserAnimeList(user); err == nil {
 			mal.store.SetUserAnimeList(user, userAnimeList)
 			return userAnimeList, nil
 		}
 	}
-	// Retrieve new user anime list
+	// Retrieve a new user anime list
 	userAnimeList, err := fetch.UserAnimeList(user)
 	if err != nil {
 		return nil, err
@@ -99,27 +99,42 @@ func (mal *MyAnimeList) storeAnime(anime *data.Anime) error {
 
 // GetAnimeBySearchResult TODO
 func (mal *MyAnimeList) GetAnimeBySearchResult(result *data.AnimeSearchResult) (*data.Anime, error) {
-	if anime := mal.store.GetAnimeByTitle(result.Title); anime == nil {
+	if anime := mal.store.GetAnimeByTitle(result.Title); anime != nil {
 		return anime, nil
+	}
+	if ok := mal.db.AnimeByTitleExists(result.Title); ok {
+		if anime, err := mal.db.RetrieveAnimeByTitle(result.Title); err == nil {
+			mal.store.SetAnime(anime.ID, anime)
+			return anime, nil
+		}
 	}
 	anime, err := fetch.AnimeBySearchResult(result)
 	if err != nil {
 		return nil, err
 	}
 	if err := mal.storeAnime(anime); err != nil {
-		return anime, nil
+		return nil, err
 	}
 	return anime, nil
 }
 
 // GetAnimeByID TODO
 func (mal *MyAnimeList) GetAnimeByID(id int) (*data.Anime, error) {
+	if anime := mal.store.GetAnime(id); anime != nil {
+		return anime, nil
+	}
+	if ok := mal.db.AnimeByIDExists(id); ok {
+		if anime, err := mal.db.RetrieveAnimeByID(id); err == nil {
+			mal.store.SetAnime(anime.ID, anime)
+			return anime, nil
+		}
+	}
 	anime, err := fetch.AnimeByID(id)
 	if err != nil {
 		return nil, err
 	}
 	if err := mal.storeAnime(anime); err != nil {
-		return anime, nil
+		return nil, err
 	}
 	return anime, nil
 }

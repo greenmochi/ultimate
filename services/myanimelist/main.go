@@ -42,9 +42,11 @@ func main() {
 	mal.GetUserAnimeList("censky")
 
 	results, err := mal.SearchAnime("boku no hero academia")
-	if err == nil {
-		mal.GetAnimeBySearchResult(results[0])
+	if err != nil {
+		log.Error(err)
 	}
+	mal.GetAnimeBySearchResult(results[0])
+	mal.GetAnimeBySearchResult(results[0])
 	mal.GetAnimeByID(37521)
 	mal.GetAnimeByID(38671)
 }
