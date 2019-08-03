@@ -65,11 +65,13 @@ func ParseAnime(htmlBytes []byte) (*data.Anime, error) {
 	anime := &data.Anime{}
 
 	urlTag := doc.Find("meta", "property", "og:url")
-	id, err := GetIDFromURL(urlTag.Attrs()["content"])
-	if err != nil {
-		return nil, err
+	if urlTag.Error == nil {
+		id, err := GetIDFromURL(urlTag.Attrs()["content"])
+		if err != nil {
+			return nil, err
+		}
+		anime.ID = id
 	}
-	anime.ID = id
 
 	// Try to fill as much anime information as possible (best effort).
 	titleTag := doc.Find("meta", "property", "og:title")

@@ -45,4 +45,6 @@ func main() {
 	if err == nil {
 		mal.GetAnimeBySearchResult(results[0])
 	}
+	mal.GetAnimeByID(37521)
+	mal.GetAnimeByID(38671)
 }

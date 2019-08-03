@@ -14,7 +14,7 @@ import (
 // UserAnimeList retrieves a user's anime list
 func UserAnimeList(user string) (*data.UserAnimeList, error) {
 	url := request.NewUserAnimeListRequest(user).Build()
-	log.Infof("Sending GET request to %s", url)
+	log.Infof("Fetching user anime list from %s", url)
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, err
@@ -26,7 +26,7 @@ func UserAnimeList(user string) (*data.UserAnimeList, error) {
 	}
 	userAnimeList, err := parser.ParseUserAnimeList(body)
 	if err != nil {
-		log.Errorf("Failed to parse %s anime list. %s", user, err)
+		log.Errorf("Failed to parse %s user anime list. %s", user, err)
 		return nil, err
 	}
 	userAnimeList.User = user
@@ -36,7 +36,7 @@ func UserAnimeList(user string) (*data.UserAnimeList, error) {
 // AnimeSearchResults retrieves search results from myanimelist.net
 func AnimeSearchResults(query string) ([]*data.AnimeSearchResult, error) {
 	url := request.NewAnimeSearchRequest(query).Build()
-	log.Infof("Sending GET request to %s", url)
+	log.Infof("Fetching anime search results from %s", url)
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, err
@@ -48,7 +48,7 @@ func AnimeSearchResults(query string) ([]*data.AnimeSearchResult, error) {
 	}
 	results, err := parser.ParseAnimeSearchResults(body)
 	if err != nil {
-		log.Errorf("Failed to parse %s search results. %s", query, err)
+		log.Errorf("Failed to parse search results for %s. %s", query, err)
 		return nil, err
 	}
 	return results, nil
@@ -56,7 +56,7 @@ func AnimeSearchResults(query string) ([]*data.AnimeSearchResult, error) {
 
 func getAnime(req *request.AnimeRequest) (*data.Anime, error) {
 	url := req.Build()
-	log.Infof("Sending GET request to %s", url)
+	log.Infof("Fetching anime from %s", url)
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, err
@@ -70,7 +70,7 @@ func getAnime(req *request.AnimeRequest) (*data.Anime, error) {
 	if err != nil {
 		log.WithFields(log.Fields{
 			"request": req,
-		}).Errorf("Failed to parse anime. %s", err)
+		}).Errorf("Failed to parse anime from %s. %s", url, err)
 		return nil, err
 	}
 	imgBlob, err := getImage(anime.ImgSrc)
@@ -83,7 +83,7 @@ func getAnime(req *request.AnimeRequest) (*data.Anime, error) {
 
 // getImage retrives the anime image at a url
 func getImage(url string) ([]byte, error) {
-	log.Infof("Sending GET request to %s", url)
+	log.Infof("Fetching image blob from %s", url)
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, err

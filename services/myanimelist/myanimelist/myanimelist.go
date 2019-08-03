@@ -109,10 +109,14 @@ func (mal *MyAnimeList) GetAnimeBySearchResult(result *data.AnimeSearchResult) (
 	return anime, nil
 }
 
-// func (mal *MyAnimeList) fetchAnimeByID(url string) error {
-// 	return nil
-// }
-
-// func (mal *MyAnimeList) GetAnimeByID(id int) error {
-// 	return nil
-// }
+// GetAnimeByID TODO
+func (mal *MyAnimeList) GetAnimeByID(id int) (*data.Anime, error) {
+	anime, err := fetch.AnimeByID(id)
+	if err != nil {
+		return nil, err
+	}
+	if err := mal.storeAnime(anime); err != nil {
+		return anime, nil
+	}
+	return anime, nil
+}
