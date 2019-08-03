@@ -59,3 +59,12 @@ func (s *Store) GetAnime(id int) *data.Anime {
 	}
 	return nil
 }
+
+func (s *Store) GetAnimeByTitle(title string) *data.Anime {
+	for _, anime := range s.anime {
+		if anime.Title == title {
+			return anime
+		}
+	}
+	return nil
+}

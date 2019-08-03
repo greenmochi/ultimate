@@ -99,6 +99,9 @@ func (mal *MyAnimeList) storeAnime(anime *data.Anime) error {
 
 // GetAnimeBySearchResult TODO
 func (mal *MyAnimeList) GetAnimeBySearchResult(result *data.AnimeSearchResult) (*data.Anime, error) {
+	if anime := mal.store.GetAnimeByTitle(result.Title); anime == nil {
+		return anime, nil
+	}
 	anime, err := fetch.AnimeBySearchResult(result)
 	if err != nil {
 		return nil, err
