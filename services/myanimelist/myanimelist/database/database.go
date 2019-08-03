@@ -151,9 +151,9 @@ func (d *Database) InsertUserAnimeList(userAnimeList *data.UserAnimeList) error 
 	)
 	VALUES (
 		?, ?, ?, ?, ?, ?, ?,
-		?, ?, 
-		?, ?, ?,
-		?, ?, ?, ?, ?, ?, ?,
+		?, ?, ?, ?, ?,
+		?, ?,
+		?, ?, ?, ?, ?,
 		?, ?, ?, ?, ?,
 		?, ?, ?, ?, ?
 	)
@@ -233,6 +233,7 @@ func (d *Database) UserAnimeList(username string) bool {
 		return false
 	}
 	rows.Next()
+	defer rows.Close()
 
 	var ok bool
 	if err := rows.Scan(&ok); err != nil {

@@ -37,6 +37,8 @@ func main() {
 	mal.InitDB(filepath.Join(appDataDir, "myanimelist.db"))
 	defer mal.CloseDB()
 	mal.GetUserAnimeList("choco1drop")
+	mal.GetUserAnimeList("choco1drop")
+	mal.GetUserAnimeList("censky")
 	mal.GetUserAnimeList("censky")
 
 	results, err := mal.SearchAnime("boku no hero academia")
