@@ -54,20 +54,8 @@ func AnimeSearchResults(query string) ([]*data.AnimeSearchResult, error) {
 	return results, nil
 }
 
-// getImage retrives the anime image at a url
-func getImage(url string) ([]byte, error) {
-	log.Infof("Sending GET request to %s", url)
-	resp, err := http.Get(url)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	return ioutil.ReadAll(resp.Body)
-}
-
-// AnimeBySearchResult retreives an anime page using an anime search result
-func AnimeBySearchResult(result *data.AnimeSearchResult) (*data.Anime, error) {
-	url := request.NewAnimeRequest().FullURL(result.Link).Build()
+func getAnime(req *request.AnimeRequest) (*data.Anime, error) {
+	url := req.Build()
 	log.Infof("Sending GET request to %s", url)
 	resp, err := http.Get(url)
 	if err != nil {
@@ -80,7 +68,9 @@ func AnimeBySearchResult(result *data.AnimeSearchResult) (*data.Anime, error) {
 	}
 	anime, err := parser.ParseAnime(body)
 	if err != nil {
-		log.Errorf("Failed to parse %s anime. %s", result.Title, err)
+		log.WithFields(log.Fields{
+			"request": req,
+		}).Errorf("Failed to parse anime. %s", err)
 		return nil, err
 	}
 	imgBlob, err := getImage(anime.ImgSrc)
@@ -89,4 +79,27 @@ func AnimeBySearchResult(result *data.AnimeSearchResult) (*data.Anime, error) {
 	}
 	anime.ImgBlob = imgBlob
 	return anime, nil
+}
+
+// getImage retrives the anime image at a url
+func getImage(url string) ([]byte, error) {
+	log.Infof("Sending GET request to %s", url)
+	resp, err := http.Get(url)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	return ioutil.ReadAll(resp.Body)
+}
+
+// AnimeBySearchResult retrieves an anime page using an anime search result
+func AnimeBySearchResult(result *data.AnimeSearchResult) (*data.Anime, error) {
+	req := request.NewAnimeRequest().FullURL(result.Link)
+	return getAnime(req)
+}
+
+// AnimeByID retrieves an anime page using the anime's id
+func AnimeByID(id int) (*data.Anime, error) {
+	req := request.NewAnimeRequest().ID(id)
+	return getAnime(req)
 }
