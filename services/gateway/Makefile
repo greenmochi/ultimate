@@ -15,6 +15,7 @@ proto:
 	protoc torrent.proto -Iproto/torrent $(PROTOC_INCLUDES) --go_out=plugins=grpc,paths=source_relative:proto/torrent
 	protoc myanimelist.proto -Iproto/myanimelist $(PROTOC_INCLUDES) --grpc-gateway_out=logtostderr=true,paths=source_relative:proto/myanimelist
 	protoc myanimelist.proto -Iproto/myanimelist $(PROTOC_INCLUDES) --go_out=plugins=grpc,paths=source_relative:proto/myanimelist
+	protoc myanimelist.proto -Iproto/myanimelist/message $(PROTOC_INCLUDES) --grpc-gateway_out=logtostderr=true,paths=source_relative:proto/myanimelist/message
 	protoc myanimelist.proto -Iproto/myanimelist/message $(PROTOC_INCLUDES) --go_out=plugins=grpc,paths=source_relative:proto/myanimelist/message
 
 .PHONY: all clean proto

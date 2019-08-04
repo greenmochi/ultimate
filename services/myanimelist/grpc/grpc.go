@@ -20,9 +20,22 @@ func Serve(mal *myanimelist.MyAnimeList, port int) error {
 		log.Fatalf("Failed to listen: %v", err)
 		return err
 	}
-	server := grpc.NewServer()
+	opts := []grpc.ServerOption{
+		withLoggingInterceptor(),
+	}
+	server := grpc.NewServer(opts...)
 	pb.RegisterMyAnimeListServer(server, &myanimelistServer{mal: mal})
 	return server.Serve(listener)
+}
+
+func withLoggingInterceptor() grpc.ServerOption {
+	loggingInterceptor := func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
+		log.WithFields(log.Fields{
+			"req": req,
+		}).Infof("what am i? %+v", req)
+		return handler(ctx, req)
+	}
+	return grpc.UnaryInterceptor(loggingInterceptor)
 }
 
 type myanimelistServer struct {
@@ -30,10 +43,19 @@ type myanimelistServer struct {
 }
 
 func (s *myanimelistServer) Ping(ctx context.Context, in *pb.PingRequest) (*pb.PingReply, error) {
+	log.WithFields(log.Fields{
+		"message": in.Message,
+	}).Info("Ping request received")
 	return &pb.PingReply{}, nil
 }
 
 func (s *myanimelistServer) GetUserAnimeList(ctx context.Context, in *message.Username) (*message.UserAnimeList, error) {
+	if in == nil {
+		log.Info("in is nil")
+	}
+	log.WithFields(log.Fields{
+		"in": in.GetUsername(),
+	}).Info("???")
 	userAnimeList, err := s.mal.GetUserAnimeList(in.Username)
 	if err != nil {
 		return nil, err

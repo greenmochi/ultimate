@@ -33,6 +33,14 @@ func request_MyAnimeList_Ping_0(ctx context.Context, marshaler runtime.Marshaler
 	var protoReq PingRequest
 	var metadata runtime.ServerMetadata
 
+	newReader, berr := utilities.IOReaderFactory(req.Body)
+	if berr != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
+	}
+	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+
 	msg, err := client.Ping(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
@@ -93,7 +101,7 @@ func RegisterMyAnimeListHandler(ctx context.Context, mux *runtime.ServeMux, conn
 // "MyAnimeListClient" to call the correct interceptors.
 func RegisterMyAnimeListHandlerClient(ctx context.Context, mux *runtime.ServeMux, client MyAnimeListClient) error {
 
-	mux.Handle("GET", pattern_MyAnimeList_Ping_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_MyAnimeList_Ping_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)

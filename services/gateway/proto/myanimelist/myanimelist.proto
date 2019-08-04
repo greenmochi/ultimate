@@ -12,7 +12,8 @@ import "message/myanimelist.proto";
 service MyAnimeList {
   rpc Ping (PingRequest) returns (PingReply) {
     option (google.api.http) = {
-      get: "/myanimelist/ping"
+      post: "/myanimelist/ping"
+      body: "*"
     };
   };
   rpc GetUserAnimeList(message.Username) returns (message.UserAnimeList) {
@@ -24,6 +25,7 @@ service MyAnimeList {
 }
 
 message PingRequest {
+  string message = 1;
 }
 
 message PingReply {

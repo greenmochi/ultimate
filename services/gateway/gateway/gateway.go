@@ -58,7 +58,8 @@ func loggingMiddleware(next http.Handler) http.Handler {
 		}
 		log.WithFields(log.Fields{
 			"body": string(body),
-		}).Infof("%s request from %s", r.Method, r.URL.String())
+		}).Infof("%s request for %s", r.Method, r.URL.String())
+		next.ServeHTTP(w, r)
 	})
 }
 

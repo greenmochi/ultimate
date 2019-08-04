@@ -13,6 +13,7 @@ service MyAnimeList {
 }
 
 message PingRequest {
+  string message = 1;
 }
 
 message PingReply {
