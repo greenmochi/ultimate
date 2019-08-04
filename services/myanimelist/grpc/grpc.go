@@ -30,9 +30,7 @@ func Serve(mal *myanimelist.MyAnimeList, port int) error {
 
 func withLoggingInterceptor() grpc.ServerOption {
 	loggingInterceptor := func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
-		log.WithFields(log.Fields{
-			"req": req,
-		}).Infof("what am i? %+v", req)
+		log.WithFields(log.Fields{"req": req}).Info("Incoming request")
 		return handler(ctx, req)
 	}
 	return grpc.UnaryInterceptor(loggingInterceptor)
@@ -46,16 +44,12 @@ func (s *myanimelistServer) Ping(ctx context.Context, in *pb.PingRequest) (*pb.P
 	log.WithFields(log.Fields{
 		"message": in.Message,
 	}).Info("Ping request received")
-	return &pb.PingReply{}, nil
+	return &pb.PingReply{
+		Message: in.Message,
+	}, nil
 }
 
 func (s *myanimelistServer) GetUserAnimeList(ctx context.Context, in *message.Username) (*message.UserAnimeList, error) {
-	if in == nil {
-		log.Info("in is nil")
-	}
-	log.WithFields(log.Fields{
-		"in": in.GetUsername(),
-	}).Info("???")
 	userAnimeList, err := s.mal.GetUserAnimeList(in.Username)
 	if err != nil {
 		return nil, err

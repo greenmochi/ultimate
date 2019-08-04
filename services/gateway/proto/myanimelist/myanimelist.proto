@@ -29,4 +29,5 @@ message PingRequest {
 }
 
 message PingReply {
+  string message = 1;
 }

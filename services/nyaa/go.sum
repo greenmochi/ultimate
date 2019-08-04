@@ -16,6 +16,7 @@ github.com/google/go-cmp v0.2.0/go.mod h1:oXzfMopK8JAjlY9xF4vHSVASa0yLyX7SntLO5a
 github.com/greenmochi/ultimate v0.0.0-20190714025350-59835f6e9d6c h1:ecVYmvWYYK6UrD+jsueBEnlzQxPfnbmfnK8Fo9OE5nw=
 github.com/greenmochi/ultimate v0.0.0-20190714054407-d2bee017a42c h1:wLJERIceWDJREFig3SwzqBaVFnnfa04+3V6zVEZSVU0=
 github.com/greenmochi/ultimate v0.0.0-20190728040525-e05e20dd5cfa h1:E2jHUzjN+74bc95sZMLcRoLV704PGK1kTRuwZ7n4uMg=
+github.com/greenmochi/ultimate v0.0.0-20190804093622-7466eef31471 h1:OTQSWkLaPHZMV1pOX2vr+uL0MbNxfhKzFCzX5NMAcw4=
 github.com/konsorten/go-windows-terminal-sequences v1.0.1 h1:mweAR1A6xJ3oS2pRaGiHgQ4OO8tzTaLawm8vnODuwDk=
 github.com/konsorten/go-windows-terminal-sequences v1.0.1/go.mod h1:T0+1ngSBFLxvqU3pZ+m/2kptfBszLMUkC4ZK/EgS/cQ=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=

@@ -8,7 +8,7 @@ import (
 
 	"google.golang.org/grpc"
 
-	pb "github.com/greenmochi/ultimate/services/nyaa/proto"
+	pb "github.com/greenmochi/ultimate/services/nyaa/proto/nyaa"
 )
 
 func TestService(t *testing.T) {

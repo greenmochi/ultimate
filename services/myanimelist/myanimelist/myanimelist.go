@@ -52,11 +52,13 @@ func (mal *MyAnimeList) storeUserAnimeList(user string, userAnimeList *data.User
 func (mal *MyAnimeList) GetUserAnimeList(user string) (*data.UserAnimeList, error) {
 	// Check if the store already has the user's anime list
 	if userAnimeList := mal.store.GetUserAnimeList(user); userAnimeList != nil {
+		log.Infof("Retrieved %d user anime for %s anime list from store", len(userAnimeList.Anime), user)
 		return userAnimeList, nil
 	}
 	// Check if the database already has the user's anime list
 	if ok := mal.db.UserAnimeListExists(user); ok {
 		if userAnimeList, err := mal.db.RetrieveUserAnimeList(user); err == nil {
+			log.Infof("Retrieved %d user anime for %s anime list from database", len(userAnimeList.Anime), user)
 			mal.store.SetUserAnimeList(user, userAnimeList)
 			return userAnimeList, nil
 		}

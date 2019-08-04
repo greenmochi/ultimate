@@ -17,7 +17,6 @@ import (
 	"github.com/greenmochi/ultimate/services/gateway/proto/myanimelist/message"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/grpc-ecosystem/grpc-gateway/utilities"
-	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/grpclog"
@@ -58,7 +57,6 @@ func request_MyAnimeList_GetUserAnimeList_0(ctx context.Context, marshaler runti
 	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	log.Infof("%+v", protoReq)
 
 	msg, err := client.GetUserAnimeList(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err

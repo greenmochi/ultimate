@@ -1,8 +1,6 @@
 package database
 
 import (
-	"fmt"
-
 	log "github.com/sirupsen/logrus"
 
 	"github.com/greenmochi/ultimate/services/myanimelist/myanimelist/data"
@@ -69,7 +67,7 @@ func (d *Database) InsertUserAnimeList(userAnimeList *data.UserAnimeList) error 
 
 // RetrieveUserAnimeList retrieves a user's anime list
 func (d *Database) RetrieveUserAnimeList(username string) (*data.UserAnimeList, error) {
-	rows, err := d.db.Query(fmt.Sprintf(`
+	rows, err := d.db.Query(`
 	SELECT 
 		username, status, score, tags, is_rewatching, num_watched_episodes, anime_title,
 		anime_num_episodes, anime_airing_status, anime_id, anime_studios, anime_licensors,
@@ -80,8 +78,8 @@ func (d *Database) RetrieveUserAnimeList(username string) (*data.UserAnimeList, 
 	FROM
 		user_anime
 	WHERE 
-		username = '%s';
-	`, username))
+		username = ?;
+	`, username)
 	if err != nil {
 		return nil, err
 	}
@@ -103,6 +101,7 @@ func (d *Database) RetrieveUserAnimeList(username string) (*data.UserAnimeList, 
 		if err != nil {
 			log.Warn(err)
 		}
+		userAnimeList.Anime = append(userAnimeList.Anime, userAnime)
 	}
 	if err := rows.Err(); err != nil {
 		log.Error(err)
