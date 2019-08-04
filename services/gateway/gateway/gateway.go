@@ -3,6 +3,7 @@ package gateway
 import (
 	"context"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"strings"
 
@@ -42,12 +43,26 @@ func Serve(endpoints map[string]string, port int) error {
 	}
 	s := &http.Server{
 		Addr:    fmt.Sprintf(":%d", port),
-		Handler: allowCORS(mux),
+		Handler: loggingMiddleware(allowCORS(mux)),
 	}
 	return s.ListenAndServe()
 }
 
-func allowCORS(h http.Handler) http.Handler {
+func loggingMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		body, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			log.Warnf("Unable to read body of %s. %s", r.URL.String(), err)
+			next.ServeHTTP(w, r)
+			return
+		}
+		log.WithFields(log.Fields{
+			"body": string(body),
+		}).Infof("%s request from %s", r.Method, r.URL.String())
+	})
+}
+
+func allowCORS(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if origin := r.Header.Get("Origin"); origin == "http://localhost:3000" {
 			w.Header().Set("Access-Control-Allow-Origin", origin)
@@ -56,7 +71,7 @@ func allowCORS(h http.Handler) http.Handler {
 				return
 			}
 		}
-		h.ServeHTTP(w, r)
+		next.ServeHTTP(w, r)
 	})
 }
 
