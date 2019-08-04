@@ -3,6 +3,10 @@ all: proto
 	mkdir -p build
 	go build -o build/gateway.exe
 
+build: 
+	mkdir -p build
+	go build -o build/gateway.exe
+
 clean:
 	rm -rf build
 
@@ -18,4 +22,4 @@ proto:
 	protoc myanimelist.proto -Iproto/myanimelist/message $(PROTOC_INCLUDES) --grpc-gateway_out=logtostderr=true,paths=source_relative:proto/myanimelist/message
 	protoc myanimelist.proto -Iproto/myanimelist/message $(PROTOC_INCLUDES) --go_out=plugins=grpc,paths=source_relative:proto/myanimelist/message
 
-.PHONY: all clean proto
+.PHONY: all build clean proto
