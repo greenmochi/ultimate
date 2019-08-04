@@ -38,6 +38,7 @@ func main() {
 	}
 
 	// Setup logrus
+	log.SetFormatter(&log.JSONFormatter{})
 	file, err := os.OpenFile(filepath.Join(appDataDir, "myanimelist.log"), os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0666)
 	if err != nil {
 		log.Info("Failed to open log to myanimelist.log file, defaulting to using stderr")
@@ -46,7 +47,6 @@ func main() {
 		log.SetOutput(file)
 	}
 	defer file.Close()
-	log.SetFormatter(&log.JSONFormatter{})
 
 	mal := myanimelist.New()
 	mal.InitDB(filepath.Join(appDataDir, "myanimelist.db"))
@@ -55,9 +55,7 @@ func main() {
 	// Start serving our gRPC service
 	log.Infof("Running myanimelist service on :%d", port)
 	if err := grpc.Serve(mal, port); err != nil {
-		log.WithFields(log.Fields{
-			"error": err,
-		}).Fatal(err)
+		log.Error(err)
 	}
 	// mal.GetUserAnimeList("choco1drop")
 	// mal.GetUserAnimeList("choco1drop")

@@ -5,8 +5,8 @@ package data
 // An anime title must be in one of these categories:
 // watching, completed, on hold, dropped, or plan to watch.
 type UserAnimeList struct {
-	User  string
-	Anime []*UserAnime
+	Username string
+	Anime    []*UserAnime
 }
 
 // UserAnime TODO

@@ -9,8 +9,7 @@ import "message/myanimelist.proto";
 // The nyaa service definition.
 service MyAnimeList {
   rpc Ping (PingRequest) returns (PingReply);
-  rpc Search(message.SearchRequest) returns (message.SearchReply);
-  rpc CurrentResults(message.CurrentResultsRequest) returns (message.CurrentResultsReply);
+  rpc GetUserAnimeList(message.Username) returns (message.UserAnimeList);
 }
 
 message PingRequest {

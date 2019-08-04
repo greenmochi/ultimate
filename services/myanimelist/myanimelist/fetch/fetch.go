@@ -12,8 +12,8 @@ import (
 )
 
 // UserAnimeList retrieves a user's anime list
-func UserAnimeList(user string) (*data.UserAnimeList, error) {
-	url := request.NewUserAnimeListRequest(user).Build()
+func UserAnimeList(username string) (*data.UserAnimeList, error) {
+	url := request.NewUserAnimeListRequest(username).Build()
 	log.Infof("Fetching user anime list from %s", url)
 	resp, err := http.Get(url)
 	if err != nil {
@@ -26,10 +26,10 @@ func UserAnimeList(user string) (*data.UserAnimeList, error) {
 	}
 	userAnimeList, err := parser.ParseUserAnimeList(body)
 	if err != nil {
-		log.Errorf("Failed to parse %s user anime list. %s", user, err)
+		log.Errorf("Failed to parse %s user anime list. %s", username, err)
 		return nil, err
 	}
-	userAnimeList.User = user
+	userAnimeList.Username = username
 	return userAnimeList, nil
 }
 

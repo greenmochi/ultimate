@@ -22,7 +22,7 @@ func (d *Database) InsertUserAnimeList(userAnimeList *data.UserAnimeList) error 
 		return err
 	}
 	defer userStmt.Close()
-	_, err = userStmt.Exec(userAnimeList.User)
+	_, err = userStmt.Exec(userAnimeList.Username)
 	if err != nil {
 		return err
 	}
@@ -52,7 +52,7 @@ func (d *Database) InsertUserAnimeList(userAnimeList *data.UserAnimeList) error 
 	defer animeStmt.Close()
 	for _, a := range userAnimeList.Anime {
 		_, err = animeStmt.Exec(
-			userAnimeList.User, a.Status, a.Score, a.Tags, a.IsRewatching, a.NumWatchedEpisodes, a.AnimeTitle,
+			userAnimeList.Username, a.Status, a.Score, a.Tags, a.IsRewatching, a.NumWatchedEpisodes, a.AnimeTitle,
 			a.AnimeNumEpisodes, a.AnimeAiringStatus, a.AnimeID, a.AnimeStudios, a.AnimeLicensors,
 			a.AnimeSeason.Year, a.AnimeSeason.Season,
 			a.HasEpisodeVideo, a.HasPromotionVideo, a.HasVideo, a.AnimeURL, a.AnimeImagePath,
@@ -93,7 +93,7 @@ func (d *Database) RetrieveUserAnimeList(username string) (*data.UserAnimeList, 
 	for rows.Next() {
 		userAnime := &data.UserAnime{}
 		err := rows.Scan(
-			&userAnimeList.User, &userAnime.Status, &userAnime.Score, &userAnime.Tags, &userAnime.IsRewatching, &userAnime.NumWatchedEpisodes, &userAnime.AnimeTitle,
+			&userAnimeList.Username, &userAnime.Status, &userAnime.Score, &userAnime.Tags, &userAnime.IsRewatching, &userAnime.NumWatchedEpisodes, &userAnime.AnimeTitle,
 			&userAnime.AnimeNumEpisodes, &userAnime.AnimeAiringStatus, &userAnime.AnimeID, &userAnime.AnimeStudios, &userAnime.AnimeLicensors,
 			&userAnime.AnimeSeason.Year, &userAnime.AnimeSeason.Season,
 			&userAnime.HasEpisodeVideo, &userAnime.HasPromotionVideo, &userAnime.HasVideo, &userAnime.AnimeURL, &userAnime.AnimeImagePath,

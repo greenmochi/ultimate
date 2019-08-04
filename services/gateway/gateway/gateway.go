@@ -10,12 +10,13 @@ import (
 	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 
+	"github.com/greenmochi/ultimate/services/gateway/proto/myanimelist"
 	"github.com/greenmochi/ultimate/services/gateway/proto/nyaa"
 	"github.com/greenmochi/ultimate/services/gateway/proto/torrent"
 )
 
 // Serve TODO
-func Serve(port int, endpoints map[string]string) error {
+func Serve(endpoints map[string]string, port int) error {
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
@@ -23,7 +24,7 @@ func Serve(port int, endpoints map[string]string) error {
 	mux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithInsecure()}
 
-	// Register Nyaa service
+	// Register nyaa service
 	if err := nyaa.RegisterNyaaHandlerFromEndpoint(ctx, mux, endpoints["nyaa"], opts); err != nil {
 		return err
 	}
@@ -31,16 +32,17 @@ func Serve(port int, endpoints map[string]string) error {
 	if err := torrent.RegisterTorrentHandlerFromEndpoint(ctx, mux, endpoints["torrent"], opts); err != nil {
 		return err
 	}
-
-	s := &http.Server{
-		Addr:    fmt.Sprintf(":%d", port),
-		Handler: allowCORS(mux),
+	// Register myanimelist service
+	if err := myanimelist.RegisterMyAnimeListHandlerFromEndpoint(ctx, mux, endpoints["myanimelist"], opts); err != nil {
+		return err
 	}
 
 	for name, endpoint := range endpoints {
-		log.WithFields(log.Fields{
-			"endpoint": endpoint,
-		}).Infof("Listening to %s service on %s", name, endpoint)
+		log.Infof("Listening to %s service on %s", name, endpoint)
+	}
+	s := &http.Server{
+		Addr:    fmt.Sprintf(":%d", port),
+		Handler: allowCORS(mux),
 	}
 	return s.ListenAndServe()
 }

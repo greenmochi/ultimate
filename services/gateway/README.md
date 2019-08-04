@@ -1,11 +1,5 @@
-# ultimate-heart
-A beating heart to help ultimate control the underworld.
-
-# Overview
-- Run grpc-gateway on one local port
-- Run ultimate-heart on a different local port
-
-We need this extra server (ultimate-heart) to handle middleware logic, though not an actual middleware, and other logistical means like logging and gRPC server liveness.
+# gateway
+A gateway service to translate http calls to gRPC calls.
 
 # Requirements
 - [go](https://golang.org/) >= 1.12
@@ -25,13 +19,9 @@ We need this extra server (ultimate-heart) to handle middleware logic, though no
 
   eg. For windows, download and place in your path the binaries from protoc-3.7.1-win64.zip 
 
-- clone this project (prefer to use go module if possible)
+- clone this project (using go module)
   ```bash
-  $ git clone https://github.com/greenmochi/ultimate/services/gateway.git
-  ```
-  or use `go get`
-  ```bash
-  $ go get -u github.com/greenmochi/ultimate/services/gateway
+  $ git clone https://github.com/greenmochi/ultimate
   ```
 
 # Compiling protobufs
@@ -39,10 +29,10 @@ We need this extra server (ultimate-heart) to handle middleware logic, though no
 $ make proto
 ```
 
-`make proto` essentially executes two command for each gRPC service: one compilation for the gateway and one for the actual gRPC stubs.
+`make proto` executes two command for each gRPC service: one compilation for the gateway and one for the actual gRPC stubs.
 
 # Build
-The binary will be located in the `bin` folder.
+The binary will be located in the `build` folder.
 ```bash
 $ make
 ```
@@ -50,12 +40,12 @@ $ make
 # Usage
 Running without flags will use default values.
 ```bash
-$ ./ultimate-heart
+$ ./gateway
 ```
 
 To run gateway on port 9990, you can pass a flag.
 ```bash
-$ ./ultimate-heart --gateway-port=9990
+$ ./gateway --gateway-port=9990
 ```
 
 Print help text

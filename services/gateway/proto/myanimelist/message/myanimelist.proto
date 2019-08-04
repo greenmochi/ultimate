@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package message;
 
-option go_package = "github.com/greenmochi/ultimate/services/myanimelist/proto/myanimelist/message";
+option go_package = "github.com/greenmochi/ultimate/services/gateway/proto/myanimelist/message";
 
 message Username {
     string username = 1;

@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package myanimelist;
+
+option go_package = "github.com/greenmochi/ultimate/services/gateway/proto/myanimelist";
+
+import "google/api/annotations.proto";
+
+import "message/myanimelist.proto";
+
+// The nyaa service definition.
+service MyAnimeList {
+  rpc Ping (PingRequest) returns (PingReply) {
+    option (google.api.http) = {
+      get: "/myanimelist/ping"
+    };
+  };
+  rpc GetUserAnimeList(message.Username) returns (message.UserAnimeList) {
+    option (google.api.http) = {
+      post: "/myanimelist/GetUserAnimeList"
+      body: "*"
+    };
+  };
+}
+
+message PingRequest {
+}
+
+message PingReply {
+}

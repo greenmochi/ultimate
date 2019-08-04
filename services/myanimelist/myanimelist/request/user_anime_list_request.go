@@ -8,8 +8,8 @@ import (
 
 // UserAnimeListRequest TODO
 type UserAnimeListRequest struct {
-	// User is the username of the anime list
-	User string
+	// Username is the username of the anime list
+	Username string
 	// Status is the category the page lists (currently watching,
 	// completed, on Hold, dropped, all anime)
 	Status int
@@ -22,11 +22,11 @@ type UserAnimeListRequest struct {
 }
 
 // NewUserAnimeListRequest TODO
-func NewUserAnimeListRequest(user string) *UserAnimeListRequest {
+func NewUserAnimeListRequest(username string) *UserAnimeListRequest {
 	return &UserAnimeListRequest{
-		User:   user,
-		Status: 7, // All anime category
-		Offset: 0, // 0 to limit (uknown, we cannot predict server response) results
+		Username: username,
+		Status:   7, // All anime category
+		Offset:   0, // 0 to limit (uknown, we cannot predict server response) results
 	}
 }
 
@@ -35,7 +35,7 @@ func (alr *UserAnimeListRequest) Build() string {
 	u := url.URL{}
 	u.Scheme = "https"
 	u.Host = "myanimelist.net"
-	u.Path = fmt.Sprintf("animelist/%s/load.json", alr.User)
+	u.Path = fmt.Sprintf("animelist/%s/load.json", alr.Username)
 	query := url.Values{}
 	query.Set("status", strconv.Itoa(alr.Status))
 	query.Set("offset", strconv.Itoa(alr.Offset))
