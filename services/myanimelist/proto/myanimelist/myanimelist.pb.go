@@ -25,9 +25,7 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
-// The ping message containing the user's name.
 type PingRequest struct {
-	Message              string   `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -58,16 +56,7 @@ func (m *PingRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_PingRequest proto.InternalMessageInfo
 
-func (m *PingRequest) GetMessage() string {
-	if m != nil {
-		return m.Message
-	}
-	return ""
-}
-
-// The response message containing the greetings
 type PingReply struct {
-	Message              string   `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -98,101 +87,30 @@ func (m *PingReply) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_PingReply proto.InternalMessageInfo
 
-func (m *PingReply) GetMessage() string {
-	if m != nil {
-		return m.Message
-	}
-	return ""
-}
-
-type ShutdownRequest struct {
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *ShutdownRequest) Reset()         { *m = ShutdownRequest{} }
-func (m *ShutdownRequest) String() string { return proto.CompactTextString(m) }
-func (*ShutdownRequest) ProtoMessage()    {}
-func (*ShutdownRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_7365bf8e2ee52b0c, []int{2}
-}
-
-func (m *ShutdownRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_ShutdownRequest.Unmarshal(m, b)
-}
-func (m *ShutdownRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_ShutdownRequest.Marshal(b, m, deterministic)
-}
-func (m *ShutdownRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ShutdownRequest.Merge(m, src)
-}
-func (m *ShutdownRequest) XXX_Size() int {
-	return xxx_messageInfo_ShutdownRequest.Size(m)
-}
-func (m *ShutdownRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_ShutdownRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_ShutdownRequest proto.InternalMessageInfo
-
-type ShutdownReply struct {
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *ShutdownReply) Reset()         { *m = ShutdownReply{} }
-func (m *ShutdownReply) String() string { return proto.CompactTextString(m) }
-func (*ShutdownReply) ProtoMessage()    {}
-func (*ShutdownReply) Descriptor() ([]byte, []int) {
-	return fileDescriptor_7365bf8e2ee52b0c, []int{3}
-}
-
-func (m *ShutdownReply) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_ShutdownReply.Unmarshal(m, b)
-}
-func (m *ShutdownReply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_ShutdownReply.Marshal(b, m, deterministic)
-}
-func (m *ShutdownReply) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ShutdownReply.Merge(m, src)
-}
-func (m *ShutdownReply) XXX_Size() int {
-	return xxx_messageInfo_ShutdownReply.Size(m)
-}
-func (m *ShutdownReply) XXX_DiscardUnknown() {
-	xxx_messageInfo_ShutdownReply.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_ShutdownReply proto.InternalMessageInfo
-
 func init() {
 	proto.RegisterType((*PingRequest)(nil), "myanimelist.PingRequest")
 	proto.RegisterType((*PingReply)(nil), "myanimelist.PingReply")
-	proto.RegisterType((*ShutdownRequest)(nil), "myanimelist.ShutdownRequest")
-	proto.RegisterType((*ShutdownReply)(nil), "myanimelist.ShutdownReply")
 }
 
 func init() { proto.RegisterFile("myanimelist.proto", fileDescriptor_7365bf8e2ee52b0c) }
 
 var fileDescriptor_7365bf8e2ee52b0c = []byte{
-	// 235 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0xcc, 0xad, 0x4c, 0xcc,
-	0xcb, 0xcc, 0x4d, 0xcd, 0xc9, 0x2c, 0x2e, 0xd1, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0xe2, 0x46,
-	0x12, 0x92, 0x92, 0xcc, 0x4d, 0x2d, 0x2e, 0x4e, 0x4c, 0x4f, 0xd5, 0xc7, 0x50, 0xa7, 0xa4, 0xce,
-	0xc5, 0x1d, 0x90, 0x99, 0x97, 0x1e, 0x94, 0x5a, 0x58, 0x9a, 0x5a, 0x5c, 0x22, 0x24, 0xc1, 0xc5,
-	0x0e, 0x55, 0x2b, 0xc1, 0xa8, 0xc0, 0xa8, 0xc1, 0x19, 0x04, 0xe3, 0x2a, 0xa9, 0x72, 0x71, 0x42,
-	0x14, 0x16, 0xe4, 0x54, 0xe2, 0x51, 0x26, 0xc8, 0xc5, 0x1f, 0x9c, 0x51, 0x5a, 0x92, 0x92, 0x5f,
-	0x9e, 0x07, 0x35, 0x53, 0x89, 0x9f, 0x8b, 0x17, 0x21, 0x54, 0x90, 0x53, 0x69, 0x34, 0x95, 0x89,
-	0x8b, 0xdb, 0xb7, 0xd2, 0x11, 0xe4, 0x12, 0x9f, 0xcc, 0xe2, 0x12, 0x21, 0x0b, 0x2e, 0x16, 0x90,
-	0xd1, 0x42, 0x12, 0x7a, 0xc8, 0xee, 0x43, 0x72, 0x96, 0x94, 0x18, 0x16, 0x19, 0x90, 0x3b, 0x5c,
-	0xb8, 0x38, 0x60, 0x46, 0x0b, 0xc9, 0xa0, 0xa8, 0x41, 0x73, 0x84, 0x94, 0x14, 0x0e, 0x59, 0x90,
-	0x29, 0x66, 0x5c, 0x6c, 0xc1, 0xa9, 0x89, 0x45, 0xc9, 0x19, 0x42, 0x62, 0x7a, 0x50, 0x7f, 0xe8,
-	0x41, 0x04, 0x60, 0xba, 0x45, 0x30, 0xc4, 0x41, 0xfa, 0xfc, 0xb8, 0xf8, 0x9c, 0x4b, 0x8b, 0x8a,
-	0x52, 0xf3, 0x4a, 0x82, 0x52, 0x8b, 0x4b, 0x73, 0x4a, 0x8a, 0x85, 0xe4, 0xe0, 0xea, 0x50, 0x25,
-	0x60, 0xe6, 0xc8, 0xe0, 0x94, 0x2f, 0xc8, 0xa9, 0x4c, 0x62, 0x03, 0x47, 0x89, 0x31, 0x20, 0x00,
-	0x00, 0xff, 0xff, 0x48, 0x57, 0x6e, 0x31, 0xcf, 0x01, 0x00, 0x00,
+	// 225 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x74, 0x90, 0xcd, 0x4a, 0x03, 0x31,
+	0x10, 0x80, 0x11, 0xa4, 0x60, 0x16, 0x05, 0x83, 0x14, 0x2d, 0xe2, 0xa1, 0x0f, 0x90, 0x80, 0x82,
+	0x78, 0x55, 0x11, 0x2f, 0x2a, 0x52, 0x6f, 0xde, 0xb6, 0x61, 0xc8, 0x0e, 0xe4, 0xcf, 0xcc, 0x44,
+	0xc8, 0x53, 0xfa, 0x4a, 0xb2, 0xad, 0x95, 0x48, 0xed, 0x31, 0xdf, 0x37, 0xdf, 0x10, 0x46, 0x1c,
+	0xfb, 0xda, 0x07, 0xf4, 0xe0, 0x90, 0x58, 0xa5, 0x1c, 0x39, 0xca, 0xae, 0x41, 0xb3, 0x33, 0x0f,
+	0x44, 0xbd, 0x05, 0xbd, 0x35, 0x37, 0x3f, 0x14, 0xdd, 0x2b, 0x06, 0xbb, 0x80, 0x8f, 0x02, 0xc4,
+	0xf3, 0x4e, 0x1c, 0xac, 0x9f, 0xc9, 0xd5, 0xcb, 0xaf, 0x3d, 0xd1, 0x3d, 0xd7, 0xdb, 0xb1, 0x78,
+	0x42, 0x62, 0x79, 0x23, 0xf6, 0x47, 0x29, 0x4f, 0x55, 0xbb, 0xa7, 0xc9, 0x67, 0xd3, 0x7f, 0x4c,
+	0x72, 0x55, 0x5e, 0x8b, 0xc9, 0x1b, 0xf4, 0xd9, 0x0c, 0x72, 0xaa, 0x7e, 0xfe, 0xa2, 0xd6, 0x60,
+	0x53, 0x9e, 0x6c, 0xf1, 0xb1, 0x7b, 0x11, 0x47, 0xf7, 0x25, 0x67, 0x08, 0xbc, 0x00, 0x2a, 0x8e,
+	0x49, 0x5e, 0xfc, 0xce, 0xfd, 0x15, 0x9b, 0x3d, 0xe7, 0x3b, 0x7d, 0x72, 0xf5, 0xee, 0xf1, 0xfd,
+	0xc1, 0x22, 0x0f, 0x65, 0xa9, 0x4c, 0xf4, 0xda, 0x66, 0x80, 0xe0, 0xa3, 0x19, 0x50, 0x17, 0xc7,
+	0xe8, 0x7b, 0x06, 0x4d, 0x90, 0x3f, 0xd1, 0x00, 0xb5, 0xa7, 0xd2, 0xab, 0x53, 0xb5, 0x64, 0x39,
+	0x59, 0xa1, 0xab, 0xef, 0x00, 0x00, 0x00, 0xff, 0xff, 0x9d, 0x15, 0xe8, 0xb6, 0x7a, 0x01, 0x00,
+	0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -208,7 +126,6 @@ const _ = grpc.SupportPackageIsVersion4
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type MyAnimeListClient interface {
 	Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingReply, error)
-	Shutdown(ctx context.Context, in *ShutdownRequest, opts ...grpc.CallOption) (*ShutdownReply, error)
 	Search(ctx context.Context, in *message.SearchRequest, opts ...grpc.CallOption) (*message.SearchReply, error)
 	CurrentResults(ctx context.Context, in *message.CurrentResultsRequest, opts ...grpc.CallOption) (*message.CurrentResultsReply, error)
 }
@@ -224,15 +141,6 @@ func NewMyAnimeListClient(cc *grpc.ClientConn) MyAnimeListClient {
 func (c *myAnimeListClient) Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingReply, error) {
 	out := new(PingReply)
 	err := c.cc.Invoke(ctx, "/myanimelist.MyAnimeList/Ping", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *myAnimeListClient) Shutdown(ctx context.Context, in *ShutdownRequest, opts ...grpc.CallOption) (*ShutdownReply, error) {
-	out := new(ShutdownReply)
-	err := c.cc.Invoke(ctx, "/myanimelist.MyAnimeList/Shutdown", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -260,7 +168,6 @@ func (c *myAnimeListClient) CurrentResults(ctx context.Context, in *message.Curr
 // MyAnimeListServer is the server API for MyAnimeList service.
 type MyAnimeListServer interface {
 	Ping(context.Context, *PingRequest) (*PingReply, error)
-	Shutdown(context.Context, *ShutdownRequest) (*ShutdownReply, error)
 	Search(context.Context, *message.SearchRequest) (*message.SearchReply, error)
 	CurrentResults(context.Context, *message.CurrentResultsRequest) (*message.CurrentResultsReply, error)
 }
@@ -271,9 +178,6 @@ type UnimplementedMyAnimeListServer struct {
 
 func (*UnimplementedMyAnimeListServer) Ping(ctx context.Context, req *PingRequest) (*PingReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Ping not implemented")
-}
-func (*UnimplementedMyAnimeListServer) Shutdown(ctx context.Context, req *ShutdownRequest) (*ShutdownReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Shutdown not implemented")
 }
 func (*UnimplementedMyAnimeListServer) Search(ctx context.Context, req *message.SearchRequest) (*message.SearchReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Search not implemented")
@@ -300,24 +204,6 @@ func _MyAnimeList_Ping_Handler(srv interface{}, ctx context.Context, dec func(in
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(MyAnimeListServer).Ping(ctx, req.(*PingRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _MyAnimeList_Shutdown_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ShutdownRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MyAnimeListServer).Shutdown(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/myanimelist.MyAnimeList/Shutdown",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MyAnimeListServer).Shutdown(ctx, req.(*ShutdownRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -365,10 +251,6 @@ var _MyAnimeList_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Ping",
 			Handler:    _MyAnimeList_Ping_Handler,
-		},
-		{
-			MethodName: "Shutdown",
-			Handler:    _MyAnimeList_Shutdown_Handler,
 		},
 		{
 			MethodName: "Search",
