@@ -4,9 +4,14 @@
 package myanimelist
 
 import (
+	context "context"
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
+	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	math "math"
+	message "message"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -20,11 +25,360 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
+// The ping message containing the user's name.
+type PingRequest struct {
+	Message              string   `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *PingRequest) Reset()         { *m = PingRequest{} }
+func (m *PingRequest) String() string { return proto.CompactTextString(m) }
+func (*PingRequest) ProtoMessage()    {}
+func (*PingRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_7365bf8e2ee52b0c, []int{0}
+}
+
+func (m *PingRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_PingRequest.Unmarshal(m, b)
+}
+func (m *PingRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_PingRequest.Marshal(b, m, deterministic)
+}
+func (m *PingRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PingRequest.Merge(m, src)
+}
+func (m *PingRequest) XXX_Size() int {
+	return xxx_messageInfo_PingRequest.Size(m)
+}
+func (m *PingRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_PingRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_PingRequest proto.InternalMessageInfo
+
+func (m *PingRequest) GetMessage() string {
+	if m != nil {
+		return m.Message
+	}
+	return ""
+}
+
+// The response message containing the greetings
+type PingReply struct {
+	Message              string   `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *PingReply) Reset()         { *m = PingReply{} }
+func (m *PingReply) String() string { return proto.CompactTextString(m) }
+func (*PingReply) ProtoMessage()    {}
+func (*PingReply) Descriptor() ([]byte, []int) {
+	return fileDescriptor_7365bf8e2ee52b0c, []int{1}
+}
+
+func (m *PingReply) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_PingReply.Unmarshal(m, b)
+}
+func (m *PingReply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_PingReply.Marshal(b, m, deterministic)
+}
+func (m *PingReply) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PingReply.Merge(m, src)
+}
+func (m *PingReply) XXX_Size() int {
+	return xxx_messageInfo_PingReply.Size(m)
+}
+func (m *PingReply) XXX_DiscardUnknown() {
+	xxx_messageInfo_PingReply.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_PingReply proto.InternalMessageInfo
+
+func (m *PingReply) GetMessage() string {
+	if m != nil {
+		return m.Message
+	}
+	return ""
+}
+
+type ShutdownRequest struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ShutdownRequest) Reset()         { *m = ShutdownRequest{} }
+func (m *ShutdownRequest) String() string { return proto.CompactTextString(m) }
+func (*ShutdownRequest) ProtoMessage()    {}
+func (*ShutdownRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_7365bf8e2ee52b0c, []int{2}
+}
+
+func (m *ShutdownRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ShutdownRequest.Unmarshal(m, b)
+}
+func (m *ShutdownRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ShutdownRequest.Marshal(b, m, deterministic)
+}
+func (m *ShutdownRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ShutdownRequest.Merge(m, src)
+}
+func (m *ShutdownRequest) XXX_Size() int {
+	return xxx_messageInfo_ShutdownRequest.Size(m)
+}
+func (m *ShutdownRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ShutdownRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ShutdownRequest proto.InternalMessageInfo
+
+type ShutdownReply struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ShutdownReply) Reset()         { *m = ShutdownReply{} }
+func (m *ShutdownReply) String() string { return proto.CompactTextString(m) }
+func (*ShutdownReply) ProtoMessage()    {}
+func (*ShutdownReply) Descriptor() ([]byte, []int) {
+	return fileDescriptor_7365bf8e2ee52b0c, []int{3}
+}
+
+func (m *ShutdownReply) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ShutdownReply.Unmarshal(m, b)
+}
+func (m *ShutdownReply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ShutdownReply.Marshal(b, m, deterministic)
+}
+func (m *ShutdownReply) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ShutdownReply.Merge(m, src)
+}
+func (m *ShutdownReply) XXX_Size() int {
+	return xxx_messageInfo_ShutdownReply.Size(m)
+}
+func (m *ShutdownReply) XXX_DiscardUnknown() {
+	xxx_messageInfo_ShutdownReply.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ShutdownReply proto.InternalMessageInfo
+
+func init() {
+	proto.RegisterType((*PingRequest)(nil), "myanimelist.PingRequest")
+	proto.RegisterType((*PingReply)(nil), "myanimelist.PingReply")
+	proto.RegisterType((*ShutdownRequest)(nil), "myanimelist.ShutdownRequest")
+	proto.RegisterType((*ShutdownReply)(nil), "myanimelist.ShutdownReply")
+}
+
 func init() { proto.RegisterFile("myanimelist.proto", fileDescriptor_7365bf8e2ee52b0c) }
 
 var fileDescriptor_7365bf8e2ee52b0c = []byte{
-	// 43 bytes of a gzipped FileDescriptorProto
+	// 230 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0xcc, 0xad, 0x4c, 0xcc,
-	0xcb, 0xcc, 0x4d, 0xcd, 0xc9, 0x2c, 0x2e, 0xd1, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x07, 0x04, 0x00,
-	0x00, 0xff, 0xff, 0x43, 0xa3, 0x45, 0x76, 0x13, 0x00, 0x00, 0x00,
+	0xcb, 0xcc, 0x4d, 0xcd, 0xc9, 0x2c, 0x2e, 0xd1, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0xe2, 0x46,
+	0x12, 0x92, 0x92, 0xcc, 0x4d, 0x2d, 0x2e, 0x4e, 0x4c, 0x4f, 0xd5, 0xc7, 0x50, 0xa7, 0xa4, 0xce,
+	0xc5, 0x1d, 0x90, 0x99, 0x97, 0x1e, 0x94, 0x5a, 0x58, 0x9a, 0x5a, 0x5c, 0x22, 0x24, 0xc1, 0xc5,
+	0x0e, 0x55, 0x2b, 0xc1, 0xa8, 0xc0, 0xa8, 0xc1, 0x19, 0x04, 0xe3, 0x2a, 0xa9, 0x72, 0x71, 0x42,
+	0x14, 0x16, 0xe4, 0x54, 0xe2, 0x51, 0x26, 0xc8, 0xc5, 0x1f, 0x9c, 0x51, 0x5a, 0x92, 0x92, 0x5f,
+	0x9e, 0x07, 0x35, 0x53, 0x89, 0x9f, 0x8b, 0x17, 0x21, 0x54, 0x90, 0x53, 0x69, 0xd4, 0xc7, 0xc4,
+	0xc5, 0xe2, 0x57, 0x99, 0x98, 0x28, 0x64, 0xc1, 0xc5, 0x02, 0x32, 0x53, 0x48, 0x42, 0x0f, 0xd9,
+	0x61, 0x48, 0xee, 0x91, 0x12, 0xc3, 0x22, 0x03, 0x72, 0x80, 0x0b, 0x17, 0x07, 0xcc, 0x4c, 0x21,
+	0x19, 0x14, 0x35, 0x68, 0xb6, 0x4b, 0x49, 0xe1, 0x90, 0x05, 0x99, 0x62, 0xc6, 0xc5, 0x16, 0x9c,
+	0x9a, 0x58, 0x94, 0x9c, 0x21, 0x24, 0xa6, 0x07, 0xf5, 0x80, 0x1e, 0x44, 0x00, 0xa6, 0x5b, 0x04,
+	0x43, 0x1c, 0xa4, 0xcf, 0x8f, 0x8b, 0xcf, 0xb9, 0xb4, 0xa8, 0x28, 0x35, 0xaf, 0x24, 0x28, 0xb5,
+	0xb8, 0x34, 0xa7, 0xa4, 0x58, 0x48, 0x0e, 0xae, 0x0e, 0x55, 0x02, 0x66, 0x8e, 0x0c, 0x4e, 0xf9,
+	0x82, 0x9c, 0xca, 0x24, 0x36, 0x70, 0x5c, 0x18, 0x03, 0x02, 0x00, 0x00, 0xff, 0xff, 0x84, 0xc6,
+	0x3f, 0x6c, 0xc8, 0x01, 0x00, 0x00,
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConn
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion4
+
+// NyaaClient is the client API for Nyaa service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type NyaaClient interface {
+	Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingReply, error)
+	Shutdown(ctx context.Context, in *ShutdownRequest, opts ...grpc.CallOption) (*ShutdownReply, error)
+	Search(ctx context.Context, in *message.SearchRequest, opts ...grpc.CallOption) (*message.SearchReply, error)
+	CurrentResults(ctx context.Context, in *message.CurrentResultsRequest, opts ...grpc.CallOption) (*message.CurrentResultsReply, error)
+}
+
+type nyaaClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewNyaaClient(cc *grpc.ClientConn) NyaaClient {
+	return &nyaaClient{cc}
+}
+
+func (c *nyaaClient) Ping(ctx context.Context, in *PingRequest, opts ...grpc.CallOption) (*PingReply, error) {
+	out := new(PingReply)
+	err := c.cc.Invoke(ctx, "/myanimelist.Nyaa/Ping", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nyaaClient) Shutdown(ctx context.Context, in *ShutdownRequest, opts ...grpc.CallOption) (*ShutdownReply, error) {
+	out := new(ShutdownReply)
+	err := c.cc.Invoke(ctx, "/myanimelist.Nyaa/Shutdown", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nyaaClient) Search(ctx context.Context, in *message.SearchRequest, opts ...grpc.CallOption) (*message.SearchReply, error) {
+	out := new(message.SearchReply)
+	err := c.cc.Invoke(ctx, "/myanimelist.Nyaa/Search", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nyaaClient) CurrentResults(ctx context.Context, in *message.CurrentResultsRequest, opts ...grpc.CallOption) (*message.CurrentResultsReply, error) {
+	out := new(message.CurrentResultsReply)
+	err := c.cc.Invoke(ctx, "/myanimelist.Nyaa/CurrentResults", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// NyaaServer is the server API for Nyaa service.
+type NyaaServer interface {
+	Ping(context.Context, *PingRequest) (*PingReply, error)
+	Shutdown(context.Context, *ShutdownRequest) (*ShutdownReply, error)
+	Search(context.Context, *message.SearchRequest) (*message.SearchReply, error)
+	CurrentResults(context.Context, *message.CurrentResultsRequest) (*message.CurrentResultsReply, error)
+}
+
+// UnimplementedNyaaServer can be embedded to have forward compatible implementations.
+type UnimplementedNyaaServer struct {
+}
+
+func (*UnimplementedNyaaServer) Ping(ctx context.Context, req *PingRequest) (*PingReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Ping not implemented")
+}
+func (*UnimplementedNyaaServer) Shutdown(ctx context.Context, req *ShutdownRequest) (*ShutdownReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Shutdown not implemented")
+}
+func (*UnimplementedNyaaServer) Search(ctx context.Context, req *message.SearchRequest) (*message.SearchReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Search not implemented")
+}
+func (*UnimplementedNyaaServer) CurrentResults(ctx context.Context, req *message.CurrentResultsRequest) (*message.CurrentResultsReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CurrentResults not implemented")
+}
+
+func RegisterNyaaServer(s *grpc.Server, srv NyaaServer) {
+	s.RegisterService(&_Nyaa_serviceDesc, srv)
+}
+
+func _Nyaa_Ping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PingRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NyaaServer).Ping(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/myanimelist.Nyaa/Ping",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NyaaServer).Ping(ctx, req.(*PingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Nyaa_Shutdown_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ShutdownRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NyaaServer).Shutdown(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/myanimelist.Nyaa/Shutdown",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NyaaServer).Shutdown(ctx, req.(*ShutdownRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Nyaa_Search_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(message.SearchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NyaaServer).Search(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/myanimelist.Nyaa/Search",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NyaaServer).Search(ctx, req.(*message.SearchRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Nyaa_CurrentResults_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(message.CurrentResultsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NyaaServer).CurrentResults(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/myanimelist.Nyaa/CurrentResults",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NyaaServer).CurrentResults(ctx, req.(*message.CurrentResultsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _Nyaa_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "myanimelist.Nyaa",
+	HandlerType: (*NyaaServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Ping",
+			Handler:    _Nyaa_Ping_Handler,
+		},
+		{
+			MethodName: "Shutdown",
+			Handler:    _Nyaa_Shutdown_Handler,
+		},
+		{
+			MethodName: "Search",
+			Handler:    _Nyaa_Search_Handler,
+		},
+		{
+			MethodName: "CurrentResults",
+			Handler:    _Nyaa_CurrentResults_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "myanimelist.proto",
 }

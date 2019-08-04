@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package message;
+
+message SearchRequest {
+}
+
+message Result {
+}
+
+message SearchReply {
+}
+
+message CurrentResultsRequest {
+}
+
+message CurrentResultsReply {
+}

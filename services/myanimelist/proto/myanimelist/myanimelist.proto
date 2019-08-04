@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package myanimelist;
+
+import "message/myanimelist.proto";
+
+// The nyaa service definition.
+service Nyaa {
+  rpc Ping (PingRequest) returns (PingReply);
+  rpc Shutdown(ShutdownRequest) returns (ShutdownReply);
+  rpc Search(message.SearchRequest) returns (message.SearchReply);
+  rpc CurrentResults(message.CurrentResultsRequest) returns (message.CurrentResultsReply);
+}
+
+// The ping message containing the user's name.
+message PingRequest {
+  string message = 1;
+}
+
+// The response message containing the greetings
+message PingReply {
+  string message = 1;
+}
+
+message ShutdownRequest {
+}
+
+message ShutdownReply {
+}
