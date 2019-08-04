@@ -9,11 +9,10 @@ clean:
 test:
 	go test ./...
 
+PROTOC_INCLUDES_PATH=-I$(GOPATH)/src -I$(GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis
+
 proto:
-	protoc myanimelist.proto \
-	-Iproto/myanimelist \
-	-I$(GOPATH)/src \
-	-I$(GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
-	--go_out=plugins=grpc:proto/myanimelist
+	protoc myanimelist.proto -Iproto/myanimelist $(PROTOC_INCLUDES_PATH) --go_out=plugins=grpc,paths=source_relative:proto/myanimelist
+	protoc myanimelist.proto -Iproto/myanimelist/message $(PROTOC_INCLUDES_PATH) --go_out=plugins=grpc,paths=source_relative:proto/myanimelist/message
 
 .PHONY: all clean test proto
