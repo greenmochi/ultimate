@@ -28,6 +28,12 @@ service MyAnimeList {
       body: "*"
     };
   };
+  rpc GetAnimeByLink(message.AnimeLink) returns (message.Anime) {
+    option (google.api.http) = {
+      post: "/myanimelist/GetAnimeByLink"
+      body: "*"
+    };
+  };
 }
 
 message PingRequest {

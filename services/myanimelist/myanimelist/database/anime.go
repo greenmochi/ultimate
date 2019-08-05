@@ -17,13 +17,13 @@ func (d *Database) InsertAnime(anime *data.Anime) error {
 
 	stmt, err := tx.Prepare(`
 	INSERT INTO anime (
-		id, title, img_src, img_blob, description,
+		id, url, title, img_src, img_blob, description,
 		synonyms, english, japanese,
 		type, episodes, status, aired, premiered, broadcast, producers, licensors, studios, source, genres, duration, rating,
 		score, ranked, popularity, members, favorites
 	) 
 	VALUES (
-		?, ?, ?, ?, ?,
+		?, ?, ?, ?, ?, ?,
 		?, ?, ?,
 		?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
 		?, ?, ?, ?, ?
@@ -35,7 +35,7 @@ func (d *Database) InsertAnime(anime *data.Anime) error {
 	}
 	defer stmt.Close()
 	_, err = stmt.Exec(
-		anime.ID, anime.Title, anime.ImgSrc, anime.ImgBlob, anime.Description,
+		anime.ID, anime.URL, anime.Title, anime.ImgSrc, anime.ImgBlob, anime.Description,
 		anime.AltTitles.Synonyms, anime.AltTitles.English, anime.AltTitles.Japanese,
 		anime.Info.Type, anime.Info.Episodes, anime.Info.Status, anime.Info.Aired, anime.Info.Premiered, anime.Info.Broadcast, anime.Info.Producers, anime.Info.Licensors, anime.Info.Studios, anime.Info.Source, anime.Info.Genres, anime.Info.Duration, anime.Info.Rating,
 		anime.Stats.Score, anime.Stats.Ranked, anime.Stats.Popularity, anime.Stats.Members, anime.Stats.Favorites,
@@ -61,7 +61,7 @@ func (d *Database) retrieveAnime(query string, args ...interface{}) (*data.Anime
 		ImgBlob: make([]byte, 0),
 	}
 	err = rows.Scan(
-		&anime.ID, &anime.Title, &anime.ImgSrc, &anime.ImgBlob, &anime.Description,
+		&anime.ID, &anime.URL, &anime.Title, &anime.ImgSrc, &anime.ImgBlob, &anime.Description,
 		&anime.AltTitles.Synonyms, &anime.AltTitles.English, &anime.AltTitles.Japanese,
 		&anime.Info.Type, &anime.Info.Episodes, &anime.Info.Status, &anime.Info.Aired, &anime.Info.Premiered, &anime.Info.Broadcast, &anime.Info.Producers, &anime.Info.Licensors, &anime.Info.Studios, &anime.Info.Source, &anime.Info.Genres, &anime.Info.Duration, &anime.Info.Rating,
 		&anime.Stats.Score, &anime.Stats.Ranked, &anime.Stats.Popularity, &anime.Stats.Members, &anime.Stats.Favorites,
@@ -76,7 +76,7 @@ func (d *Database) retrieveAnime(query string, args ...interface{}) (*data.Anime
 func (d *Database) RetrieveAnimeByID(id int) (*data.Anime, error) {
 	query := `
 	SELECT
-		id, title, img_src, img_blob, description,
+		id, url, title, img_src, img_blob, description,
 		synonyms, english, japanese,
 		type, episodes, status, aired, premiered, broadcast, producers, licensors, studios, source, genres, duration, rating,
 		score, ranked, popularity, members, favorites
@@ -97,7 +97,7 @@ func (d *Database) RetrieveAnimeByID(id int) (*data.Anime, error) {
 func (d *Database) RetrieveAnimeByTitle(title string) (*data.Anime, error) {
 	query := `
 	SELECT
-		id, title, img_src, img_blob, description,
+		id, url, title, img_src, img_blob, description,
 		synonyms, english, japanese,
 		type, episodes, status, aired, premiered, broadcast, producers, licensors, studios, source, genres, duration, rating,
 		score, ranked, popularity, members, favorites
@@ -109,6 +109,27 @@ func (d *Database) RetrieveAnimeByTitle(title string) (*data.Anime, error) {
 	anime, err := d.retrieveAnime(query, title)
 	if err != nil {
 		log.Errorf("Failed to retrieve anime for %s", title)
+		return nil, err
+	}
+	return anime, nil
+}
+
+// RetrieveAnimeByLink retreives a row by an anime link from the anime table
+func (d *Database) RetrieveAnimeByLink(link string) (*data.Anime, error) {
+	query := `
+	SELECT
+		id, url, title, img_src, img_blob, description,
+		synonyms, english, japanese,
+		type, episodes, status, aired, premiered, broadcast, producers, licensors, studios, source, genres, duration, rating,
+		score, ranked, popularity, members, favorites
+	FROM
+		anime
+	WHERE
+		url = ?;
+	`
+	anime, err := d.retrieveAnime(query, link)
+	if err != nil {
+		log.Errorf("Failed to retrieve anime for %s", link)
 		return nil, err
 	}
 	return anime, nil
@@ -156,6 +177,20 @@ func (d *Database) AnimeByTitleExists(title string) bool {
 	exists, err := d.animeExists(query, title)
 	if err != nil {
 		log.Errorf("Trying to check if an anime (title=%s) exists failed. %s", title, err)
+		return false
+	}
+	return exists
+}
+
+// AnimeByLinkExists checks if an anime by link is in the anime table
+func (d *Database) AnimeByLinkExists(link string) bool {
+	query := `
+	SELECT 
+		EXISTS(SELECT 1 FROM anime WHERE url = ?);
+	`
+	exists, err := d.animeExists(query, link)
+	if err != nil {
+		log.Errorf("Trying to check if an anime (link=%s) exists failed. %s", link, err)
 		return false
 	}
 	return exists

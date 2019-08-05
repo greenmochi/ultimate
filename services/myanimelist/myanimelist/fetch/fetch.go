@@ -107,6 +107,12 @@ func getImage(url string) ([]byte, error) {
 	return ioutil.ReadAll(resp.Body)
 }
 
+// AnimeByLink retrieves an anime page using an anime search result
+func AnimeByLink(link string) (*data.Anime, error) {
+	req := request.NewAnimeRequest().FullURL(link)
+	return getAnime(req)
+}
+
 // AnimeBySearchResult retrieves an anime page using an anime search result
 func AnimeBySearchResult(result *data.AnimeSearchResult) (*data.Anime, error) {
 	req := request.NewAnimeRequest().FullURL(result.Link)

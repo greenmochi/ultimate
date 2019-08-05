@@ -30,7 +30,7 @@ func Serve(mal *myanimelist.MyAnimeList, port int) error {
 
 func withLoggingInterceptor() grpc.ServerOption {
 	loggingInterceptor := func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
-		log.WithFields(log.Fields{"req": req}).Info("Incoming request")
+		log.WithFields(log.Fields{"req": req}).Info("Incoming gRPC request")
 		return handler(ctx, req)
 	}
 	return grpc.UnaryInterceptor(loggingInterceptor)
@@ -120,4 +120,46 @@ func (s *myanimelistServer) SearchAnime(ctx context.Context, in *message.SearchQ
 		reply.Results = append(reply.Results, result)
 	}
 	return reply, nil
+}
+
+func (s *myanimelistServer) GetAnimeByLink(ctx context.Context, in *message.AnimeLink) (*message.Anime, error) {
+	anime, err := s.mal.GetAnimeByLink(in.Link)
+	if err != nil {
+		return nil, err
+	}
+	return &message.Anime{
+		Id:          int32(anime.ID),
+		Url:         anime.URL,
+		Title:       anime.Title,
+		ImgSrc:      anime.ImgSrc,
+		ImgBlob:     anime.ImgBlob,
+		Description: anime.Description,
+		AltTitles: &message.Anime_AltTitles{
+			Synonyms: anime.AltTitles.Synonyms,
+			English:  anime.AltTitles.English,
+			Japanese: anime.AltTitles.Japanese,
+		},
+		Info: &message.Anime_AnimeInformation{
+			Type:      anime.Info.Type,
+			Episodes:  anime.Info.Episodes,
+			Status:    anime.Info.Status,
+			Aired:     anime.Info.Aired,
+			Premiered: anime.Info.Premiered,
+			Broadcast: anime.Info.Broadcast,
+			Producers: anime.Info.Producers,
+			Licensors: anime.Info.Licensors,
+			Studios:   anime.Info.Studios,
+			Source:    anime.Info.Source,
+			Genres:    anime.Info.Genres,
+			Duration:  anime.Info.Duration,
+			Rating:    anime.Info.Rating,
+		},
+		Stats: &message.Anime_AnimeStatistics{
+			Score:      anime.Stats.Score,
+			Ranked:     anime.Stats.Ranked,
+			Popularity: anime.Stats.Popularity,
+			Members:    anime.Stats.Members,
+			Favorites:  anime.Stats.Favorites,
+		},
+	}, nil
 }

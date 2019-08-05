@@ -84,3 +84,13 @@ func (s *Store) GetAnimeByTitle(title string) *data.Anime {
 	}
 	return nil
 }
+
+// GetAnimeByLink TODO
+func (s *Store) GetAnimeByLink(link string) *data.Anime {
+	for _, anime := range s.anime {
+		if anime.URL == link {
+			return anime
+		}
+	}
+	return nil
+}

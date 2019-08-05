@@ -2,6 +2,7 @@ package data
 
 type Anime struct {
 	ID          int
+	URL         string
 	Title       string
 	ImgSrc      string
 	ImgBlob     []byte

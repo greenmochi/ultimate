@@ -106,16 +106,36 @@ func (mal *MyAnimeList) storeAnime(anime *data.Anime) error {
 
 // GetAnimeByLink TODO
 func (mal *MyAnimeList) GetAnimeByLink(link string) (*data.Anime, error) {
-	return nil, nil
+	if anime := mal.store.GetAnimeByLink(link); anime != nil {
+		log.Infof("Retrieved %s anime from store", anime.Title)
+		return anime, nil
+	}
+	if ok := mal.db.AnimeByLinkExists(link); ok {
+		if anime, err := mal.db.RetrieveAnimeByLink(link); err == nil {
+			log.Infof("Retrieved %s anime from database", anime.Title)
+			mal.store.SetAnime(anime.ID, anime)
+			return anime, nil
+		}
+	}
+	anime, err := fetch.AnimeByLink(link)
+	if err != nil {
+		return nil, err
+	}
+	if err := mal.storeAnime(anime); err != nil {
+		return nil, err
+	}
+	return anime, nil
 }
 
 // GetAnimeBySearchResult TODO
 func (mal *MyAnimeList) GetAnimeBySearchResult(result *data.AnimeSearchResult) (*data.Anime, error) {
 	if anime := mal.store.GetAnimeByTitle(result.Title); anime != nil {
+		log.Infof("Retrieved %s anime from store", anime.Title)
 		return anime, nil
 	}
 	if ok := mal.db.AnimeByTitleExists(result.Title); ok {
 		if anime, err := mal.db.RetrieveAnimeByTitle(result.Title); err == nil {
+			log.Infof("Retrieved %s anime from database", anime.Title)
 			mal.store.SetAnime(anime.ID, anime)
 			return anime, nil
 		}
@@ -133,10 +153,12 @@ func (mal *MyAnimeList) GetAnimeBySearchResult(result *data.AnimeSearchResult) (
 // GetAnimeByID TODO
 func (mal *MyAnimeList) GetAnimeByID(id int) (*data.Anime, error) {
 	if anime := mal.store.GetAnime(id); anime != nil {
+		log.Infof("Retrieved %s anime from store", anime.Title)
 		return anime, nil
 	}
 	if ok := mal.db.AnimeByIDExists(id); ok {
 		if anime, err := mal.db.RetrieveAnimeByID(id); err == nil {
+			log.Infof("Retrieved %s anime from database", anime.Title)
 			mal.store.SetAnime(anime.ID, anime)
 			return anime, nil
 		}

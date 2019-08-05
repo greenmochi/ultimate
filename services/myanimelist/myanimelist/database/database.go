@@ -85,6 +85,7 @@ func (d *Database) createTables() {
 	);
 	CREATE TABLE IF NOT EXISTS anime (
 		id 			INTEGER PRIMARY KEY,
+		url 		TEXT,
 		title 		TEXT,
 		img_src 	TEXT,
 		img_blob	BLOB,

@@ -11,6 +11,7 @@ service MyAnimeList {
   rpc Ping (PingRequest) returns (PingReply);
   rpc GetUserAnimeList(message.Username) returns (message.UserAnimeList);
   rpc SearchAnime(message.SearchQuery) returns (message.AnimeSearchResults);
+  rpc GetAnimeByLink(message.AnimeLink) returns (message.Anime);
 }
 
 message PingRequest {

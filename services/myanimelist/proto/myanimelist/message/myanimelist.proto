@@ -65,3 +65,46 @@ message AnimeSearchResults {
     }
     repeated AnimeSearchResult results = 1;
 }
+
+message AnimeLink {
+    string link = 1;
+}
+
+message Anime {
+    int32 id = 1;
+    string url = 2;
+    string title = 3;
+    string img_src = 4;
+    bytes img_blob = 5;
+    string description = 6;
+    message AltTitles {
+        string synonyms = 1;
+        string english = 2;
+        string japanese = 3;
+    }
+    AltTitles alt_titles = 7;
+    message AnimeInformation {
+        string type = 1;
+        string episodes = 2;
+        string status = 3;
+        string aired = 4;
+        string premiered = 5;
+        string broadcast = 6;
+        string producers = 7;
+        string licensors = 8;
+        string studios = 9;
+        string source = 10;
+        string genres = 11;
+        string duration = 12;
+        string rating = 13;
+    }
+    AnimeInformation info = 8;
+    message AnimeStatistics {
+        string score = 1;
+        string ranked = 2;
+        string popularity = 3;
+        string members = 4;
+        string favorites = 5;
+    }
+    AnimeStatistics stats = 9;
+}
