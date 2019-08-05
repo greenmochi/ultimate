@@ -75,7 +75,7 @@ const mapStateToProps = (state: StoreState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => (
   bindActionCreators({
-    loadResults: loadResults,
+    loadResults,
   }, dispatch)
 );
 

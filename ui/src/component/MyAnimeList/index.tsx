@@ -15,6 +15,8 @@ import {
 } from "../../store";
 import {
   setUsername,
+  loadUserAnimeList,
+  loadAnimeSearchResults,
 } from "../../store/myanimelist/action";
 import { fetchUserAnimeList } from "../../api/myanimelist";
 
@@ -58,6 +60,8 @@ const mapStateToProps = (state: StoreState) => ({
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => (
   bindActionCreators({
     setUsername,
+    loadUserAnimeList,
+    loadAnimeSearchResults,
   }, dispatch)
 );
 
@@ -71,15 +75,12 @@ class MyAnimeList extends React.Component<MyAnimeListProps> {
     const data = new FormData(event.target);
     let searchTerm: string = data.get("search") as string;
     this.props.setUsername(searchTerm);
-    fetchUserAnimeList("http://localhost:9990", {username: "choco1drop"})
-      .then(resp => resp.json())
-      .then(data => console.log(data))
-      .catch(error => {
-        console.error(error);
-      });
+    this.props.loadUserAnimeList({username:"choco1drop"});
+    this.props.loadAnimeSearchResults({ query: "boku no hero" });
   }
 
   render() {
+    const { myAnimeList } = this.props;
     return (
       <Container>
         <Form
@@ -103,6 +104,9 @@ class MyAnimeList extends React.Component<MyAnimeListProps> {
             />
           </SubmitButton>
         </Form>
+        {myAnimeList.userAnimeList.userAnime ? myAnimeList.userAnimeList.userAnime.map((userAnime) => (
+          <span>id={userAnime.animeID} {userAnime.animeTitle}</span>
+        )) : null}
       </Container>
     );
   }

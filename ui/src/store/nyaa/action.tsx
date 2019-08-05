@@ -60,7 +60,7 @@ export function loadResults(queryData: PostQueryData): ThunkResult<void> {
         return nyaaResults;
       })
       .catch(error => {
-        console.log(error);
+        console.error(error);
         return [];
       });
     dispatch(fetchingResults(false));
