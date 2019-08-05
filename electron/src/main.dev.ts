@@ -11,7 +11,7 @@ app.on("ready", () => {
   mainWindow.registerWindowsButtonListener();
   mainWindow.registerDevtools();
   mainWindow.sendAfterDidFinishLoad("ultimate:gatewayServerEndpointResponse", "http://localhost:9990");
-  mainWindow.sendAfterDidFinishLoad("ultimate:whatServicesRunningResponse", ["gateway", "nyaa", "torrent"]);
+  mainWindow.sendAfterDidFinishLoad("ultimate:whatServicesRunningResponse", ["gateway", "nyaa", "torrent", "myanimelist"]);
 });
 
 app.on("window-all-closed", async () => {

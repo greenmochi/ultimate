@@ -16,6 +16,7 @@ import {
 import {
   setUsername,
 } from "../../store/myanimelist/action";
+import { fetchUserAnimeList } from "../../api/myanimelist";
 
 export const Container = styled.div`
   background-color: #1D1D1D;
@@ -70,6 +71,12 @@ class MyAnimeList extends React.Component<MyAnimeListProps> {
     const data = new FormData(event.target);
     let searchTerm: string = data.get("search") as string;
     this.props.setUsername(searchTerm);
+    fetchUserAnimeList("http://localhost:9990", {username: "choco1drop"})
+      .then(resp => resp.json())
+      .then(data => console.log(data))
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   render() {

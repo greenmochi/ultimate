@@ -42,7 +42,20 @@ function startGateway() {
 }
 
 function startNyaa() {
-  const cmd = `"services/nyaa/build/nyaa`;
+  const cmd = `"services/nyaa/build/nyaa"`;
+  const script = exec(cmd, {
+    cwd: path.resolve(process.cwd()),
+  });
+  script.stdout.pipe(process.stdout);
+  script.stderr.pipe(process.stderr);
+  script.stderr.on("error", (error) => {
+    done(error);
+  });
+  return script;
+}
+
+function startMyAnimeList() {
+  const cmd = `"services/myanimelist/build/myanimelist"`;
   const script = exec(cmd, {
     cwd: path.resolve(process.cwd()),
   });
@@ -59,4 +72,5 @@ module.exports = {
   startElectron,
   startGateway,
   startNyaa,
+  startMyAnimeList,
 };

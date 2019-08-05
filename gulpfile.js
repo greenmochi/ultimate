@@ -2,14 +2,14 @@ const gulp = require("gulp");
 const series = gulp.series;
 const parallel = gulp.parallel;
 
-const { startUI, startElectron, startGateway, startNyaa} = require("./scripts/gulp.start");
+const { startUI, startElectron, startGateway, startNyaa, startMyAnimeList} = require("./scripts/gulp.start");
 const { buildUI, buildElectron, } = require("./scripts/gulp.build");
 const { installUI, installElectron, } = require("./scripts/gulp.install");
 const { prePackageTask, packageRelease, } = require("./scripts/gulp.package");
 const { cleanUIBuild, cleanElectronBuild, cleanNodeModules, } = require("./scripts/gulp.clean");
 
 const install = parallel(installUI, installElectron);
-const start = parallel(startUI, startElectron, startGateway, startNyaa);
+const start = parallel(startUI, startElectron, startGateway, startNyaa, startMyAnimeList);
 const build = parallel(buildUI, buildElectron);
 const package = series(prePackageTask, packageRelease);
 const clean = parallel(cleanUIBuild, cleanElectronBuild, cleanNodeModules);

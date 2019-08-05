@@ -8,7 +8,7 @@ import * as service from "./service";
 function runServices() {
   let servicesPath: string = path.resolve(app.getAppPath(), "../app.asar.unpacked/build/services")
   if (!servicesPath) {
-    console.log(`Unable to path to services directory. Please check if it exist at resources/app.asar.unpacked/build/services from the application directory.`);
+    console.log(`Unable to find path to services directory. Please check if it exist at resources/app.asar.unpacked/build/services from the application directory.`);
     return;
   }
   service.RunService("gateway", path.resolve(servicesPath, "gateway"));
