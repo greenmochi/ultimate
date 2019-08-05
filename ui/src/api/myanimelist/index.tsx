@@ -2,7 +2,7 @@ const endpoints = {
   USER_ANIME_LIST: "myanimelist/GetUserAnimeList",
 };
 
-interface UsernameMsg {
+export interface UsernameMsg {
   username: string;
 }
 
