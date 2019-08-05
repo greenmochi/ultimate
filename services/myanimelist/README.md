@@ -45,6 +45,20 @@ $ build/myanimelist
         - myanimelist/fetch/fetch.go 
             - func AnimeSearchResults(query string) ([]*data.AnimeSearchResult, error);
             - func getImage(url string) ([]byte, error);
+- Store anime page for each user anime (from their anime list)
+    - Problem: A user will frequently view the anime in their anime list. We want decrease the lookup time for those anime
+    - Expectation: Viewing an anime from a user's anime list should be less than 10ms
+    - Solution: After fetching the user's anime list, fetch all anime for each anime in their list.
+    - Points of interest:
+        - myanimelist/fetch/fetch.go
+            - GetUserAnimeList(user string)
+- Force update
+    - Problem: A user's animelist or anime information might be outdated because that information is stored and pulled
+    from an sqlite database.
+    - Expectation: There should be a way to refresh their list in the database
+    - Solution: Add a gRPC rpc method to force refresh the users list and all the anime in the database
+    - Points of intrrest:
+        - myanimelist.net might limit us or block us. Consider a way to do incremental updates if necessary
 
 # Reference
 - Building MAL requests
