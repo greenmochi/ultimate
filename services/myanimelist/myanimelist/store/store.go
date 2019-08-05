@@ -6,16 +6,17 @@ import (
 
 // Store TODO
 type Store struct {
-	userAnimeLists     map[string]*data.UserAnimeList
-	animeSearchResults map[string]*data.AnimeSearchResult
-	anime              map[int]*data.Anime
+	userAnimeLists       map[string]*data.UserAnimeList
+	lastAnimeSearchQuery string
+	animeSearchResults   []*data.AnimeSearchResult
+	anime                map[int]*data.Anime
 }
 
 // New creates a new store
 func New() *Store {
 	return &Store{
 		userAnimeLists:     make(map[string]*data.UserAnimeList),
-		animeSearchResults: make(map[string]*data.AnimeSearchResult),
+		animeSearchResults: make([]*data.AnimeSearchResult, 0),
 		anime:              make(map[int]*data.Anime),
 	}
 }
@@ -34,25 +35,39 @@ func (s *Store) GetUserAnimeList(user string) *data.UserAnimeList {
 	return nil
 }
 
-func (s *Store) SetAnimeSearchResults(results []*data.AnimeSearchResult) {
-	// Clear last anime results, we only store the most recent search results
-	s.animeSearchResults = make(map[string]*data.AnimeSearchResult)
-	for _, result := range results {
-		s.animeSearchResults[result.Title] = result
-	}
+// GetLastAnimeSearchQuery TODO
+func (s *Store) GetLastAnimeSearchQuery() string {
+	return s.lastAnimeSearchQuery
 }
 
+// SetAnimeSearchResults TODO
+func (s *Store) SetAnimeSearchResults(query string, results []*data.AnimeSearchResult) {
+	s.lastAnimeSearchQuery = query
+	// Clear last anime results, we only store the most recent search results
+	s.animeSearchResults = results
+}
+
+// GetAnimeSearchResults TODO
+func (s *Store) GetAnimeSearchResults() []*data.AnimeSearchResult {
+	return s.animeSearchResults
+}
+
+// GetAnimeSearchResult TODO
 func (s *Store) GetAnimeSearchResult(title string) *data.AnimeSearchResult {
-	if result, ok := s.animeSearchResults[title]; ok {
-		return result
+	for _, result := range s.animeSearchResults {
+		if result.Title == title {
+			return result
+		}
 	}
 	return nil
 }
 
+// SetAnime TODO
 func (s *Store) SetAnime(id int, anime *data.Anime) {
 	s.anime[id] = anime
 }
 
+// GetAnime TODO
 func (s *Store) GetAnime(id int) *data.Anime {
 	if anime, ok := s.anime[id]; ok {
 		return anime
@@ -60,6 +75,7 @@ func (s *Store) GetAnime(id int) *data.Anime {
 	return nil
 }
 
+// GetAnimeByTitle TODO
 func (s *Store) GetAnimeByTitle(title string) *data.Anime {
 	for _, anime := range s.anime {
 		if anime.Title == title {

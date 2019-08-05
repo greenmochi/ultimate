@@ -74,18 +74,23 @@ func (mal *MyAnimeList) GetUserAnimeList(user string) (*data.UserAnimeList, erro
 	return userAnimeList, nil
 }
 
-func (mal *MyAnimeList) storeAnimeSearchResults(results []*data.AnimeSearchResult) {
-	mal.store.SetAnimeSearchResults(results)
+func (mal *MyAnimeList) storeAnimeSearchResults(query string, results []*data.AnimeSearchResult) {
+	mal.store.SetAnimeSearchResults(query, results)
 	log.Infof("Stored %d anime search results", len(results))
 }
 
 // SearchAnime TODO
 func (mal *MyAnimeList) SearchAnime(query string) ([]*data.AnimeSearchResult, error) {
+	if mal.store.GetLastAnimeSearchQuery() == query {
+		if results := mal.store.GetAnimeSearchResults(); len(results) > 0 {
+			return results, nil
+		}
+	}
 	results, err := fetch.AnimeSearchResults(query)
 	if err != nil {
 		return nil, err
 	}
-	mal.storeAnimeSearchResults(results)
+	mal.storeAnimeSearchResults(query, results)
 	return results, nil
 }
 
@@ -97,6 +102,11 @@ func (mal *MyAnimeList) storeAnime(anime *data.Anime) error {
 	}
 	log.Infof("Successfully saved anime %s to the database", anime.Title)
 	return nil
+}
+
+// GetAnimeByLink TODO
+func (mal *MyAnimeList) GetAnimeByLink(link string) (*data.Anime, error) {
+	return nil, nil
 }
 
 // GetAnimeBySearchResult TODO

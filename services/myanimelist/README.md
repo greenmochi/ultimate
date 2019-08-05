@@ -37,8 +37,14 @@ $ build/myanimelist
 
 # Backlog
 - (If MyAnimeList.net's api is fixed) Provide full account functionality such as modifying ratings, adding anime, etc.
-- Refactor forming the request and endpoints
-    - Build query params (e.g. status=7) generally
+- Optimize search results
+    - Problem: Send a search query to myanimelist, parse the results, then grab ~50 images as blobs takes seconds.
+    - Expectation: The search query and its entirety should take a couple hundred milliseconds.
+    - Solution: find a way to speed up the search query and the image request process
+    - Points of interest:
+        - myanimelist/fetch/fetch.go 
+            - func AnimeSearchResults(query string) ([]*data.AnimeSearchResult, error);
+            - func getImage(url string) ([]byte, error);
 
 # Reference
 - Building MAL requests

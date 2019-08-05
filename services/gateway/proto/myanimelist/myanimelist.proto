@@ -8,7 +8,7 @@ import "google/api/annotations.proto";
 
 import "message/myanimelist.proto";
 
-// The nyaa service definition.
+// The myanimelist service definition.
 service MyAnimeList {
   rpc Ping (PingRequest) returns (PingReply) {
     option (google.api.http) = {
@@ -19,6 +19,12 @@ service MyAnimeList {
   rpc GetUserAnimeList(message.Username) returns (message.UserAnimeList) {
     option (google.api.http) = {
       post: "/myanimelist/GetUserAnimeList"
+      body: "*"
+    };
+  };
+  rpc SearchAnime(message.SearchQuery) returns (message.AnimeSearchResults) {
+    option (google.api.http) = {
+      post: "/myanimelist/SearchAnime"
       body: "*"
     };
   };

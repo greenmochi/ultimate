@@ -15,35 +15,53 @@ message UserAnimeList {
         int32 status = 1;
         int32 score = 2;
         string tags = 3;
-        string isRewatching = 4;
-        int32 numWatchedEpisodes = 5;
-        string animeTitle = 6;
-        int32 animeNumEpisodes = 7;
-        int32 animeAiringStatus = 8;
-        int32 animeID = 9;
-        string animeStudios = 10;
-        string animeLicensors = 11;
+        string is_rewatching = 4;
+        int32 num_watched_episodes = 5;
+        string anime_title = 6;
+        int32 anime_num_episodes = 7;
+        int32 anime_airing_status = 8;
+        int32 anime_id = 9;
+        string anime_studios = 10;
+        string anime_licensors = 11;
         message AnimeSeason {
             int32 year = 1;
             string season = 2;
         } 
-        AnimeSeason animeSeason = 12;
-        bool HasEpisodeVideo = 13;
-        bool HasPromotionVideo = 14;
-        bool HasVideo = 15;
-        string VideoURL = 16;
-        string AnimeURL = 17;
-        string AnimeImagePath = 18;
-        bool IsAddedToList = 19;
-        string AnimeMediaTypeString = 20;
-        string AnimeMPAARatingString = 21;
-        string StartDateString = 22;
-        string FinishDateString = 23;
-        string AnimeStartDateString = 24;
-        string AnimeEndDateString = 25;
-        int32 DaysString = 26;
-        string StorageString = 27;
-        string PriorityString = 28;
+        AnimeSeason anime_season = 12;
+        bool has_episode_video = 13;
+        bool has_promotion_video = 14;
+        bool has_video = 15;
+        string video_url = 16;
+        string anime_url = 17;
+        string anime_image_path = 18;
+        bool is_added_to_list = 19;
+        string anime_media_type_string = 20;
+        string anime_mpaa_rating_string = 21;
+        string start_date_string = 22;
+        string finish_date_string = 23;
+        string anime_start_date_string = 24;
+        string anime_end_date_string = 25;
+        int32 days_string = 26;
+        string storage_string = 27;
+        string priority_string = 28;
     }
-    repeated UserAnime userAnime = 2;
+    repeated UserAnime user_anime = 2;
+}
+
+message SearchQuery {
+    string query = 1;
+}
+
+message AnimeSearchResults {
+    message AnimeSearchResult {
+        string img_src = 1;
+        bytes img_blob = 2;
+        string title = 3;
+        string link = 4;
+        string synopsis = 5;
+        string type = 6;
+        string num_episodes = 7;
+        string score = 8;
+    }
+    repeated AnimeSearchResult results = 1;
 }

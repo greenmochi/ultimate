@@ -6,10 +6,11 @@ option go_package = "github.com/greenmochi/ultimate/services/myanimelist/proto/m
 
 import "message/myanimelist.proto";
 
-// The nyaa service definition.
+// The myanimelist service definition.
 service MyAnimeList {
   rpc Ping (PingRequest) returns (PingReply);
   rpc GetUserAnimeList(message.Username) returns (message.UserAnimeList);
+  rpc SearchAnime(message.SearchQuery) returns (message.AnimeSearchResults);
 }
 
 message PingRequest {

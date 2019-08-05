@@ -3,6 +3,7 @@ package fetch
 import (
 	"io/ioutil"
 	"net/http"
+	"sync"
 
 	log "github.com/sirupsen/logrus"
 
@@ -50,6 +51,20 @@ func AnimeSearchResults(query string) ([]*data.AnimeSearchResult, error) {
 	if err != nil {
 		log.Errorf("Failed to parse search results for %s. %s", query, err)
 		return nil, err
+	}
+	// There's around 50 image request we perform. Get images concurrently and not sequentially.
+	var wg sync.WaitGroup
+	for _, result := range results {
+		wg.Add(1)
+		go func(result *data.AnimeSearchResult) {
+			defer wg.Done()
+			imgBlob, err := getImage(result.ImgSrc)
+			if err != nil {
+				log.Errorf("Failed to retrieve anime blob from %s", result.ImgSrc)
+			}
+			result.ImgBlob = imgBlob
+		}(result)
+		wg.Wait()
 	}
 	return results, nil
 }

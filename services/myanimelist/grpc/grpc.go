@@ -69,7 +69,7 @@ func (s *myanimelistServer) GetUserAnimeList(ctx context.Context, in *message.Us
 			AnimeTitle:         u.AnimeTitle,
 			AnimeNumEpisodes:   int32(u.AnimeNumEpisodes),
 			AnimeAiringStatus:  int32(u.AnimeAiringStatus),
-			AnimeID:            int32(u.AnimeID),
+			AnimeId:            int32(u.AnimeID),
 			AnimeStudios:       u.AnimeStudios,
 			AnimeLicensors:     u.AnimeLicensors,
 			AnimeSeason: &message.UserAnimeList_UserAnime_AnimeSeason{
@@ -79,12 +79,12 @@ func (s *myanimelistServer) GetUserAnimeList(ctx context.Context, in *message.Us
 			HasEpisodeVideo:       u.HasEpisodeVideo,
 			HasPromotionVideo:     u.HasPromotionVideo,
 			HasVideo:              u.HasVideo,
-			VideoURL:              u.VideoURL,
-			AnimeURL:              u.AnimeURL,
+			VideoUrl:              u.VideoURL,
+			AnimeUrl:              u.AnimeURL,
 			AnimeImagePath:        u.AnimeImagePath,
 			IsAddedToList:         u.IsAddedToList,
 			AnimeMediaTypeString:  u.AnimeMediaTypeString,
-			AnimeMPAARatingString: u.AnimeMPAARatingString,
+			AnimeMpaaRatingString: u.AnimeMPAARatingString,
 			StartDateString:       u.StartDateString,
 			FinishDateString:      u.FinishDateString,
 			AnimeStartDateString:  u.AnimeStartDateString,
@@ -94,6 +94,30 @@ func (s *myanimelistServer) GetUserAnimeList(ctx context.Context, in *message.Us
 			PriorityString:        u.PriorityString,
 		}
 		reply.UserAnime = append(reply.UserAnime, a)
+	}
+	return reply, nil
+}
+
+func (s *myanimelistServer) SearchAnime(ctx context.Context, in *message.SearchQuery) (*message.AnimeSearchResults, error) {
+	searchResults, err := s.mal.SearchAnime(in.Query)
+	if err != nil {
+		return nil, err
+	}
+	reply := &message.AnimeSearchResults{
+		Results: make([]*message.AnimeSearchResults_AnimeSearchResult, 0),
+	}
+	for _, r := range searchResults {
+		result := &message.AnimeSearchResults_AnimeSearchResult{
+			ImgSrc:      r.ImgSrc,
+			ImgBlob:     r.ImgBlob,
+			Title:       r.Title,
+			Link:        r.Link,
+			Synopsis:    r.Synopsis,
+			Type:        r.Type,
+			NumEpisodes: r.NumEpisodes,
+			Score:       r.Score,
+		}
+		reply.Results = append(reply.Results, result)
 	}
 	return reply, nil
 }
