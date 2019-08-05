@@ -34,6 +34,12 @@ service MyAnimeList {
       body: "*"
     };
   };
+  rpc GetAnimeByID(message.AnimeID) returns (message.Anime) {
+    option (google.api.http) = {
+      post: "/myanimelist/GetAnimeByID"
+      body: "*"
+    };
+  };
 }
 
 message PingRequest {

@@ -12,8 +12,8 @@ const initialState: MyAnimeListState = {
   username: "",
   fetchingUserAnimeList: false,
   userAnimeList: {},
-  animeSearchResults: [],
   fetchingAnimeSearchResults: false,
+  animeSearchResults: [],
 };
 
 export function myAnimeListReducer(
