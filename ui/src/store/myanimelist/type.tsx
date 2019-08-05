@@ -88,7 +88,7 @@ interface SetAnimeSearchResultsAction {
 
 interface FetchingAnimeSearchResultsAction {
   type: typeof FETCHING_ANIME_SEARCH_RESULTS;
-  paylaod: boolean
+  payload: boolean;
 }
 
 export type MyAnimeListActionType = 

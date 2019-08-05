@@ -44,7 +44,7 @@ export function myAnimeListReducer(
     case FETCHING_ANIME_SEARCH_RESULTS:
       return {
         ...state,
-        fetchingAnimeSearchResults: action.paylaod,
+        fetchingAnimeSearchResults: action.payload,
       };
     default:
       return state;
