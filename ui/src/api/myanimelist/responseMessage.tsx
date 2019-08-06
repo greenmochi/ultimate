@@ -34,7 +34,7 @@ export interface UserAnime {
   priorityString: string;
 }
 
-export interface AnimeSeason {
+interface AnimeSeason {
   year: number;
   season: string;
 }
@@ -50,4 +50,46 @@ export interface AnimeSearchResult {
   type: string;
   numEpisodes: string;
   score: string;
+}
+
+export interface Anime {
+  id: number;
+  url: string;
+  title: string;
+  imgSrc: string;
+  imgBlob: string;
+  description: string;
+  altTitles: AltTitles;
+  info: AnimeInformation;
+  stats: AnimeStatistics;
+}
+
+interface AltTitles {
+  synonyms: string;
+  english: string;
+  japanese: string;
+}
+
+interface AnimeInformation {
+  type: string;
+  episodes: string;
+  status: string;
+  aired: string;
+  premiered: string;
+  broadcast: string;
+  producers: string;
+  licensors: string;
+  studios: string;
+  source: string;
+  genres: string;
+  duration: string;
+  rating: string;
+}
+
+interface AnimeStatistics {
+  score: string;
+  ranked: string;
+  popularity: string;
+  members: string;
+  favorites: string;
 }

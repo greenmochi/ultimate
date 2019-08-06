@@ -1,7 +1,7 @@
 import {
   UserAnimeList,
   AnimeSearchResult,
-} from "../../api/myanimelist/responseType";
+} from "../../api/myanimelist/responseMessage";
 
 export interface MyAnimeListState {
   username: string;

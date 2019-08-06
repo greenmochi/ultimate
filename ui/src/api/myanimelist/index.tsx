@@ -1,8 +1,16 @@
+import {
+  MyAnimeListMsgType, 
+  UsernameMsg,
+  SearchQueryMsg,
+  AnimeLinkMsg,
+  AnimeIDMsg,
+} from "./requestMessage";
 import { 
   UserAnimeList, 
   UserAnime,
   AnimeSearchResult,
-} from "./responseType";
+  Anime,
+} from "./responseMessage";
 
 const endpoints = {
   USER_ANIME_LIST: "myanimelist/GetUserAnimeList",
@@ -11,30 +19,7 @@ const endpoints = {
   GET_ANIME_BY_ID: "myanimelist/GetAnimeByID",
 };
 
-export interface UsernameMsg {
-  username: string;
-}
-
-export interface SearchQueryMsg {
-  query: string;
-}
-
-export interface AnimeLinkMsg {
-  link: string;  
-}
-
-export interface AnimeIDMsg {
-  id: number;
-}
-
-type MyAnimeListMsgTypes =
-  | UsernameMsg
-  | SearchQueryMsg
-  | AnimeLinkMsg
-  | AnimeIDMsg
-  ;
-
-function postFetch(endpoint: string, body: MyAnimeListMsgTypes): Promise<Response> {
+function postFetch(endpoint: string, body: MyAnimeListMsgType): Promise<Response> {
   const options = {
     method: "POST",
     headers: {
@@ -49,7 +34,7 @@ export async function fetchUserAnimeList(baseURI: string, msg: UsernameMsg): Pro
   const fullURI = baseURI + "/" + endpoints.USER_ANIME_LIST;
   return postFetch(fullURI, msg)
     .then(resp => resp.json())
-    .then((json: any) => {
+    .then(json => {
       let userAnimeList: UserAnimeList = {
         username: json["username"],
       };
@@ -98,7 +83,7 @@ export async function fetchSearchAnime(baseURI: string, msg: SearchQueryMsg): Pr
   const fullURI = baseURI + "/" + endpoints.SEARCH_ANIME;
   return postFetch(fullURI, msg)
     .then(resp => resp.json())
-    .then((json: any) => {
+    .then(json => {
       let searchResults: AnimeSearchResult[] = json["results"].map((u: any): AnimeSearchResult => ({
         imgSrc: u["img_src"] ? u["img_src"] : "",
         imgBlob: u["img_blob"] ? u["img_blob"] : "",
@@ -117,12 +102,98 @@ export async function fetchSearchAnime(baseURI: string, msg: SearchQueryMsg): Pr
     });
 }
 
-export async function fetchGetAnimeByLink(baseURI: string, msg: AnimeLinkMsg): Promise<Response> {
+export async function fetchGetAnimeByLink(baseURI: string, msg: AnimeLinkMsg): Promise<Anime> {
   const fullURI = baseURI + "/" + endpoints.GET_ANIME_BY_LINK;
-  return postFetch(fullURI, msg);
+  return postFetch(fullURI, msg)
+    .then(resp => resp.json())
+    .then(json => {
+      let anime: Anime = {
+        id: json["id"],
+        url: json["url"],
+        title: json["title"],
+        imgSrc: json["img_src"],
+        imgBlob: json["img_blob"],
+        description: json["description"],
+        altTitles: {
+          synonyms: json["alt_titles"]["synonyms"],
+          english: json["alt_titles"]["english"],
+          japanese: json["alt_titles"]["japanese"],
+        },
+        info: {
+          type: json["info"]["type"],
+          episodes: json["info"]["episodes"],
+          status: json["info"]["status"],
+          aired: json["info"]["aired"],
+          premiered: json["info"]["premiered"],
+          broadcast: json["info"]["broadcast"],
+          producers: json["info"]["producers"],
+          licensors: json["info"]["licensors"],
+          studios: json["info"]["studios"],
+          source: json["info"]["source"],
+          genres: json["info"]["genres"],
+          duration: json["info"]["duration"],
+          rating: json["info"]["rating"],
+        },
+        stats: {
+          score: json["stats"]["score"],
+          ranked: json["stats"]["ranked"],
+          popularity: json["stats"]["popularity"],
+          members: json["stats"]["members"],
+          favorites: json["stats"]["favorites"],
+        },
+      };
+      return anime;
+    })
+    .catch(error => {
+      console.error(error);
+      return error;
+    });
 }
 
 export async function fetchGetAnimeByID(baseURI: string, msg: AnimeIDMsg): Promise<Response> {
   const fullURI = baseURI + "/" + endpoints.GET_ANIME_BY_ID;
-  return postFetch(fullURI, msg);
+  return postFetch(fullURI, msg)
+    .then(resp => resp.json())
+    .then(json => {
+      let anime: Anime = {
+        id: json["id"],
+        url: json["url"],
+        title: json["title"],
+        imgSrc: json["img_src"],
+        imgBlob: json["img_blob"],
+        description: json["description"],
+        altTitles: {
+          synonyms: json["alt_titles"]["synonyms"],
+          english: json["alt_titles"]["english"],
+          japanese: json["alt_titles"]["japanese"],
+        },
+        info: {
+          type: json["info"]["type"],
+          episodes: json["info"]["episodes"],
+          status: json["info"]["status"],
+          aired: json["info"]["aired"],
+          premiered: json["info"]["premiered"],
+          broadcast: json["info"]["broadcast"],
+          producers: json["info"]["producers"],
+          licensors: json["info"]["licensors"],
+          studios: json["info"]["studios"],
+          source: json["info"]["source"],
+          genres: json["info"]["genres"],
+          duration: json["info"]["duration"],
+          rating: json["info"]["rating"],
+        },
+        stats: {
+          score: json["stats"]["score"],
+          ranked: json["stats"]["ranked"],
+          popularity: json["stats"]["popularity"],
+          members: json["stats"]["members"],
+          favorites: json["stats"]["favorites"],
+        },
+      };
+      return anime;
+    })
+    .catch(error => {
+      console.error(error);
+      return error;
+    });
 }

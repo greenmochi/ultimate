@@ -11,15 +11,17 @@ import {
   FETCHING_ANIME_SEARCH_RESULTS,
 } from "./type";
 import { 
-  UsernameMsg, 
   fetchUserAnimeList,
-  SearchQueryMsg,
   fetchSearchAnime,
 } from "../../api/myanimelist";
 import { 
+  UsernameMsg, 
+  SearchQueryMsg 
+} from "../../api/myanimelist/requestMessage";
+import { 
   UserAnimeList, 
   AnimeSearchResult,
-} from "../../api/myanimelist/responseType";
+} from "../../api/myanimelist/responseMessage";
 
 export const setUsername: ActionCreator<Action> = (username: string) => {
   return {
