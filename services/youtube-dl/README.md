@@ -5,14 +5,34 @@ A youtube-dl gRPC service.
 
 - Python 3.7+
 
+# Setup
+
+```bash
+$ pipenv shell
+$ pipenv install
+```
+
+# Running
+
+```bash
+$ python -m youtube_dl
+```
+
+# Tests
+
 # Build (Windows)
 
 # Build (Linux)
 
-# Running
+# Extra
 
-## Quickstart
+## VS Code configuration
+If you're using vscode to develop, it is highly recommended to enable the
+virtual environment through vscode as well.
 
-# Freezing
+`Command palette > Python: Select Interpreter`
 
-# VS Code configuration
+Select the virtualenv created for this project.
+
+The integrated terminal will also automatically start the virtualenv in its
+shell. As always, check with `pip -V`.
