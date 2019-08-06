@@ -1,0 +1,17 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+autopep8 = "*"
+pygments = "*"
+pylint = "*"
+pyinstaller = "*"
+
+[packages]
+grpcio-tools = "*"
+youtube-dl = "*"
+
+[requires]
+python_version = "3.7"
