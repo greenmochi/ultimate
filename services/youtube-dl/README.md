@@ -1,4 +1,4 @@
-# youtube-dl
+# hydro engine
 A youtube-dl gRPC service.
 
 # Requirements
@@ -15,7 +15,7 @@ $ pipenv install
 # Running
 
 ```bash
-$ python -m youtube_dl
+$ python -m hydro_engine
 ```
 
 # Tests

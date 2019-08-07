@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package youtubdl;
+
+service YoutubeDL {
+    rpc Ping (PingRequest) returns (PingReply);
+    rpc AddToDownloadQueue(DownloadItem) returns (DownloadItemResponse);
+}
+
+message PingRequest {
+    string message = 1;
+}
+
+message PingReply {
+    string message = 1;
+}
+
+message DownloadItem {
+    string url = 1;
+}
+
+message DownloadItemResponse {
+    string message = 1;
+}

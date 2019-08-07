@@ -1,9 +1,9 @@
 all: build
 
 build:
-	pyinstaller youtube_dl/__main__.p9y --name youtube-dl
+	pyinstaller hydro_engine/__main__.py --name youtube-dl
 
 proto:
-	python -m grpc_tools.protoc torrent/service/torrent.proto -I. --python_out=.  --grpc_python_out=.
+	python -m grpc_tools.protoc hydro_engine/proto/youtubedl.proto -I. --python_out=.  --grpc_python_out=.
 
 .PHONY: all build proto
