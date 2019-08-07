@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 
+import time
 import youtube_dl
 
 class DownloadManager():
@@ -8,8 +9,9 @@ class DownloadManager():
     def __init__(self):
         self.queue = []
     
-    def add_to_download_queue(self, url, opts):
+    def add_to_download_queue(self, url, opts=""):
         self.queue.append(url)
+        time.sleep(3)
 
     def download(self):
         for url in self.queue:

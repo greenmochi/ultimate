@@ -5,6 +5,7 @@ package youtubdl;
 service YoutubeDL {
     rpc Ping (PingRequest) returns (PingReply);
     rpc AddToDownloadQueue(DownloadItem) returns (DownloadItemResponse);
+    rpc AddToDownloadQueueSlow(DownloadItem) returns (DownloadItemResponse);
 }
 
 message PingRequest {
