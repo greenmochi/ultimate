@@ -6,6 +6,7 @@ service YoutubeDL {
     rpc Ping (PingRequest) returns (PingReply);
     rpc AddToDownloadQueue(DownloadItem) returns (DownloadItemResponse);
     rpc AddToDownloadQueueSlow(DownloadItem) returns (DownloadItemResponse);
+    rpc AllStatus(AllStatusRequest) returns (AllStatusResponse);
 }
 
 message PingRequest {
@@ -22,4 +23,12 @@ message DownloadItem {
 
 message DownloadItemResponse {
     string message = 1;
+}
+
+message AllStatusRequest {
+}
+
+message AllStatusResponse {
+    string url = 1;
+    string title = 2;
 }

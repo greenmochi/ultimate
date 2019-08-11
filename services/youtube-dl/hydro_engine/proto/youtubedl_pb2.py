@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='youtubdl',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\"hydro_engine/proto/youtubedl.proto\x12\x08youtubdl\"\x1e\n\x0bPingRequest\x12\x0f\n\x07message\x18\x01 \x01(\t\"\x1c\n\tPingReply\x12\x0f\n\x07message\x18\x01 \x01(\t\"\x1b\n\x0c\x44ownloadItem\x12\x0b\n\x03url\x18\x01 \x01(\t\"\'\n\x14\x44ownloadItemResponse\x12\x0f\n\x07message\x18\x01 \x01(\t2\xdf\x01\n\tYoutubeDL\x12\x32\n\x04Ping\x12\x15.youtubdl.PingRequest\x1a\x13.youtubdl.PingReply\x12L\n\x12\x41\x64\x64ToDownloadQueue\x12\x16.youtubdl.DownloadItem\x1a\x1e.youtubdl.DownloadItemResponse\x12P\n\x16\x41\x64\x64ToDownloadQueueSlow\x12\x16.youtubdl.DownloadItem\x1a\x1e.youtubdl.DownloadItemResponseb\x06proto3')
+  serialized_pb=_b('\n\"hydro_engine/proto/youtubedl.proto\x12\x08youtubdl\"\x1e\n\x0bPingRequest\x12\x0f\n\x07message\x18\x01 \x01(\t\"\x1c\n\tPingReply\x12\x0f\n\x07message\x18\x01 \x01(\t\"\x1b\n\x0c\x44ownloadItem\x12\x0b\n\x03url\x18\x01 \x01(\t\"\'\n\x14\x44ownloadItemResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\"\x12\n\x10\x41llStatusRequest\"/\n\x11\x41llStatusResponse\x12\x0b\n\x03url\x18\x01 \x01(\t\x12\r\n\x05title\x18\x02 \x01(\t2\xa5\x02\n\tYoutubeDL\x12\x32\n\x04Ping\x12\x15.youtubdl.PingRequest\x1a\x13.youtubdl.PingReply\x12L\n\x12\x41\x64\x64ToDownloadQueue\x12\x16.youtubdl.DownloadItem\x1a\x1e.youtubdl.DownloadItemResponse\x12P\n\x16\x41\x64\x64ToDownloadQueueSlow\x12\x16.youtubdl.DownloadItem\x1a\x1e.youtubdl.DownloadItemResponse\x12\x44\n\tAllStatus\x12\x1a.youtubdl.AllStatusRequest\x1a\x1b.youtubdl.AllStatusResponseb\x06proto3')
 )
 
 
@@ -149,10 +149,74 @@ _DOWNLOADITEMRESPONSE = _descriptor.Descriptor(
   serialized_end=178,
 )
 
+
+_ALLSTATUSREQUEST = _descriptor.Descriptor(
+  name='AllStatusRequest',
+  full_name='youtubdl.AllStatusRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=180,
+  serialized_end=198,
+)
+
+
+_ALLSTATUSRESPONSE = _descriptor.Descriptor(
+  name='AllStatusResponse',
+  full_name='youtubdl.AllStatusResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='url', full_name='youtubdl.AllStatusResponse.url', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='title', full_name='youtubdl.AllStatusResponse.title', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=200,
+  serialized_end=247,
+)
+
 DESCRIPTOR.message_types_by_name['PingRequest'] = _PINGREQUEST
 DESCRIPTOR.message_types_by_name['PingReply'] = _PINGREPLY
 DESCRIPTOR.message_types_by_name['DownloadItem'] = _DOWNLOADITEM
 DESCRIPTOR.message_types_by_name['DownloadItemResponse'] = _DOWNLOADITEMRESPONSE
+DESCRIPTOR.message_types_by_name['AllStatusRequest'] = _ALLSTATUSREQUEST
+DESCRIPTOR.message_types_by_name['AllStatusResponse'] = _ALLSTATUSRESPONSE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 PingRequest = _reflection.GeneratedProtocolMessageType('PingRequest', (_message.Message,), {
@@ -183,6 +247,20 @@ DownloadItemResponse = _reflection.GeneratedProtocolMessageType('DownloadItemRes
   })
 _sym_db.RegisterMessage(DownloadItemResponse)
 
+AllStatusRequest = _reflection.GeneratedProtocolMessageType('AllStatusRequest', (_message.Message,), {
+  'DESCRIPTOR' : _ALLSTATUSREQUEST,
+  '__module__' : 'hydro_engine.proto.youtubedl_pb2'
+  # @@protoc_insertion_point(class_scope:youtubdl.AllStatusRequest)
+  })
+_sym_db.RegisterMessage(AllStatusRequest)
+
+AllStatusResponse = _reflection.GeneratedProtocolMessageType('AllStatusResponse', (_message.Message,), {
+  'DESCRIPTOR' : _ALLSTATUSRESPONSE,
+  '__module__' : 'hydro_engine.proto.youtubedl_pb2'
+  # @@protoc_insertion_point(class_scope:youtubdl.AllStatusResponse)
+  })
+_sym_db.RegisterMessage(AllStatusResponse)
+
 
 
 _YOUTUBEDL = _descriptor.ServiceDescriptor(
@@ -191,8 +269,8 @@ _YOUTUBEDL = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=181,
-  serialized_end=404,
+  serialized_start=250,
+  serialized_end=543,
   methods=[
   _descriptor.MethodDescriptor(
     name='Ping',
@@ -219,6 +297,15 @@ _YOUTUBEDL = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_DOWNLOADITEM,
     output_type=_DOWNLOADITEMRESPONSE,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='AllStatus',
+    full_name='youtubdl.YoutubeDL.AllStatus',
+    index=3,
+    containing_service=None,
+    input_type=_ALLSTATUSREQUEST,
+    output_type=_ALLSTATUSRESPONSE,
     serialized_options=None,
   ),
 ])

@@ -40,3 +40,10 @@ class YoutubedlService(youtubedl_pb2_grpc.YoutubeDLServicer):
         self.downloader.add_to_download_queue(url2)
         print(self.downloader.queue)
         return youtubedl_pb2.DownloadItemResponse(message="Got your request to add to the slow queue")
+
+    def AllStatus(self, request, context):
+        all_status = self.downloader.all_status()
+        if len(all_status) > 0:
+            status = all_status[0]
+            return youtubedl_pb2.AllStatusResponse(url=status.url, title=str(status.state["downloaded_bytes"]))
+        return youtubedl_pb2.AllStatusResponse(url="nothing", title="crap")

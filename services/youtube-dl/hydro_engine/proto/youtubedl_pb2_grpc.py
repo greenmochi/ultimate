@@ -29,6 +29,11 @@ class YoutubeDLStub(object):
         request_serializer=hydro__engine_dot_proto_dot_youtubedl__pb2.DownloadItem.SerializeToString,
         response_deserializer=hydro__engine_dot_proto_dot_youtubedl__pb2.DownloadItemResponse.FromString,
         )
+    self.AllStatus = channel.unary_unary(
+        '/youtubdl.YoutubeDL/AllStatus',
+        request_serializer=hydro__engine_dot_proto_dot_youtubedl__pb2.AllStatusRequest.SerializeToString,
+        response_deserializer=hydro__engine_dot_proto_dot_youtubedl__pb2.AllStatusResponse.FromString,
+        )
 
 
 class YoutubeDLServicer(object):
@@ -56,6 +61,13 @@ class YoutubeDLServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def AllStatus(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
 
 def add_YoutubeDLServicer_to_server(servicer, server):
   rpc_method_handlers = {
@@ -73,6 +85,11 @@ def add_YoutubeDLServicer_to_server(servicer, server):
           servicer.AddToDownloadQueueSlow,
           request_deserializer=hydro__engine_dot_proto_dot_youtubedl__pb2.DownloadItem.FromString,
           response_serializer=hydro__engine_dot_proto_dot_youtubedl__pb2.DownloadItemResponse.SerializeToString,
+      ),
+      'AllStatus': grpc.unary_unary_rpc_method_handler(
+          servicer.AllStatus,
+          request_deserializer=hydro__engine_dot_proto_dot_youtubedl__pb2.AllStatusRequest.FromString,
+          response_serializer=hydro__engine_dot_proto_dot_youtubedl__pb2.AllStatusResponse.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(
