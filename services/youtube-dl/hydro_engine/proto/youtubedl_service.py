@@ -3,6 +3,8 @@ import time
 from hydro_engine.proto import youtubedl_pb2
 from hydro_engine.proto import youtubedl_pb2_grpc
 
+from hydro_engine.download_manager import DownloadInfo
+
 class YoutubedlService(youtubedl_pb2_grpc.YoutubeDLServicer):
     """Implemeents YoutubeDLServicer functionalities"""
 
@@ -17,12 +19,12 @@ class YoutubedlService(youtubedl_pb2_grpc.YoutubeDLServicer):
 
         print("Add to queue url 1")
         url = "https://www.youtube.com/watch?v=ypDPoUPsgaE"
-        self.downloader.add_to_download_queue(url)
+        self.downloader.add_to_queue(DownloadInfo(url))
 
         print("Add to queue url 2")
         url2 = "https://www.youtube.com/watch?v=ag7qs4Rc-aY"
-        self.downloader.add_to_download_queue(url2)
-        print(self.downloader.queue)
+        self.downloader.add_to_queue(DownloadInfo(url2))
+        print(self.downloader.downloads)
         return youtubedl_pb2.DownloadItemResponse(message="Got your request to add to queue")
     
     def AddToDownloadQueueSlow(self, request, context):
