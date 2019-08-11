@@ -15,35 +15,19 @@ class YoutubedlService(youtubedl_pb2_grpc.YoutubeDLServicer):
         msg = "Got your message: " + request.message
         return youtubedl_pb2.PingReply(message=msg)
 
-    def AddToDownloadQueue(self, request, context):
+    def AddToQueue(self, request, context):
+        # url = "https://www.youtube.com/watch?v=ypDPoUPsgaE"
+        id = self.downloader.add_to_queue(DownloadInfo(request.url))
+        return youtubedl_pb2.DownloadItemResponse(id=id)
 
-        print("Add to queue url 1")
-        url = "https://www.youtube.com/watch?v=ypDPoUPsgaE"
-        self.downloader.add_to_queue(DownloadInfo(url))
-
-        print("Add to queue url 2")
-        url2 = "https://www.youtube.com/watch?v=ag7qs4Rc-aY"
-        self.downloader.add_to_queue(DownloadInfo(url2))
-        print(self.downloader.downloads)
-        return youtubedl_pb2.DownloadItemResponse(message="Got your request to add to queue")
+    def RemoveFromQueue(self, request, context):
+        id = request.id
+        self.downloader.remove_from_queue(id)
+        return youtubedl_pb2.DownloadRemoveResponse(message="Successfully removed from download list")
     
-    def AddToDownloadQueueSlow(self, request, context):
-
-        print("Add to queue slow url 1")
-        url = "https://www.youtube.com/watch?v=nEpF6ISYdM0"
-        self.downloader.add_to_download_queue(url)
-
-        time.sleep(5)
-
-        print("Add to queue slow url 2 after 5 seconds")
-        url2 = "https://www.youtube.com/watch?v=pqNmLXkSGxs"
-        self.downloader.add_to_download_queue(url2)
-        print(self.downloader.queue)
-        return youtubedl_pb2.DownloadItemResponse(message="Got your request to add to the slow queue")
-
-    def AllStatus(self, request, context):
-        all_status = self.downloader.all_status()
-        if len(all_status) > 0:
-            status = all_status[0]
-            return youtubedl_pb2.AllStatusResponse(url=status.url, title=str(status.state["downloaded_bytes"]))
-        return youtubedl_pb2.AllStatusResponse(url="nothing", title="crap")
+    def GetAllDownloads(self, request, context):
+        response = []
+        downloads = self.downloader.get_all_downloads()
+        for download in downloads:
+            response.append(youtubedl_pb2.Download(url=download.url, title=str(download.state["downloaded_bytes"]), status=download.state["status"]))
+        return youtubedl_pb2.AllDownloads(downloads=response)

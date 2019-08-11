@@ -19,20 +19,20 @@ class YoutubeDLStub(object):
         request_serializer=hydro__engine_dot_proto_dot_youtubedl__pb2.PingRequest.SerializeToString,
         response_deserializer=hydro__engine_dot_proto_dot_youtubedl__pb2.PingReply.FromString,
         )
-    self.AddToDownloadQueue = channel.unary_unary(
-        '/youtubdl.YoutubeDL/AddToDownloadQueue',
+    self.AddToQueue = channel.unary_unary(
+        '/youtubdl.YoutubeDL/AddToQueue',
         request_serializer=hydro__engine_dot_proto_dot_youtubedl__pb2.DownloadItem.SerializeToString,
         response_deserializer=hydro__engine_dot_proto_dot_youtubedl__pb2.DownloadItemResponse.FromString,
         )
-    self.AddToDownloadQueueSlow = channel.unary_unary(
-        '/youtubdl.YoutubeDL/AddToDownloadQueueSlow',
-        request_serializer=hydro__engine_dot_proto_dot_youtubedl__pb2.DownloadItem.SerializeToString,
-        response_deserializer=hydro__engine_dot_proto_dot_youtubedl__pb2.DownloadItemResponse.FromString,
+    self.RemoveFromQueue = channel.unary_unary(
+        '/youtubdl.YoutubeDL/RemoveFromQueue',
+        request_serializer=hydro__engine_dot_proto_dot_youtubedl__pb2.DownloadID.SerializeToString,
+        response_deserializer=hydro__engine_dot_proto_dot_youtubedl__pb2.DownloadRemoveResponse.FromString,
         )
-    self.AllStatus = channel.unary_unary(
-        '/youtubdl.YoutubeDL/AllStatus',
-        request_serializer=hydro__engine_dot_proto_dot_youtubedl__pb2.AllStatusRequest.SerializeToString,
-        response_deserializer=hydro__engine_dot_proto_dot_youtubedl__pb2.AllStatusResponse.FromString,
+    self.GetAllDownloads = channel.unary_unary(
+        '/youtubdl.YoutubeDL/GetAllDownloads',
+        request_serializer=hydro__engine_dot_proto_dot_youtubedl__pb2.AllDownloadsRequest.SerializeToString,
+        response_deserializer=hydro__engine_dot_proto_dot_youtubedl__pb2.AllDownloads.FromString,
         )
 
 
@@ -47,21 +47,21 @@ class YoutubeDLServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def AddToDownloadQueue(self, request, context):
+  def AddToQueue(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def AddToDownloadQueueSlow(self, request, context):
+  def RemoveFromQueue(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def AllStatus(self, request, context):
+  def GetAllDownloads(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -76,20 +76,20 @@ def add_YoutubeDLServicer_to_server(servicer, server):
           request_deserializer=hydro__engine_dot_proto_dot_youtubedl__pb2.PingRequest.FromString,
           response_serializer=hydro__engine_dot_proto_dot_youtubedl__pb2.PingReply.SerializeToString,
       ),
-      'AddToDownloadQueue': grpc.unary_unary_rpc_method_handler(
-          servicer.AddToDownloadQueue,
+      'AddToQueue': grpc.unary_unary_rpc_method_handler(
+          servicer.AddToQueue,
           request_deserializer=hydro__engine_dot_proto_dot_youtubedl__pb2.DownloadItem.FromString,
           response_serializer=hydro__engine_dot_proto_dot_youtubedl__pb2.DownloadItemResponse.SerializeToString,
       ),
-      'AddToDownloadQueueSlow': grpc.unary_unary_rpc_method_handler(
-          servicer.AddToDownloadQueueSlow,
-          request_deserializer=hydro__engine_dot_proto_dot_youtubedl__pb2.DownloadItem.FromString,
-          response_serializer=hydro__engine_dot_proto_dot_youtubedl__pb2.DownloadItemResponse.SerializeToString,
+      'RemoveFromQueue': grpc.unary_unary_rpc_method_handler(
+          servicer.RemoveFromQueue,
+          request_deserializer=hydro__engine_dot_proto_dot_youtubedl__pb2.DownloadID.FromString,
+          response_serializer=hydro__engine_dot_proto_dot_youtubedl__pb2.DownloadRemoveResponse.SerializeToString,
       ),
-      'AllStatus': grpc.unary_unary_rpc_method_handler(
-          servicer.AllStatus,
-          request_deserializer=hydro__engine_dot_proto_dot_youtubedl__pb2.AllStatusRequest.FromString,
-          response_serializer=hydro__engine_dot_proto_dot_youtubedl__pb2.AllStatusResponse.SerializeToString,
+      'GetAllDownloads': grpc.unary_unary_rpc_method_handler(
+          servicer.GetAllDownloads,
+          request_deserializer=hydro__engine_dot_proto_dot_youtubedl__pb2.AllDownloadsRequest.FromString,
+          response_serializer=hydro__engine_dot_proto_dot_youtubedl__pb2.AllDownloads.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(

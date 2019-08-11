@@ -1,9 +1,10 @@
-from __future__ import absolute_import
-
+import uuid
 from concurrent.futures import ThreadPoolExecutor, wait
-import time
+
 import youtube_dl
 
+import hydro_engine.config as config
+ 
 class DownloadManager(object):
     """Downloads youtube videos from a queue"""
 
@@ -18,8 +19,14 @@ class DownloadManager(object):
     def add_to_queue(self, download_info):
         self.executor.submit(self.download, download_info)
         self.downloads.append(download_info)
+        return download_info.id
     
-    def all_status(self):
+    def remove_from_queue(self, id):
+        self.downloads = [
+            download for download in self.downloads if download.id != id
+        ]
+    
+    def get_all_downloads(self):
         return self.downloads
 
 class DownloadLogger(object):
@@ -36,7 +43,7 @@ class DownloadInfo(object):
     """Information to pass to youtube-dl"""
 
     def __init__(self, url, opts=None, save_dir=None):
-        self.id = "poop"
+        self.id = str(uuid.uuid4())
         self.url = url
         self.default_opts = {
             "formats": "bestaudio/best",
@@ -46,11 +53,16 @@ class DownloadInfo(object):
             "logger": DownloadLogger(),
             "progress_hooks": [self.logger_hook()],
         }
+
         if opts:
             self.opts = opts
         else:
             self.opts = self.default_opts
-        self.save_dir = save_dir
+
+        if save_dir:
+            self.save_dir = save_dir
+        else:
+            self.save_dir = config.get_save_dir()
 
         self.state = None
 

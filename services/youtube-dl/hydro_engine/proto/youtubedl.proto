@@ -4,9 +4,9 @@ package youtubdl;
 
 service YoutubeDL {
     rpc Ping (PingRequest) returns (PingReply);
-    rpc AddToDownloadQueue(DownloadItem) returns (DownloadItemResponse);
-    rpc AddToDownloadQueueSlow(DownloadItem) returns (DownloadItemResponse);
-    rpc AllStatus(AllStatusRequest) returns (AllStatusResponse);
+    rpc AddToQueue(DownloadItem) returns (DownloadItemResponse);
+    rpc RemoveFromQueue(DownloadID) returns (DownloadRemoveResponse);
+    rpc GetAllDownloads(AllDownloadsRequest) returns (AllDownloads);
 }
 
 message PingRequest {
@@ -22,13 +22,26 @@ message DownloadItem {
 }
 
 message DownloadItemResponse {
+    string id = 1;
+}
+
+message DownloadID {
+    string id = 1;
+}
+
+message DownloadRemoveResponse {
     string message = 1;
 }
 
-message AllStatusRequest {
+message AllDownloadsRequest {
 }
 
-message AllStatusResponse {
+message AllDownloads {
+    repeated Download downloads = 1;
+}
+
+message Download {
     string url = 1;
     string title = 2;
+    string status = 3;
 }
