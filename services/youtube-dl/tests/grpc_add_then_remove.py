@@ -10,16 +10,15 @@ with grpc.insecure_channel("localhost:8123") as channel:
 
     time.sleep(3)
 
-    
-    status = stub.GetAllStatus(youtubedl_pb2.AllStatusRequest())
+    status = stub.GetAllDownloads(youtubedl_pb2.AllDownloadsRequest())
     print(status)
-    status = stub.GetAllStatus(youtubedl_pb2.AllStatusRequest())
+    status = stub.GetAllDownloads(youtubedl_pb2.AllDownloadsRequest())
     print(status)
-    status = stub.GetAllStatus(youtubedl_pb2.AllStatusRequest())
+    status = stub.GetAllDownloads(youtubedl_pb2.AllDownloadsRequest())
     print(status)
-    status = stub.GetAllStatus(youtubedl_pb2.AllStatusRequest())
+    status = stub.GetAllDownloads(youtubedl_pb2.AllDownloadsRequest())
     print(status)
-    status = stub.GetAllStatus(youtubedl_pb2.AllStatusRequest())
+    status = stub.GetAllDownloads(youtubedl_pb2.AllDownloadsRequest())
     print(status)
-    status = stub.GetAllStatus(youtubedl_pb2.AllStatusRequest())
+    status = stub.GetAllDownloads(youtubedl_pb2.AllDownloadsRequest())
     print(status)

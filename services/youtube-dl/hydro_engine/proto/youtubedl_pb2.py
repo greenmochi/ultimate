@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='youtubdl',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\"hydro_engine/proto/youtubedl.proto\x12\x08youtubdl\"\x1e\n\x0bPingRequest\x12\x0f\n\x07message\x18\x01 \x01(\t\"\x1c\n\tPingReply\x12\x0f\n\x07message\x18\x01 \x01(\t\"\x1b\n\x0c\x44ownloadItem\x12\x0b\n\x03url\x18\x01 \x01(\t\"\"\n\x14\x44ownloadItemResponse\x12\n\n\x02id\x18\x01 \x01(\t\"\x18\n\nDownloadID\x12\n\n\x02id\x18\x01 \x01(\t\")\n\x16\x44ownloadRemoveResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\"\x15\n\x13\x41llDownloadsRequest\"5\n\x0c\x41llDownloads\x12%\n\tdownloads\x18\x01 \x03(\x0b\x32\x12.youtubdl.Download\"6\n\x08\x44ownload\x12\x0b\n\x03url\x18\x01 \x01(\t\x12\r\n\x05title\x18\x02 \x01(\t\x12\x0e\n\x06status\x18\x03 \x01(\t2\x9a\x02\n\tYoutubeDL\x12\x32\n\x04Ping\x12\x15.youtubdl.PingRequest\x1a\x13.youtubdl.PingReply\x12\x44\n\nAddToQueue\x12\x16.youtubdl.DownloadItem\x1a\x1e.youtubdl.DownloadItemResponse\x12I\n\x0fRemoveFromQueue\x12\x14.youtubdl.DownloadID\x1a .youtubdl.DownloadRemoveResponse\x12H\n\x0fGetAllDownloads\x12\x1d.youtubdl.AllDownloadsRequest\x1a\x16.youtubdl.AllDownloadsb\x06proto3')
+  serialized_pb=_b('\n\"hydro_engine/proto/youtubedl.proto\x12\x08youtubdl\"\x1e\n\x0bPingRequest\x12\x0f\n\x07message\x18\x01 \x01(\t\"\x1c\n\tPingReply\x12\x0f\n\x07message\x18\x01 \x01(\t\"\x1b\n\x0c\x44ownloadItem\x12\x0b\n\x03url\x18\x01 \x01(\t\"\"\n\x14\x44ownloadItemResponse\x12\n\n\x02id\x18\x01 \x01(\t\"\x18\n\nDownloadID\x12\n\n\x02id\x18\x01 \x01(\t\")\n\x16\x44ownloadRemoveResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\"\x15\n\x13\x41llDownloadsRequest\"5\n\x0c\x41llDownloads\x12%\n\tdownloads\x18\x01 \x03(\x0b\x32\x12.youtubdl.Download\"\xf2\x01\n\x08\x44ownload\x12\x0b\n\x03url\x18\x01 \x01(\t\x12\r\n\x05title\x18\x02 \x01(\t\x12/\n\x05state\x18\x03 \x01(\x0b\x32 .youtubdl.Download.DownloadState\x1a\x98\x01\n\rDownloadState\x12\x0e\n\x06status\x18\x01 \x01(\t\x12\x13\n\x0btmpfilename\x18\x02 \x01(\t\x12\x10\n\x08\x66ilename\x18\x03 \x01(\t\x12\x0f\n\x07\x65ta_str\x18\x04 \x01(\t\x12\x13\n\x0bpercent_str\x18\x05 \x01(\t\x12\x11\n\tspeed_str\x18\x06 \x01(\t\x12\x17\n\x0ftotal_bytes_str\x18\x07 \x01(\t2\x9a\x02\n\tYoutubeDL\x12\x32\n\x04Ping\x12\x15.youtubdl.PingRequest\x1a\x13.youtubdl.PingReply\x12\x44\n\nAddToQueue\x12\x16.youtubdl.DownloadItem\x1a\x1e.youtubdl.DownloadItemResponse\x12I\n\x0fRemoveFromQueue\x12\x14.youtubdl.DownloadID\x1a .youtubdl.DownloadRemoveResponse\x12H\n\x0fGetAllDownloads\x12\x1d.youtubdl.AllDownloadsRequest\x1a\x16.youtubdl.AllDownloadsb\x06proto3')
 )
 
 
@@ -267,6 +267,78 @@ _ALLDOWNLOADS = _descriptor.Descriptor(
 )
 
 
+_DOWNLOAD_DOWNLOADSTATE = _descriptor.Descriptor(
+  name='DownloadState',
+  full_name='youtubdl.Download.DownloadState',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='status', full_name='youtubdl.Download.DownloadState.status', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='tmpfilename', full_name='youtubdl.Download.DownloadState.tmpfilename', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='filename', full_name='youtubdl.Download.DownloadState.filename', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='eta_str', full_name='youtubdl.Download.DownloadState.eta_str', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='percent_str', full_name='youtubdl.Download.DownloadState.percent_str', index=4,
+      number=5, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='speed_str', full_name='youtubdl.Download.DownloadState.speed_str', index=5,
+      number=6, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='total_bytes_str', full_name='youtubdl.Download.DownloadState.total_bytes_str', index=6,
+      number=7, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=413,
+  serialized_end=565,
+)
+
 _DOWNLOAD = _descriptor.Descriptor(
   name='Download',
   full_name='youtubdl.Download',
@@ -289,16 +361,16 @@ _DOWNLOAD = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='status', full_name='youtubdl.Download.status', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
+      name='state', full_name='youtubdl.Download.state', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
-  nested_types=[],
+  nested_types=[_DOWNLOAD_DOWNLOADSTATE, ],
   enum_types=[
   ],
   serialized_options=None,
@@ -307,11 +379,13 @@ _DOWNLOAD = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=322,
-  serialized_end=376,
+  serialized_start=323,
+  serialized_end=565,
 )
 
 _ALLDOWNLOADS.fields_by_name['downloads'].message_type = _DOWNLOAD
+_DOWNLOAD_DOWNLOADSTATE.containing_type = _DOWNLOAD
+_DOWNLOAD.fields_by_name['state'].message_type = _DOWNLOAD_DOWNLOADSTATE
 DESCRIPTOR.message_types_by_name['PingRequest'] = _PINGREQUEST
 DESCRIPTOR.message_types_by_name['PingReply'] = _PINGREPLY
 DESCRIPTOR.message_types_by_name['DownloadItem'] = _DOWNLOADITEM
@@ -380,11 +454,19 @@ AllDownloads = _reflection.GeneratedProtocolMessageType('AllDownloads', (_messag
 _sym_db.RegisterMessage(AllDownloads)
 
 Download = _reflection.GeneratedProtocolMessageType('Download', (_message.Message,), {
+
+  'DownloadState' : _reflection.GeneratedProtocolMessageType('DownloadState', (_message.Message,), {
+    'DESCRIPTOR' : _DOWNLOAD_DOWNLOADSTATE,
+    '__module__' : 'hydro_engine.proto.youtubedl_pb2'
+    # @@protoc_insertion_point(class_scope:youtubdl.Download.DownloadState)
+    })
+  ,
   'DESCRIPTOR' : _DOWNLOAD,
   '__module__' : 'hydro_engine.proto.youtubedl_pb2'
   # @@protoc_insertion_point(class_scope:youtubdl.Download)
   })
 _sym_db.RegisterMessage(Download)
+_sym_db.RegisterMessage(Download.DownloadState)
 
 
 
@@ -394,8 +476,8 @@ _YOUTUBEDL = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=379,
-  serialized_end=661,
+  serialized_start=568,
+  serialized_end=850,
   methods=[
   _descriptor.MethodDescriptor(
     name='Ping',

@@ -5,10 +5,10 @@ def get_save_dir():
     if app_data:
         path = os.path.join(app_data, "ultimate-youtubedl")
         try:
-            os.makedirs(path)
+            os.makedirs(path, exist_ok=True)
             print("Successfully created %s directory" % path)
-        except OSError:
-            print("Failed to create %s directory" % path)
+        except OSError as e:
+            print("Failed to create %s directory %s" % (path, e))
         else:
             return path
     return ""

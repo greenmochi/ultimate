@@ -43,5 +43,14 @@ message AllDownloads {
 message Download {
     string url = 1;
     string title = 2;
-    string status = 3;
+    message DownloadState {
+        string status = 1;
+        string tmpfilename = 2;
+        string filename = 3;
+        string eta_str = 4;
+        string percent_str = 5;
+        string speed_str = 6;
+        string total_bytes_str = 7;
+    }
+    DownloadState state = 3;
 }
