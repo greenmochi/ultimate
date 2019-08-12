@@ -24,8 +24,6 @@ $ python -m hydro_engine
 
 # Build (Linux)
 
-# Extra
-
 ## VS Code configuration
 If you're using vscode to develop, it is highly recommended to enable the
 virtual environment through vscode as well.
@@ -36,3 +34,12 @@ Select the virtualenv created for this project.
 
 The integrated terminal will also automatically start the virtualenv in its
 shell. As always, check with `pip -V`.
+
+# Goals
+- Allow a user to download a youtube video
+- Allow a user to view history of downloaded, downloading, removed youtube videos 
+    - Allow a user to see current status of downloading items
+- Allow multiple configurations for user to quickly download video or only audio
+
+# Backlog
+- Add customizable configurations that are saved to disk somewherek
