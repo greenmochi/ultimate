@@ -1,0 +1,3 @@
+# atlas
+
+A music manager.
