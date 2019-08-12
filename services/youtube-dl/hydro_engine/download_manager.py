@@ -1,4 +1,5 @@
 import uuid
+import os
 from concurrent.futures import ThreadPoolExecutor, wait
 
 import youtube_dl
@@ -43,12 +44,17 @@ class DownloadInfo(object):
     """Information to pass to youtube-dl"""
 
     def __init__(self, url, opts=None, save_dir=None):
+        if save_dir:
+            self.save_dir = save_dir
+        else:
+            self.save_dir = config.get_save_dir()
+
         self.id = str(uuid.uuid4())
         self.url = url
         self.default_opts = {
             "formats": "bestaudio/best",
-            # "outtmpl": "{}/%(title)s.%(ext)s".format(save_dir),
-            "outtmpl": "%(title)s.%(ext)s",
+            "outtmpl": os.path.join(self.save_dir, "%(title)s.%(ext)s"),
+            # "outtmpl": "%(title)s.%(ext)s",
             "noplaylist": True,
             "logger": DownloadLogger(),
             "progress_hooks": [self.logger_hook()],
@@ -59,10 +65,6 @@ class DownloadInfo(object):
         else:
             self.opts = self.default_opts
 
-        if save_dir:
-            self.save_dir = save_dir
-        else:
-            self.save_dir = config.get_save_dir()
 
         self.state = None
 
