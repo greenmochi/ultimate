@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package youtubdl;
+package youtubedl;
 
 service YoutubeDL {
     rpc Ping (PingRequest) returns (PingReply);
@@ -45,12 +45,11 @@ message Download {
     string title = 2;
     message DownloadState {
         string status = 1;
-        string tmpfilename = 2;
-        string filename = 3;
-        string eta_str = 4;
-        string percent_str = 5;
-        string speed_str = 6;
-        string total_bytes_str = 7;
+        string filename = 2;
+        string eta_str = 3;
+        string percent_str = 4;
+        string speed_str = 5;
+        string total_bytes_str = 6;
     }
     DownloadState state = 3;
 }

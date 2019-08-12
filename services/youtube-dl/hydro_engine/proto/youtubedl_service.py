@@ -28,15 +28,35 @@ class YoutubedlService(youtubedl_pb2_grpc.YoutubeDLServicer):
         response = []
         downloads = self.downloader.get_all_downloads()
         for download in downloads:
-            state = youtubedl_pb2.Download.DownloadState(
-                status=download.state["status"],
-                tmpfilename=download.state["tmpfilename"],
-                filename=download.state["filename"],
-                eta_str=download.state["_eta_str"],
-                percent_str=download.state["_percent_str"],
-                speed_str=download.state["_speed_str"],
-                total_bytes_str=download.state["_total_bytes_str"],
-            )
+            if download.state is None:
+                continue
+            if download.state["status"] == "downloading":
+                state = youtubedl_pb2.Download.DownloadState(
+                    status=download.state["status"],
+                    filename=download.state["filename"],
+                    eta_str=download.state["_eta_str"],
+                    percent_str=download.state["_percent_str"],
+                    speed_str=download.state["_speed_str"],
+                    total_bytes_str=download.state["_total_bytes_str"],
+                )
+            elif download.state["status"] == "finished":
+                state = youtubedl_pb2.Download.DownloadState(
+                    status=download.state["status"],
+                    filename=download.state["filename"],
+                    eta_str="",
+                    percent_str="",
+                    speed_str="",
+                    total_bytes_str=download.state["_total_bytes_str"],
+                )
+            else:
+                state = youtubedl_pb2.Download.DownloadState(
+                    status="",
+                    filename="",
+                    eta_str="",
+                    percent_str="",
+                    speed_str="",
+                    total_bytes_str="",
+                )
             response.append(youtubedl_pb2.Download(
                 url=download.url, 
                 title=str(download.state["downloaded_bytes"]), 

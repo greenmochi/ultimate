@@ -65,7 +65,6 @@ class DownloadInfo(object):
         else:
             self.opts = self.default_opts
 
-
         self.state = None
 
     def logger_hook(self):

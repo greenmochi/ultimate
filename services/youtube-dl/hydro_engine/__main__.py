@@ -15,9 +15,9 @@ def main():
 
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     youtubedl_pb2_grpc.add_YoutubeDLServicer_to_server(youtubedl_service, server)
-    server.add_insecure_port("[::]:8123")
+    server.add_insecure_port("[::]:9994")
     server.start()
-    print("started server on :8123")
+    print("started server on :9994")
 
     try:
         while True:

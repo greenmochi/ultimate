@@ -15,22 +15,22 @@ class YoutubeDLStub(object):
       channel: A grpc.Channel.
     """
     self.Ping = channel.unary_unary(
-        '/youtubdl.YoutubeDL/Ping',
+        '/youtubedl.YoutubeDL/Ping',
         request_serializer=hydro__engine_dot_proto_dot_youtubedl__pb2.PingRequest.SerializeToString,
         response_deserializer=hydro__engine_dot_proto_dot_youtubedl__pb2.PingReply.FromString,
         )
     self.AddToQueue = channel.unary_unary(
-        '/youtubdl.YoutubeDL/AddToQueue',
+        '/youtubedl.YoutubeDL/AddToQueue',
         request_serializer=hydro__engine_dot_proto_dot_youtubedl__pb2.DownloadItem.SerializeToString,
         response_deserializer=hydro__engine_dot_proto_dot_youtubedl__pb2.DownloadItemResponse.FromString,
         )
     self.RemoveFromQueue = channel.unary_unary(
-        '/youtubdl.YoutubeDL/RemoveFromQueue',
+        '/youtubedl.YoutubeDL/RemoveFromQueue',
         request_serializer=hydro__engine_dot_proto_dot_youtubedl__pb2.DownloadID.SerializeToString,
         response_deserializer=hydro__engine_dot_proto_dot_youtubedl__pb2.DownloadRemoveResponse.FromString,
         )
     self.GetAllDownloads = channel.unary_unary(
-        '/youtubdl.YoutubeDL/GetAllDownloads',
+        '/youtubedl.YoutubeDL/GetAllDownloads',
         request_serializer=hydro__engine_dot_proto_dot_youtubedl__pb2.AllDownloadsRequest.SerializeToString,
         response_deserializer=hydro__engine_dot_proto_dot_youtubedl__pb2.AllDownloads.FromString,
         )
@@ -93,5 +93,5 @@ def add_YoutubeDLServicer_to_server(servicer, server):
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(
-      'youtubdl.YoutubeDL', rpc_method_handlers)
+      'youtubedl.YoutubeDL', rpc_method_handlers)
   server.add_generic_rpc_handlers((generic_handler,))

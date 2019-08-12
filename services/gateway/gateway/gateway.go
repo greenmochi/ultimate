@@ -13,6 +13,7 @@ import (
 	"github.com/greenmochi/ultimate/services/gateway/proto/myanimelist"
 	"github.com/greenmochi/ultimate/services/gateway/proto/nyaa"
 	"github.com/greenmochi/ultimate/services/gateway/proto/torrent"
+	"github.com/greenmochi/ultimate/services/gateway/proto/youtubedl"
 )
 
 // Serve TODO
@@ -34,6 +35,10 @@ func Serve(endpoints map[string]string, port int) error {
 	}
 	// Register myanimelist service
 	if err := myanimelist.RegisterMyAnimeListHandlerFromEndpoint(ctx, mux, endpoints["myanimelist"], opts); err != nil {
+		return err
+	}
+	// Register youtubedl service
+	if err := youtubedl.RegisterYoutubeDLHandlerFromEndpoint(ctx, mux, endpoints["youtubedl"], opts); err != nil {
 		return err
 	}
 

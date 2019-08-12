@@ -15,11 +15,13 @@ func main() {
 	var nyaaPort int
 	var torrentPort int
 	var myanimelistPort int
+	var youtubedlPort int
 	flag.BoolVar(&helpUsage, "help", false, "Prints help text")
 	flag.IntVar(&gatewayPort, "gateway-port", 9990, "Port to serve the gateway server")
 	flag.IntVar(&nyaaPort, "nyaa-port", 9991, "Nyaa grpc server port")
 	flag.IntVar(&torrentPort, "torrent-port", 9992, "torrent grpc server port")
 	flag.IntVar(&myanimelistPort, "myanimelist-port", 9993, "myanimelist grpc server port")
+	flag.IntVar(&youtubedlPort, "youtubedl-port", 9994, "youtubedl grpc server port")
 	flag.Parse()
 	flag.Visit(func(fn *flag.Flag) {
 		if fn.Name == "help" {
@@ -43,6 +45,7 @@ func main() {
 		"nyaa":        fmt.Sprintf("localhost:%d", nyaaPort),
 		"torrent":     fmt.Sprintf("localhost:%d", torrentPort),
 		"myanimelist": fmt.Sprintf("localhost:%d", myanimelistPort),
+		"youtubedl":   fmt.Sprintf("localhost:%d", youtubedlPort),
 	}
 
 	// Run gateway server
@@ -67,4 +70,5 @@ Options:
   --nyaa-port=PORT      	Run nyaa service on this port
   --torrent-port=PORT   	Run torrent service on this port
   --myanimelist-port=PORT   Run myanimelist service on this port
+  --youtubedl-port=PORT   	Run youtubedl service on this port
 `

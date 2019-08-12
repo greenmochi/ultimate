@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package youtubedl;
+
+import "google/api/annotations.proto";
+
+service YoutubeDL {
+    rpc Ping (PingRequest) returns (PingReply) {
+        option (google.api.http) = {
+            post: "/youtubedl/ping"
+            body: "*"
+        };
+    };
+    rpc AddToQueue(DownloadItem) returns (DownloadItemResponse) {
+        option (google.api.http) = {
+            post: "/youtubedl/AddToQueue"
+            body: "*"
+        };
+    };
+    rpc RemoveFromQueue(DownloadID) returns (DownloadRemoveResponse) {
+        option (google.api.http) = {
+            post: "/youtubedl/RemoveFromQueue"
+            body: "*"
+        };
+    };
+    rpc GetAllDownloads(AllDownloadsRequest) returns (AllDownloads) {
+        option (google.api.http) = {
+            post: "/youtubedl/GetAllDownloads"
+            body: "*"
+        };
+    };
+}
+
+message PingRequest {
+    string message = 1;
+}
+
+message PingReply {
+    string message = 1;
+}
+
+message DownloadItem {
+    string url = 1;
+}
+
+message DownloadItemResponse {
+    string id = 1;
+}
+
+message DownloadID {
+    string id = 1;
+}
+
+message DownloadRemoveResponse {
+    string message = 1;
+}
+
+message AllDownloadsRequest {
+}
+
+message AllDownloads {
+    repeated Download downloads = 1;
+}
+
+message Download {
+    string url = 1;
+    string title = 2;
+    message DownloadState {
+        string status = 1;
+        string filename = 2;
+        string eta_str = 3;
+        string percent_str = 4;
+        string speed_str = 5;
+        string total_bytes_str = 6;
+    }
+    DownloadState state = 3;
+}
