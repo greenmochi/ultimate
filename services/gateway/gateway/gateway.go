@@ -10,6 +10,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 
+	"github.com/greenmochi/ultimate/services/gateway/proto/atlas"
 	"github.com/greenmochi/ultimate/services/gateway/proto/myanimelist"
 	"github.com/greenmochi/ultimate/services/gateway/proto/nyaa"
 	"github.com/greenmochi/ultimate/services/gateway/proto/torrent"
@@ -39,6 +40,10 @@ func Serve(endpoints map[string]string, port int) error {
 	}
 	// Register youtubedl service
 	if err := youtubedl.RegisterYoutubeDLHandlerFromEndpoint(ctx, mux, endpoints["youtubedl"], opts); err != nil {
+		return err
+	}
+	// Register atlas service
+	if err := atlas.RegisterAtlasHandlerFromEndpoint(ctx, mux, endpoints["atlas"], opts); err != nil {
 		return err
 	}
 

@@ -23,5 +23,9 @@ proto:
 	protoc myanimelist.proto -Iproto/myanimelist/message $(PROTOC_INCLUDES) --go_out=plugins=grpc,paths=source_relative:proto/myanimelist/message
 	protoc youtubedl.proto -Iproto/youtubedl $(PROTOC_INCLUDES) --grpc-gateway_out=logtostderr=true,paths=source_relative:proto/youtubedl
 	protoc youtubedl.proto -Iproto/youtubedl $(PROTOC_INCLUDES) --go_out=plugins=grpc,paths=source_relative:proto/youtubedl
+	protoc atlas.proto -Iproto/atlas $(PROTOC_INCLUDES) --grpc-gateway_out=logtostderr=true,paths=source_relative:proto/atlas
+	protoc atlas.proto -Iproto/atlas $(PROTOC_INCLUDES) --go_out=plugins=grpc,paths=source_relative:proto/atlas
+	protoc atlas.proto -Iproto/atlas/message $(PROTOC_INCLUDES) --grpc-gateway_out=logtostderr=true,paths=source_relative:proto/atlas/message
+	protoc atlas.proto -Iproto/atlas/message $(PROTOC_INCLUDES) --go_out=plugins=grpc,paths=source_relative:proto/atlas/message
 
 .PHONY: all build clean proto

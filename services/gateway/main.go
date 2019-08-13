@@ -16,12 +16,14 @@ func main() {
 	var torrentPort int
 	var myanimelistPort int
 	var youtubedlPort int
+	var atlasPort int
 	flag.BoolVar(&helpUsage, "help", false, "Prints help text")
 	flag.IntVar(&gatewayPort, "gateway-port", 9990, "Port to serve the gateway server")
 	flag.IntVar(&nyaaPort, "nyaa-port", 9991, "Nyaa grpc server port")
 	flag.IntVar(&torrentPort, "torrent-port", 9992, "torrent grpc server port")
 	flag.IntVar(&myanimelistPort, "myanimelist-port", 9993, "myanimelist grpc server port")
 	flag.IntVar(&youtubedlPort, "youtubedl-port", 9994, "youtubedl grpc server port")
+	flag.IntVar(&atlasPort, "atlas-port", 9995, "atlas grpc server port")
 	flag.Parse()
 	flag.Visit(func(fn *flag.Flag) {
 		if fn.Name == "help" {
@@ -46,6 +48,7 @@ func main() {
 		"torrent":     fmt.Sprintf("localhost:%d", torrentPort),
 		"myanimelist": fmt.Sprintf("localhost:%d", myanimelistPort),
 		"youtubedl":   fmt.Sprintf("localhost:%d", youtubedlPort),
+		"atlas":       fmt.Sprintf("localhost:%d", atlasPort),
 	}
 
 	// Run gateway server
