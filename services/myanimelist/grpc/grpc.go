@@ -30,7 +30,7 @@ func Serve(mal *myanimelist.MyAnimeList, port int) error {
 
 func withLoggingInterceptor() grpc.ServerOption {
 	loggingInterceptor := func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
-		log.WithFields(log.Fields{"req": req}).Info("Incoming gRPC request")
+		log.WithFields(log.Fields{"fullMethod": info.FullMethod, "req": req}).Info("Incoming gRPC request")
 		return handler(ctx, req)
 	}
 	return grpc.UnaryInterceptor(loggingInterceptor)
