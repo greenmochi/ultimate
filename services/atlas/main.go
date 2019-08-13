@@ -10,6 +10,7 @@ import (
 
 	"github.com/greenmochi/ultimate/services/atlas/atlas"
 	"github.com/greenmochi/ultimate/services/atlas/config"
+	"github.com/greenmochi/ultimate/services/atlas/grpc"
 )
 
 func main() {
@@ -47,8 +48,11 @@ func main() {
 	defer file.Close()
 
 	atlas := atlas.NewAtlas()
-	for i, playlistItem := range atlas.GetPlaylistItems() {
-		log.Infof("playlist item %d: filename=%s path=%s", i, playlistItem.Filename, playlistItem.Path)
+
+	// Start serving our gRPC service
+	log.Infof("Running atlas service on :%d", port)
+	if err := grpc.Serve(atlas, port); err != nil {
+		log.Error(err)
 	}
 }
 

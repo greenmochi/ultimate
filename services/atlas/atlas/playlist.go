@@ -37,7 +37,6 @@ func LoadPlaylistItemsFromDisk() []PlaylistItem {
 	for _, mediaFile := range mediaFiles {
 		filename := mediaFile.Name()
 		validMedia := isValidMedia(filepath.Ext(filename))
-		log.Infof("file=%s", filename)
 		if !validMedia || mediaFile.IsDir() {
 			continue
 		}
@@ -51,7 +50,6 @@ func LoadPlaylistItemsFromDisk() []PlaylistItem {
 
 func isValidMedia(ext string) bool {
 	ext = strings.ToLower(ext)
-	log.Infof("ext=%s", ext)
 	switch ext {
 	case ".mp3":
 		fallthrough
