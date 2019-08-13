@@ -24,6 +24,7 @@ export default class Window {
       backgroundColor: "#000",
       webPreferences: {
         nodeIntegration: true,
+        webSecurity: false, // Need this off to use file:///, is there a better way?
       },
       frame: true,
     });

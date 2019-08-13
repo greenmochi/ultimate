@@ -16,6 +16,7 @@ import {
 import {
   setSearchTerm,
 } from "../../store/music/action";
+import { PlaylistItem } from "../../api/atlas/responseMessage";
 import { fetchGetPlaylist } from "../../api/atlas";
 
 export const Container = styled.div`
@@ -65,45 +66,52 @@ type MusicProps = ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> & {
   };
 
+interface State {
+  playlistItems: PlaylistItem[];
+}
+
 class Music extends React.Component<MusicProps> {
-  handleOnSubmit = (event: any) => {
-    event.preventDefault();
-    const data = new FormData(event.target);
-    let searchTerm: string = data.get("search") as string;
-    this.props.setSearchTerm(searchTerm);
+  state: State = {
+    playlistItems: [],
+  }
+
+  constructor(props: MusicProps) {
+    super(props);
     fetchGetPlaylist("http://localhost:9990", {})
       .then(playlist => {
-        console.log(playlist);
+        this.setState({ playlistItems: playlist.items });
       })
       .catch(err => {
         console.error(err);
       });
   }
 
+  handleOnSubmit = (event: any) => {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    let searchTerm: string = data.get("search") as string;
+    this.props.setSearchTerm(searchTerm);
+  }
+
   render() {
+    let video = null;
+    if (this.state.playlistItems.length > 0) {
+      video = (
+        <video
+          controls
+          preload="metadata"
+        >
+          <source
+            src={"file:///" + this.state.playlistItems[0].path}
+            type="video/webm"
+          />
+        </video>
+      );
+    } 
+
     return (
       <Container>
-        <Form
-          onSubmit={this.handleOnSubmit}
-        >
-          <Input
-            autoFocus
-            id="search"
-            name="search"
-            type="text"
-            placeholder="Maroon 5 she will be loved"
-            defaultValue={this.props.music.searchTerm}
-          />
-          <SubmitButton
-            type="submit"
-          >
-            <FontAwesomeIcon
-              icon="search"
-              size="xs"
-              color="white"
-            />
-          </SubmitButton>
-        </Form>
+        {video}
       </Container>
     );
   }
