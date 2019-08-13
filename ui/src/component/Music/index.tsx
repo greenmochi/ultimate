@@ -16,6 +16,7 @@ import {
 import {
   setSearchTerm,
 } from "../../store/music/action";
+import { fetchGetPlaylist } from "../../api/atlas";
 
 export const Container = styled.div`
   background-color: #1D1D1D;
@@ -70,6 +71,13 @@ class Music extends React.Component<MusicProps> {
     const data = new FormData(event.target);
     let searchTerm: string = data.get("search") as string;
     this.props.setSearchTerm(searchTerm);
+    fetchGetPlaylist("http://localhost:9990", {})
+      .then(playlist => {
+        console.log(playlist);
+      })
+      .catch(err => {
+        console.error(err);
+      });
   }
 
   render() {

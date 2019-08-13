@@ -1,5 +1,5 @@
+import { postFetch } from "../common/fetch";
 import {
-  MyAnimeListMsgType, 
   UsernameMsg,
   SearchQueryMsg,
   AnimeLinkMsg,
@@ -19,20 +19,9 @@ const endpoints = {
   GET_ANIME_BY_ID: "myanimelist/GetAnimeByID",
 };
 
-function postFetch(endpoint: string, body: MyAnimeListMsgType): Promise<Response> {
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  };
-  return fetch(endpoint, options)
-}
-
-export async function fetchUserAnimeList(baseURI: string, msg: UsernameMsg): Promise<UserAnimeList> {
-  const fullURI = baseURI + "/" + endpoints.USER_ANIME_LIST;
-  return postFetch(fullURI, msg)
+export async function fetchUserAnimeList(baseUri: string, msg: UsernameMsg): Promise<UserAnimeList> {
+  const fullUri = baseUri + "/" + endpoints.USER_ANIME_LIST;
+  return postFetch(fullUri, msg)
     .then(resp => resp.json())
     .then(json => {
       let userAnimeList: UserAnimeList = {
@@ -79,9 +68,9 @@ export async function fetchUserAnimeList(baseURI: string, msg: UsernameMsg): Pro
     });
 }
 
-export async function fetchSearchAnime(baseURI: string, msg: SearchQueryMsg): Promise<AnimeSearchResult[]> {
-  const fullURI = baseURI + "/" + endpoints.SEARCH_ANIME;
-  return postFetch(fullURI, msg)
+export async function fetchSearchAnime(baseUri: string, msg: SearchQueryMsg): Promise<AnimeSearchResult[]> {
+  const fullUri = baseUri + "/" + endpoints.SEARCH_ANIME;
+  return postFetch(fullUri, msg)
     .then(resp => resp.json())
     .then(json => {
       let searchResults: AnimeSearchResult[] = json["results"].map((u: any): AnimeSearchResult => ({
@@ -102,9 +91,9 @@ export async function fetchSearchAnime(baseURI: string, msg: SearchQueryMsg): Pr
     });
 }
 
-export async function fetchGetAnimeByLink(baseURI: string, msg: AnimeLinkMsg): Promise<Anime> {
-  const fullURI = baseURI + "/" + endpoints.GET_ANIME_BY_LINK;
-  return postFetch(fullURI, msg)
+export async function fetchGetAnimeByLink(baseUri: string, msg: AnimeLinkMsg): Promise<Anime> {
+  const fullUri = baseUri + "/" + endpoints.GET_ANIME_BY_LINK;
+  return postFetch(fullUri, msg)
     .then(resp => resp.json())
     .then(json => {
       let anime: Anime = {
@@ -150,9 +139,9 @@ export async function fetchGetAnimeByLink(baseURI: string, msg: AnimeLinkMsg): P
     });
 }
 
-export async function fetchGetAnimeByID(baseURI: string, msg: AnimeIDMsg): Promise<Response> {
-  const fullURI = baseURI + "/" + endpoints.GET_ANIME_BY_ID;
-  return postFetch(fullURI, msg)
+export async function fetchGetAnimeByID(baseUri: string, msg: AnimeIDMsg): Promise<Response> {
+  const fullUri = baseUri + "/" + endpoints.GET_ANIME_BY_ID;
+  return postFetch(fullUri, msg)
     .then(resp => resp.json())
     .then(json => {
       let anime: Anime = {
