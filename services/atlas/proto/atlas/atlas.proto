@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package atlas;
+
+option go_package = "github.com/greenmochi/ultimate/services/atlas/proto/atlas";
+
+import "message/atlas.proto";
+
+service Atlas {
+    rpc Ping(PingRequest) returns (PingReply);
+}
+
+message PingRequest {
+    string message = 1;
+}
+
+message PingReply {
+    string message = 1;
+}
