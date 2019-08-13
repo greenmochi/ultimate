@@ -1,5 +1,16 @@
 syntax = "proto3";
 
-package atlas;
+package message;
 
 option go_package = "github.com/greenmochi/ultimate/services/atlas/proto/atlas/message";
+
+message PlaylistRequest {
+}
+
+message Playlist {
+    message PlaylistItem {
+        string filename = 1;
+        string path = 2;
+    }
+    repeated PlaylistItem items = 1;
+}

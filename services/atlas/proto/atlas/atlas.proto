@@ -8,6 +8,7 @@ import "message/atlas.proto";
 
 service Atlas {
     rpc Ping(PingRequest) returns (PingReply);
+    rpc GetPlaylist(message.PlaylistRequest) returns (message.Playlist);
 }
 
 message PingRequest {

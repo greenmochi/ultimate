@@ -10,6 +10,7 @@ import (
 
 	"github.com/greenmochi/ultimate/services/atlas/atlas"
 	pb "github.com/greenmochi/ultimate/services/atlas/proto/atlas"
+	message "github.com/greenmochi/ultimate/services/atlas/proto/atlas/message"
 )
 
 // Serve serves the grpc server over this port
@@ -45,5 +46,19 @@ func (s *atlasServer) Ping(ctx context.Context, in *pb.PingRequest) (*pb.PingRep
 	}).Info("Ping request received")
 	return &pb.PingReply{
 		Message: in.Message,
+	}, nil
+}
+
+func (s *atlasServer) GetPlaylist(ctx context.Context, in *message.PlaylistRequest) (*message.Playlist, error) {
+	var playlistItems []*message.Playlist_PlaylistItem
+	for _, playlistItem := range s.atlas.GetPlaylistItems() {
+		item := &message.Playlist_PlaylistItem{
+			Filename: playlistItem.Filename,
+			Path:     playlistItem.Path,
+		}
+		playlistItems = append(playlistItems, item)
+	}
+	return &message.Playlist{
+		Items: playlistItems,
 	}, nil
 }
