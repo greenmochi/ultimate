@@ -94,24 +94,20 @@ class Music extends React.Component<MusicProps> {
   }
 
   render() {
-    let video = null;
-    if (this.state.playlistItems.length > 0) {
-      video = (
-        <video
-          controls
-          preload="metadata"
-        >
-          <source
-            src={"file:///" + this.state.playlistItems[0].path}
-            type="video/webm"
-          />
-        </video>
-      );
-    } 
 
     return (
       <Container>
-        {video}
+        {this.state.playlistItems.length > 0 &&
+          <video
+            controls
+            preload="metadata"
+          >
+            <source
+              src={"file:///" + this.state.playlistItems[0].path}
+              type="video/webm"
+            />
+          </video>
+        }
       </Container>
     );
   }
