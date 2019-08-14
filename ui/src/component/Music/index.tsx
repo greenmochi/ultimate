@@ -6,9 +6,7 @@ import {
   AnyAction,
 } from "redux";
 import styled from "styled-components";
-import {
-  FontAwesomeIcon,
-} from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import {
   StoreState,
@@ -25,31 +23,21 @@ export const Container = styled.div`
   overflow-y: auto;
 `;
 
-export const Form = styled.form`
-  margin: 10px;
+export const Video = styled.video`
+  width: 80%;
+  height: 500px;
 `;
 
-export const Input = styled.input`
-  font-size: 1.3em;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  outline: none;
+export const Controls = styled.div`
 `;
 
-export const SubmitButton = styled.button`
-  font-size: 1.3em;
-  margin-left: 10px;
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  border-radius: 5px;
-  background-color: #F7941D;
-  border: none;
-  outline: none;
-  cursor: pointer;
+export const LoadPlaylistButton = styled.button`
+`;
+
+export const ForwardButton = styled.button`
+`;
+
+export const BackwardButton = styled.button`
 `;
 
 const mapStateToProps = (state: StoreState) => ({
@@ -69,45 +57,134 @@ type MusicProps = ReturnType<typeof mapStateToProps> &
 
 interface State {
   playlistItems: PlaylistItem[];
+  currentIndex: number;
+  currentTrack: PlaylistItem | null;
+  volume: number;
 }
 
 class Music extends React.Component<MusicProps> {
   state: State = {
     playlistItems: [],
+    currentIndex: 0,
+    currentTrack: null,
+    volume: 0.1,
   }
+
+  video: React.RefObject<HTMLVideoElement>;
 
   constructor(props: MusicProps) {
     super(props);
+
+    this.video = React.createRef();
+
+    this.loadPlaylist();
+  }
+
+  componentDidMount() {
+    if (this.video.current) {
+      this.video.current.volume = this.state.volume;
+      this.video.current.onvolumechange = (_: Event) => {
+        if (this.video.current) {
+          this.setState({ volume: this.video.current.volume });
+        }
+      }
+    }
+  }
+
+  handleOnLoadPlaylist = (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    this.loadPlaylist();
+  }
+
+  handleOnBackward = (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const numItems = this.state.playlistItems.length;
+    // Stay within playlist items bounds [0, numItems - 1]
+    const prevIndex = (this.state.currentIndex - 1) >= 0 ? this.state.currentIndex - 1 : numItems - 1;
+    const prevTrack = this.state.playlistItems[prevIndex];
+    this.setState({
+      currentIndex: prevIndex,
+      currentTrack: prevTrack,
+    }, () => {
+      if (this.video.current) {
+        this.video.current.load();
+      }
+    });
+  }
+  
+  handleOnForward = (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const numItems = this.state.playlistItems.length;
+    const nextIndex = (this.state.currentIndex + 1) % numItems;
+    const nextTrack = this.state.playlistItems[nextIndex];
+    this.setState({
+      currentIndex: nextIndex,
+      currentTrack: nextTrack,
+    }, () => {
+      if (this.video.current) {
+        this.video.current.load();
+      }
+    });
+  }
+
+  loadPlaylist = () => {
     fetchGetPlaylist(this.props.api.gatewayEndpoint, {})
       .then(playlist => {
-        this.setState({ playlistItems: playlist.items });
+        this.setState({ 
+          playlistItems: playlist.items,
+          currentIndex: 0,
+          currentTrack: playlist.items.length > 0 && playlist.items[0],
+        });
       })
       .catch(err => {
         console.error(err);
       });
   }
 
-  handleOnSubmit = (event: any) => {
-    event.preventDefault();
-    const data = new FormData(event.target);
-    let searchTerm: string = data.get("search") as string;
-    this.props.setSearchTerm(searchTerm);
-  }
-
   render() {
+    console.log("hi")
     return (
       <Container>
-        {this.state.playlistItems && this.state.playlistItems.length > 0 &&
-          <video
-            controls
-            preload="metadata"
-          >
+        <Video
+          ref={this.video}
+          autoPlay
+          controls
+          preload="metadata"
+        >
+          {this.state.currentTrack &&
             <source
-              src={"file:///" + this.state.playlistItems[0].path}
+              src={"file:///" + this.state.currentTrack.path}
               type="video/webm"
             />
-          </video>
-        }
+          }
+        </Video>
+        <Controls>
+          <LoadPlaylistButton
+            onClick={this.handleOnLoadPlaylist}
+          >
+            Load playlist
+        </LoadPlaylistButton>
+          <BackwardButton
+            onClick={this.handleOnBackward}
+          >
+            <FontAwesomeIcon
+              icon="step-backward"
+              size="xs"
+              color="white"
+            />
+          </BackwardButton>
+          <FontAwesomeIcon
+            icon="play-circle"
+            size="xs"
+            color="white"
+          />
+          <ForwardButton
+            onClick={this.handleOnForward}
+          >
+            <FontAwesomeIcon
+              icon="step-forward"
+              size="xs"
+              color="white"
+            />
+          </ForwardButton>
+        </Controls>
       </Container>
     );
   }
