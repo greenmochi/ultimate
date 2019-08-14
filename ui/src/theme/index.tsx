@@ -4,6 +4,6 @@ import {
 
 export const GlobalStyle = createGlobalStyle`
   body {
-    color: ${props => (props.theme.whiteColor ? "white": "black")};
+    color: ${props => (props.theme.whiteColor ? "white": "#1D1D1D")};
   }
 `

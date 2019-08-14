@@ -22,6 +22,10 @@ export const Container = styled.div`
   grid-template-areas:
     "video      playlist"
     "controls   playlist";
+  grid-template-rows: 90vh 10vh;
+  grid-template-columns: auto 400px;
+  margin-left: 20px;
+  margin-right: 20px;
   background-color: #1D1D1D;
   text-align: center;
   overflow-y: auto;
@@ -30,7 +34,8 @@ export const Container = styled.div`
 export const Video = styled.video`
   grid-area: video;
   width: 100%;
-  height: 500px;
+  height: 100%;
+  margin: auto;
   outline: none;
 `;
 
@@ -52,6 +57,9 @@ export const BackwardButton = styled.button`
 
 export const Playlist = styled.ul`
   grid-area: playlist;
+  height: 50%;
+  padding-left: 15px;
+  padding-right: 15px;
   color: white;
   text-align: left;
   list-style-type: none;
@@ -63,6 +71,9 @@ interface ItemProps {
 export const Item = styled.li<ItemProps>`
   margin-top: 5px;
   margin-bottom: 5px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   user-select: none;
   cursor: pointer;
   outline: ${props => props.focus && "1px solid #0075d5"};
