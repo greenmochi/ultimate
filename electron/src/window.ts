@@ -67,10 +67,10 @@ export default class Window {
         .then((name) => console.log(`Added extension: ${name}`))
         .catch((err) => console.log("An error occurred: ", err));
 
-      this.window.webContents.openDevTools()
+      const options: Electron.OpenDevToolsOptions = { mode: "undocked" };
+      this.window.webContents.openDevTools(options);
     })
   }
-
 
   sendAfterDidFinishLoad(channel: string, ...args: any[]): void {
     this.window.webContents.on("did-finish-load", () => {

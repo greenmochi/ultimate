@@ -53,6 +53,7 @@ export const SubmitButton = styled.button`
 `;
 
 const mapStateToProps = (state: StoreState) => ({
+  api: state.api, 
   music: state.music,
 });
 
@@ -77,7 +78,7 @@ class Music extends React.Component<MusicProps> {
 
   constructor(props: MusicProps) {
     super(props);
-    fetchGetPlaylist("http://localhost:9990", {})
+    fetchGetPlaylist(this.props.api.gatewayEndpoint, {})
       .then(playlist => {
         this.setState({ playlistItems: playlist.items });
       })
@@ -94,10 +95,9 @@ class Music extends React.Component<MusicProps> {
   }
 
   render() {
-
     return (
       <Container>
-        {this.state.playlistItems.length > 0 &&
+        {this.state.playlistItems && this.state.playlistItems.length > 0 &&
           <video
             controls
             preload="metadata"
