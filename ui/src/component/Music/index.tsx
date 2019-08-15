@@ -34,7 +34,6 @@ export const Container = styled.div`
 export const Video = styled.video`
   grid-area: video;
   width: 100%;
-  height: 100%;
   margin: auto;
   outline: none;
 `;
@@ -57,10 +56,12 @@ export const BackwardButton = styled.button`
 
 export const Playlist = styled.ul`
   grid-area: playlist;
-  height: 50%;
+  height: 90%;
+  margin-top: 10%;
   padding-left: 15px;
   padding-right: 15px;
   color: white;
+  overflow-y: scroll;
   text-align: left;
   list-style-type: none;
 `;
@@ -179,6 +180,18 @@ class Music extends React.Component<MusicProps> {
     });
   }
 
+  next = (nextIndex: number) => {
+    const nextTrack = this.state.playlistItems[nextIndex];
+    this.setState({
+      currentIndex: nextIndex,
+      currentTrack: nextTrack,
+    }, () => {
+      if (this.video.current) {
+        this.video.current.load();
+      }
+    });
+  }
+
   loadPlaylist = () => {
     fetchGetPlaylist(this.props.api.gatewayEndpoint, {})
       .then(playlist => {
@@ -205,6 +218,7 @@ class Music extends React.Component<MusicProps> {
           <Item 
             key={`${i}-${item.filename}`}
             focus={shouldFocus}
+            onClick={() => this.next(i)}
             >
               {item.filename}
           </Item>
