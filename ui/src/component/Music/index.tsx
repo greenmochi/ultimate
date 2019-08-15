@@ -106,9 +106,12 @@ export const Playlist = styled.ul`
   padding-left: 15px;
   padding-right: 15px;
   color: white;
-  overflow-y: scroll;
+  overflow-y: hidden;
   text-align: left;
   list-style-type: none;
+  &:hover {
+    overflow-y: scroll;
+  }
 `;
 
 interface ItemProps {
