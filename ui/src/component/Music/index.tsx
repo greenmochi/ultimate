@@ -46,12 +46,33 @@ export const LoopButton = styled.button`
 `;
 
 export const LoadPlaylistButton = styled.button`
+  background: #D35400;
+  color: white;
+  border: none;
+  font-size: 14px;
+  padding: 10px 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,.1);
+  cursor: pointer;
+  outline: none;
+  &:active {
+    transform: scale(0.95);
+  }
 `;
 
 export const ForwardButton = styled.button`
+  background-color: transparent;
+  border: none;
+  outline-style: none;
+  cursor: pointer;
 `;
 
 export const BackwardButton = styled.button`
+  background-color: transparent;
+  border: none;
+  outline-style: none;
+  cursor: pointer;
 `;
 
 export const Playlist = styled.ul`
@@ -99,6 +120,7 @@ interface State {
   playlistItems: PlaylistItem[];
   currentIndex: number;
   currentTrack: PlaylistItem;
+  shouldLoop: boolean;
   volume: number;
 }
 
@@ -110,6 +132,7 @@ class Music extends React.Component<MusicProps> {
       filename: "",
       path: "",
     },
+    shouldLoop: false,
     volume: 0.1,
   }
 
@@ -139,11 +162,11 @@ class Music extends React.Component<MusicProps> {
     }
   }
 
-  handleOnLoadPlaylist = (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  handleLoadPlaylist = (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     this.loadPlaylist();
   }
 
-  handleOnBackward = (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  handleBackward = (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     this.backward();
   }
 
@@ -162,7 +185,7 @@ class Music extends React.Component<MusicProps> {
     });
   }
   
-  handleOnForward = (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  handleForward = (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     this.forward();
   }
 
@@ -206,6 +229,9 @@ class Music extends React.Component<MusicProps> {
       });
   }
 
+  handleLoop = () => {
+  }
+
   render() {
     let playlistItems = null;
     if (this.state.playlistItems.length > 0) {
@@ -242,12 +268,12 @@ class Music extends React.Component<MusicProps> {
         </Video>
         <Controls>
           <LoadPlaylistButton
-            onClick={this.handleOnLoadPlaylist}
+            onClick={this.handleLoadPlaylist}
           >
-            Load playlist
+            Load Playlist
           </LoadPlaylistButton>
           <BackwardButton
-            onClick={this.handleOnBackward}
+            onClick={this.handleBackward}
           >
             <FontAwesomeIcon
               icon="step-backward"
@@ -255,13 +281,8 @@ class Music extends React.Component<MusicProps> {
               color="white"
             />
           </BackwardButton>
-          <FontAwesomeIcon
-            icon="play-circle"
-            size="xs"
-            color="white"
-          />
           <ForwardButton
-            onClick={this.handleOnForward}
+            onClick={this.handleForward}
           >
             <FontAwesomeIcon
               icon="step-forward"
