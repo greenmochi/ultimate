@@ -15,7 +15,7 @@ import {
   setSearchTerm,
 } from "../../store/music/action";
 import { PlaylistItem } from "../../api/atlas/responseMessage";
-import { fetchGetPlaylist } from "../../api/atlas";
+import { rpcGetPlaylist } from "../../api/atlas";
 
 export const Container = styled.div`
   display: grid;
@@ -243,7 +243,7 @@ class Music extends React.Component<MusicProps> {
   }
 
   loadPlaylist = () => {
-    fetchGetPlaylist(this.props.api.gatewayEndpoint, {})
+    rpcGetPlaylist(this.props.api.gatewayEndpoint, {})
       .then(playlist => {
         this.setState({ 
           playlistItems: playlist.items,

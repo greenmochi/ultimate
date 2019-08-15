@@ -19,7 +19,7 @@ const endpoints = {
   GET_ANIME_BY_ID: "myanimelist/GetAnimeByID",
 };
 
-export async function fetchUserAnimeList(baseUri: string, msg: UsernameMsg): Promise<UserAnimeList> {
+export async function rpcUserAnimeList(baseUri: string, msg: UsernameMsg): Promise<UserAnimeList> {
   const fullUri = baseUri + "/" + endpoints.USER_ANIME_LIST;
   return postFetch(fullUri, msg)
     .then(resp => resp.json())
@@ -68,7 +68,7 @@ export async function fetchUserAnimeList(baseUri: string, msg: UsernameMsg): Pro
     });
 }
 
-export async function fetchSearchAnime(baseUri: string, msg: SearchQueryMsg): Promise<AnimeSearchResult[]> {
+export async function rpcSearchAnime(baseUri: string, msg: SearchQueryMsg): Promise<AnimeSearchResult[]> {
   const fullUri = baseUri + "/" + endpoints.SEARCH_ANIME;
   return postFetch(fullUri, msg)
     .then(resp => resp.json())
@@ -91,7 +91,7 @@ export async function fetchSearchAnime(baseUri: string, msg: SearchQueryMsg): Pr
     });
 }
 
-export async function fetchGetAnimeByLink(baseUri: string, msg: AnimeLinkMsg): Promise<Anime> {
+export async function rpcGetAnimeByLink(baseUri: string, msg: AnimeLinkMsg): Promise<Anime> {
   const fullUri = baseUri + "/" + endpoints.GET_ANIME_BY_LINK;
   return postFetch(fullUri, msg)
     .then(resp => resp.json())
@@ -139,7 +139,7 @@ export async function fetchGetAnimeByLink(baseUri: string, msg: AnimeLinkMsg): P
     });
 }
 
-export async function fetchGetAnimeByID(baseUri: string, msg: AnimeIDMsg): Promise<Response> {
+export async function rpcGetAnimeByID(baseUri: string, msg: AnimeIDMsg): Promise<Response> {
   const fullUri = baseUri + "/" + endpoints.GET_ANIME_BY_ID;
   return postFetch(fullUri, msg)
     .then(resp => resp.json())

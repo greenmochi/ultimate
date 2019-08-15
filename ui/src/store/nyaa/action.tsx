@@ -10,7 +10,7 @@ import {
   FETCHING_RESULTS,
 } from "./type";
 import { 
-  fetchResults,
+  rpcResults,
 } from "../../api/nyaa";
 import PostQueryData from "../../api/nyaa/query";
 
@@ -35,7 +35,7 @@ export function loadResults(queryData: PostQueryData): ThunkResult<void> {
 
     const endpoint = getState().api.gatewayEndpoint + "/nyaa/search";
 
-    let results: NyaaResult[] = await fetchResults<NyaaResult[]>(endpoint, queryData)
+    let results: NyaaResult[] = await rpcResults<NyaaResult[]>(endpoint, queryData)
       .then((json: any) => {
         if (!("results" in json)) {
           return [];

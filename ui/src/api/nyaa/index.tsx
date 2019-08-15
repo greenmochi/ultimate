@@ -7,7 +7,7 @@ import PostQueryData from "./query";
  * @param searchTerm The term to search for in nyaa.si
  * @returns The promise to `API_ROOT/endpoint`
  */
-export async function fetchResults<T>(endpoint: string, queryData: PostQueryData): Promise<T> {
+export async function rpcResults<T>(endpoint: string, queryData: PostQueryData): Promise<T> {
   const options = {
     method: "POST",
     headers: {

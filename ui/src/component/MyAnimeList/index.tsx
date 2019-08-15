@@ -18,7 +18,7 @@ import {
   loadUserAnimeList,
   loadAnimeSearchResults,
 } from "../../store/myanimelist/action";
-import { fetchGetAnimeByID, fetchGetAnimeByLink } from "../../api/myanimelist";
+import { rpcGetAnimeByID, rpcGetAnimeByLink } from "../../api/myanimelist";
 
 export const Container = styled.div`
   background-color: #1D1D1D;
@@ -77,14 +77,14 @@ class MyAnimeList extends React.Component<MyAnimeListProps> {
     this.props.setUsername(searchTerm);
     // this.props.loadUserAnimeList({username:"choco1drop"});
     // this.props.loadAnimeSearchResults({ query: "boku no hero" });
-    // fetchGetAnimeByID("http://localhost:9990", {id: 37521})
+    // rpcGetAnimeByID("http://localhost:9990", {id: 37521})
     //   .then(anime => {
     //     console.log(anime);
     //   })
     //   .catch(error => {
     //     console.error(error);
     //   });
-    fetchGetAnimeByLink("http://localhost:9990", { link: "https://myanimelist.net/anime/37521/Vinland_Saga?sfdosd=dsfdsfdsf" })
+    rpcGetAnimeByLink("http://localhost:9990", { link: "https://myanimelist.net/anime/37521/Vinland_Saga?sfdosd=dsfdsfdsf" })
       .then(anime => {
         console.log(anime);
       })

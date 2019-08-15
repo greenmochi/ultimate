@@ -11,8 +11,8 @@ import {
   FETCHING_ANIME_SEARCH_RESULTS,
 } from "./type";
 import { 
-  fetchUserAnimeList,
-  fetchSearchAnime,
+  rpcUserAnimeList,
+  rpcSearchAnime,
 } from "../../api/myanimelist";
 import { 
   UsernameMsg, 
@@ -34,7 +34,7 @@ export function loadUserAnimeList(msg: UsernameMsg): ThunkResult<void> {
   return async (dispatch, getState) => {
     dispatch(fetchingUserAnimeList(true));
     const baseURI = getState().api.gatewayEndpoint;
-    await fetchUserAnimeList(baseURI, msg)
+    await rpcUserAnimeList(baseURI, msg)
       .then(userAnimeList => {
         dispatch(setUserAnimeList(userAnimeList));
       })
@@ -63,7 +63,7 @@ export function loadAnimeSearchResults(msg: SearchQueryMsg): ThunkResult<void> {
   return async (dispatch, getState) => {
     dispatch(fetchingAnimeSearchResults(true));
     const baseURI = getState().api.gatewayEndpoint;
-    await fetchSearchAnime(baseURI, msg)
+    await rpcSearchAnime(baseURI, msg)
       .then(animeSearchResults => {
         dispatch(setAnimeSearchResults(animeSearchResults));
       })

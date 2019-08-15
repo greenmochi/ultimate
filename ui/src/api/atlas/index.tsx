@@ -9,7 +9,7 @@ const endpoints = {
   GET_PLAYLIST: "atlas/GetPlaylist",
 }
 
-export async function fetchGetPlaylist(baseUri: string, msg: PlaylistRequestMsg): Promise<Playlist> {
+export async function rpcGetPlaylist(baseUri: string, msg: PlaylistRequestMsg): Promise<Playlist> {
   const fullUri = baseUri + "/" + endpoints.GET_PLAYLIST;
   return postFetch(fullUri, msg)
     .then(resp => resp.json())
