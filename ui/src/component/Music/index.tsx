@@ -39,10 +39,17 @@ export const Video = styled.video`
 `;
 
 export const Controls = styled.div`
+  display: grid;
   grid-area: controls;
+  grid-template-areas:
+    "loadplaylist backward forward";
 `;
 
 export const LoopButton = styled.button`
+`;
+
+export const LoadPlaylistButtonWrapper = styled.div`
+  grid-area: loadplaylist;
 `;
 
 export const LoadPlaylistButton = styled.button`
@@ -61,18 +68,35 @@ export const LoadPlaylistButton = styled.button`
   }
 `;
 
-export const ForwardButton = styled.button`
-  background-color: transparent;
-  border: none;
-  outline-style: none;
-  cursor: pointer;
+export const BackwardButtonWrapper = styled.div`
+  grid-area: backward;
+  justify-self: right;
 `;
 
 export const BackwardButton = styled.button`
+  color: rgba(255, 255, 255);
   background-color: transparent;
   border: none;
   outline-style: none;
   cursor: pointer;
+  &:hover {
+    color: rgba(255, 255, 255, .5);
+  }
+`;
+
+export const ForwardButtonWrapper = styled.div`
+  grid-area: forward;
+`;
+
+export const ForwardButton = styled.button`
+  color: rgba(255, 255, 255);
+  background-color: transparent;
+  border: none;
+  outline-style: none;
+  cursor: pointer;
+  &:hover {
+    color: rgba(255, 255, 255, .5);
+  }
 `;
 
 export const Playlist = styled.ul`
@@ -267,29 +291,33 @@ class Music extends React.Component<MusicProps> {
           }
         </Video>
         <Controls>
-          <LoadPlaylistButton
-            onClick={this.handleLoadPlaylist}
-          >
-            Load Playlist
-          </LoadPlaylistButton>
-          <BackwardButton
-            onClick={this.handleBackward}
-          >
-            <FontAwesomeIcon
-              icon="step-backward"
-              size="xs"
-              color="white"
-            />
-          </BackwardButton>
-          <ForwardButton
-            onClick={this.handleForward}
-          >
-            <FontAwesomeIcon
-              icon="step-forward"
-              size="xs"
-              color="white"
-            />
-          </ForwardButton>
+          <LoadPlaylistButtonWrapper>
+            <LoadPlaylistButton
+              onClick={this.handleLoadPlaylist}
+            >
+              Load Playlist
+            </LoadPlaylistButton>
+          </LoadPlaylistButtonWrapper>
+          <BackwardButtonWrapper>
+            <BackwardButton
+              onClick={this.handleBackward}
+            >
+              <FontAwesomeIcon
+                icon="step-backward"
+                size="lg"
+              />
+            </BackwardButton>
+          </BackwardButtonWrapper>
+          <ForwardButtonWrapper>
+            <ForwardButton
+              onClick={this.handleForward}
+            >
+              <FontAwesomeIcon
+                icon="step-forward"
+                size="lg"
+              />
+            </ForwardButton>
+          </ForwardButtonWrapper>
         </Controls>
         <Playlist>{playlistItems}</Playlist>
       </Container>
