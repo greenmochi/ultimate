@@ -7,10 +7,7 @@ import {
 } from "redux";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-import {
-  StoreState,
-} from "../../store";
+import { StoreState } from "../../store";
 import {
   setSearchTerm,
 } from "../../store/music/action";
