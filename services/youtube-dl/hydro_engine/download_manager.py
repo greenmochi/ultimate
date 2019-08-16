@@ -1,5 +1,6 @@
 import uuid
 import os
+import logging
 from concurrent.futures import ThreadPoolExecutor, wait
 
 import youtube_dl
@@ -38,7 +39,7 @@ class DownloadLogger(object):
         pass
 
     def error(self, msg):
-        print(msg)
+        logging.info(msg)
 
 class DownloadInfo(object):
     """Information to pass to youtube-dl"""
@@ -70,5 +71,5 @@ class DownloadInfo(object):
     def logger_hook(self):
         def _real_logger_hook(state):
             self.state = state
-            print(state)
+            logging.info(state)
         return _real_logger_hook
