@@ -31,7 +31,7 @@ export const Container = styled.div`
 export const Video = styled.video`
   grid-area: video;
   width: 100%;
-  margin: auto;
+  margin-top: 50px;
   outline: none;
 `;
 
@@ -99,7 +99,7 @@ export const ForwardButton = styled.button`
 export const Playlist = styled.ul`
   grid-area: playlist;
   height: 90%;
-  margin-top: 10%;
+  margin-top: 50px;
   padding-left: 15px;
   padding-right: 15px;
   color: white;
