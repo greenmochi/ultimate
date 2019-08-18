@@ -9,7 +9,10 @@ from hydro_engine.proto.youtubedl_service import YoutubedlService
 from hydro_engine.download_manager import DownloadManager
 
 def main():
-    logging.basicConfig(filename="youtubedl.log", filemode="w", format="%(asctime)s - %(message)s", level=logging.INFO)
+    handler = logging.FileHandler("youtubedl.log", mode="w", encoding="utf-8")
+    handler.setFormatter(logging.Formatter("%(asctime)s - %(message)s"))
+    logging.getLogger().addHandler(handler)
+    logging.getLogger().setLevel(logging.INFO)
     download_manager = DownloadManager()
     logging.info("Running hydro engine...")
 
