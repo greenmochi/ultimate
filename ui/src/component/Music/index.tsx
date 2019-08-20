@@ -8,7 +8,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { StoreState } from "../../store";
 import { setSearchTerm } from "../../store/music/action";
 import { PlaylistItem } from "../../api/atlas/responseMessage";
-import { rpcGetPlaylist } from "../../api/atlas";
+// import { rpcGetPlaylist } from "../../api/atlas";
+import { rpcGetPlaylist } from "api/atlas";
 
 export const Container = styled.div`
   display: grid;
