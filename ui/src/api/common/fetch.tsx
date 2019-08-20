@@ -1,5 +1,5 @@
-import { MyAnimeListMsgType } from "../myanimelist/requestMessage";
-import { AtlasMsgType } from "../atlas/requestMessage";
+import { MyAnimeListMsgType } from "api/myanimelist/requestMessage";
+import { AtlasMsgType } from "api/atlas/requestMessage";
 
 type msgType = 
  | MyAnimeListMsgType

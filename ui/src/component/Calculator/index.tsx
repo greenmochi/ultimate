@@ -2,13 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 import { CalculatorDisplay } from "./CalculatorDisplay";
 import { CalculatorButton } from "./CalculatorButton";
-import { StoreState } from "../../store";
-import { CalculatorState } from "../../store/calculator/type";
+import { StoreState } from "store";
+import { CalculatorState } from "store/calculator/type";
 import {
   updateCalculatorDisplay,
   updateCalculatorInput,
   updateCalculatorValue,
-} from "../../store/calculator/action";
+} from "store/calculator/action";
 
 interface CalculatorProps {
   calculator: CalculatorState;

@@ -5,9 +5,9 @@ import { bindActionCreators, Dispatch, AnyAction } from "redux";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { StoreState } from "../../store";
-import { setUsername, loadUserAnimeList, loadAnimeSearchResults } from "../../store/myanimelist/action";
-import { rpcGetAnimeByID, rpcGetAnimeByLink } from "../../api/myanimelist";
+import { StoreState } from "store";
+import { setUsername, loadUserAnimeList, loadAnimeSearchResults } from "store/myanimelist/action";
+import { rpcGetAnimeByID, rpcGetAnimeByLink } from "api/myanimelist";
 
 export const Container = styled.div`
   background-color: white;

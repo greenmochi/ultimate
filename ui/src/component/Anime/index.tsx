@@ -6,8 +6,8 @@ import { bindActionCreators, Dispatch, AnyAction } from "redux";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { StoreState } from "../../store";
-import { setSearchTerm } from "../../store/anime/action";
+import { StoreState } from "store";
+import { setSearchTerm } from "store/anime/action";
 
 export const Container = styled.div`
   background-color: white;

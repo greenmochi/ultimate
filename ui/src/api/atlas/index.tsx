@@ -1,4 +1,4 @@
-import { postFetch } from "../common/fetch";
+import { postFetch } from "api/common/fetch";
 import { PlaylistRequestMsg } from "./requestMessage";
 import { Playlist, PlaylistItem } from "./responseMessage";
 

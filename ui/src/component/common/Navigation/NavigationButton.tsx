@@ -5,8 +5,8 @@ import { bindActionCreators, Dispatch, AnyAction } from "redux";
 
 import styled from "styled-components";
 
-import { StoreState } from "../../../store";
-import { setLocation } from "../../../store/navigation/action";
+import { StoreState } from "store";
+import { setLocation } from "store/navigation/action";
 
 interface ContainerProps {
   focus?: boolean;

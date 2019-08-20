@@ -1,9 +1,10 @@
 import { ActionCreator, Action } from "redux";
 
-import { ThunkResult } from "../index";
+import { ThunkResult } from "store";
+import { rpcResults } from "api/nyaa";
+import PostQueryData from "api/nyaa/query";
+
 import { NyaaResult, SET_SEARCH_TERM, SET_RESULTS, FETCHING_RESULTS } from "./type";
-import { rpcResults } from "../../api/nyaa";
-import PostQueryData from "../../api/nyaa/query";
 
 export const setSearchTerm: ActionCreator<Action> = (searchTerm: string) => {
   return {

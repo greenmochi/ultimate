@@ -5,8 +5,8 @@ import lodash from "lodash";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { StoreState } from "../../store";
-import { setDefaultTheme } from "../../store/theme/action";
+import { StoreState } from "store";
+import { setDefaultTheme } from "store/theme/action";
 
 export const Container = styled.div`
   background-color: #1D1D1D;

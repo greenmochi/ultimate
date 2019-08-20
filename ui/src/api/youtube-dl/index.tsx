@@ -1,4 +1,4 @@
-import { postFetch } from "../common/fetch";
+import { postFetch } from "api/common/fetch";
 import { DownloadItemMsg, DownloadIdMsg, AllDownloadsMsg } from "./requestMessage";
 import { DownloadItemResponse, DownloadRemoveResponse, AllDownloads, Download } from "./responseMessage";
 

@@ -1,4 +1,4 @@
-import { UserAnimeList, AnimeSearchResult } from "../../api/myanimelist/responseMessage";
+import { UserAnimeList, AnimeSearchResult } from "api/myanimelist/responseMessage";
 
 export interface MyAnimeListState {
   username: string;

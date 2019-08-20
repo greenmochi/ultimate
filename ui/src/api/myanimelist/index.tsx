@@ -1,4 +1,4 @@
-import { postFetch } from "../common/fetch";
+import { postFetch } from "api/common/fetch";
 import { UsernameMsg, SearchQueryMsg, AnimeLinkMsg, AnimeIDMsg } from "./requestMessage";
 import { UserAnimeList, UserAnime, AnimeSearchResult, Anime } from "./responseMessage";
 

@@ -4,10 +4,10 @@ import { bindActionCreators, Dispatch, AnyAction } from "redux";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { StoreState } from "../../store";
-import { NyaaResult } from "../../store/nyaa/type";
-import { loadResults } from "../../store/nyaa/action";
-import PostQueryData from "../../api/nyaa/query";
+import { StoreState } from "store";
+import { NyaaResult } from "store/nyaa/type";
+import { loadResults } from "store/nyaa/action";
+import PostQueryData from "api/nyaa/query";
 
 import Table from "./Table";
 import TableHeader from "./Table/TableHeader";
@@ -15,7 +15,7 @@ import TableRow from "./Table/TableRow";
 import TableBody from "./Table/TableBody";
 import TableData from "./Table/TableData";
 
-import List from "../common/List";
+import List from "component/common/List";
 import Loading from "./Loading";
 
 const Container = styled.div`
