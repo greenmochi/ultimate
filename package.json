@@ -17,6 +17,7 @@
     "concurrently": "^4.1.1",
     "del": "^5.0.0",
     "electron-builder": "^20.40.2",
+    "eslint-plugin-react": "^7.14.3",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-concat": "^2.6.1",
