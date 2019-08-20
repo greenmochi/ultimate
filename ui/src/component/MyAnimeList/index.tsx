@@ -1,27 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
-import {
-  bindActionCreators,
-  Dispatch,
-  AnyAction,
-} from "redux";
-import styled from "styled-components";
-import {
-  FontAwesomeIcon,
-} from "@fortawesome/react-fontawesome";
+import { bindActionCreators, Dispatch, AnyAction } from "redux";
 
-import {
-  StoreState,
-} from "../../store";
-import {
-  setUsername,
-  loadUserAnimeList,
-  loadAnimeSearchResults,
-} from "../../store/myanimelist/action";
+import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { StoreState } from "../../store";
+import { setUsername, loadUserAnimeList, loadAnimeSearchResults } from "../../store/myanimelist/action";
 import { rpcGetAnimeByID, rpcGetAnimeByLink } from "../../api/myanimelist";
 
 export const Container = styled.div`
-  background-color: #1D1D1D;
+  background-color: white;
   text-align: center;
   overflow-y: auto;
 `;

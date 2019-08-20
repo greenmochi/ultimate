@@ -1,13 +1,5 @@
-import {
-  compose,
-  createStore,
-  combineReducers,
-  applyMiddleware,
-} from "redux";
-import thunk, {
-  ThunkAction,
-  ThunkMiddleware
-} from "redux-thunk";
+import { compose, createStore, combineReducers, applyMiddleware } from "redux";
+import thunk, { ThunkAction, ThunkMiddleware } from "redux-thunk";
 import { devToolsEnhancer } from "redux-devtools-extension";
 
 import { ThemeActionType } from "./theme/type";

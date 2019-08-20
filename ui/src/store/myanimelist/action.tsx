@@ -1,27 +1,10 @@
-import { 
-  ActionCreator, 
-  Action,
-} from "redux";
-import { ThunkResult } from "..";
-import {
-  SET_USERNAME, 
-  SET_USER_ANIME_LIST, 
-  FETCHING_USER_ANIME_LIST,
-  SET_ANIME_SEARCH_RESULTS,
-  FETCHING_ANIME_SEARCH_RESULTS,
-} from "./type";
-import { 
-  rpcUserAnimeList,
-  rpcSearchAnime,
-} from "../../api/myanimelist";
-import { 
-  UsernameMsg, 
-  SearchQueryMsg 
-} from "../../api/myanimelist/requestMessage";
-import { 
-  UserAnimeList, 
-  AnimeSearchResult,
-} from "../../api/myanimelist/responseMessage";
+import { ActionCreator, Action } from "redux";
+
+import { ThunkResult } from "../index";
+import { SET_USERNAME, SET_USER_ANIME_LIST, FETCHING_USER_ANIME_LIST, SET_ANIME_SEARCH_RESULTS, FETCHING_ANIME_SEARCH_RESULTS } from "./type";
+import { rpcUserAnimeList, rpcSearchAnime } from "../../api/myanimelist";
+import { UsernameMsg, SearchQueryMsg } from "../../api/myanimelist/requestMessage";
+import { UserAnimeList, AnimeSearchResult } from "../../api/myanimelist/responseMessage";
 
 export const setUsername: ActionCreator<Action> = (username: string) => {
   return {

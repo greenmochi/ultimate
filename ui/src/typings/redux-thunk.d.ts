@@ -1,10 +1,4 @@
-import {
-  Action,
-  ActionCreatorsMapObject,
-  AnyAction,
-  Dispatch,
-  Middleware
-} from "redux";
+import { Action, ActionCreatorsMapObject, AnyAction, Dispatch, Middleware } from "redux";
 
 declare module "redux-thunk" {
   /**

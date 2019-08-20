@@ -1,8 +1,4 @@
-import {
-  YoutubeDLState,
-  SET_SEARCH_TERM,
-  YoutubeDLActionType,
-} from "./type";
+import { YoutubeDLState, SET_SEARCH_TERM, YoutubeDLActionType } from "./type";
 
 const initialState: YoutubeDLState = {
   searchTerm: "",

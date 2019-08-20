@@ -1,10 +1,4 @@
-import {
-  NyaaState,
-  SET_SEARCH_TERM,
-  NyaaActionType,
-  SET_RESULTS,
-  FETCHING_RESULTS,
-} from "./type";
+import { NyaaState, SET_SEARCH_TERM, NyaaActionType, SET_RESULTS, FETCHING_RESULTS } from "./type";
 
 const initialState: NyaaState = {
   searchTerm: "",

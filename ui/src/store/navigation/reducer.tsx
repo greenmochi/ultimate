@@ -1,8 +1,4 @@
-import {
-  NavigationState,
-  NavigationActionType,
-  SET_LOCATION,
-} from "./type";
+import { NavigationState, NavigationActionType, SET_LOCATION } from "./type";
 
 const initialState: NavigationState = {
   location: "/",

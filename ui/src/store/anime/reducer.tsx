@@ -1,8 +1,4 @@
-import {
-  AnimeState,
-  SET_SEARCH_TERM,
-  AnimeActionType,
-} from "./type";
+import { AnimeState, SET_SEARCH_TERM, AnimeActionType } from "./type";
 
 const initialState: AnimeState = {
   searchTerm: "",

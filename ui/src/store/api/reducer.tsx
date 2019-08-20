@@ -1,8 +1,4 @@
-import {
-  APIState,
-  APIActionType,
-  SET_GATEWAY_ENDPOINT,
-} from "./type";
+import { APIState, APIActionType, SET_GATEWAY_ENDPOINT } from "./type";
 
 const initialState: APIState = {
   gatewayEndpoint: "",

@@ -1,15 +1,6 @@
 import { postFetch } from "../common/fetch";
-import { 
-  DownloadItemMsg, 
-  DownloadIdMsg,
-  AllDownloadsMsg,
-} from "./requestMessage";
-import { 
-  DownloadItemResponse, 
-  DownloadRemoveResponse,
-  AllDownloads,
-  Download,
-} from "./responseMessage";
+import { DownloadItemMsg, DownloadIdMsg, AllDownloadsMsg } from "./requestMessage";
+import { DownloadItemResponse, DownloadRemoveResponse, AllDownloads, Download } from "./responseMessage";
 
 const endpoints = {
   ADD_TO_QUEUE: "youtubedl/AddToQueue",

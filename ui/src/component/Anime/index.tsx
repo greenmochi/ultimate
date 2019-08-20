@@ -1,24 +1,16 @@
 import React from "react";
+import { Switch, Route, RouteComponentProps, Link } from "react-router-dom";
 import { connect } from "react-redux";
-import {
-  bindActionCreators,
-  Dispatch,
-  AnyAction,
-} from "redux";
-import styled from "styled-components";
-import {
-  FontAwesomeIcon,
-} from "@fortawesome/react-fontawesome";
+import { bindActionCreators, Dispatch, AnyAction } from "redux";
 
-import {
-  StoreState,
-} from "../../store";
-import {
-  setSearchTerm,
-} from "../../store/anime/action";
+import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { StoreState } from "../../store";
+import { setSearchTerm } from "../../store/anime/action";
 
 export const Container = styled.div`
-  background-color: #1D1D1D;
+  background-color: white;
   text-align: center;
   overflow-y: auto;
 `;
@@ -60,7 +52,7 @@ const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => (
   }, dispatch)
 );
 
-type AnimeProps = ReturnType<typeof mapStateToProps> &
+type AnimeProps = RouteComponentProps & ReturnType<typeof mapStateToProps> &
   ReturnType<typeof mapDispatchToProps> & {
   };
 
@@ -73,8 +65,40 @@ class Anime extends React.Component<AnimeProps> {
   }
 
   render() {
+    console.log(this.props)
     return (
       <Container>
+        <button><Link to="/anime/mal">mal</Link></button>
+        <button><Link to="/anime/nyaa">nyaa</Link></button>
+        <button><Link to="/anime/torrent">torrent</Link></button>
+        <Switch>
+          <Route
+            path={`${this.props.match.url}/mal`}
+            render={() => (
+              <div>
+                mal
+              </div>
+            )}
+          />
+          <Route
+            path={`${this.props.match.url}/nyaa`}
+            render={() => (
+              <div>
+                nyaa
+              </div>
+            )}
+          />
+          <Route
+            path={`${this.props.match.url}/torrent`}
+            render={() => (
+              <div>
+                torrent
+              </div>
+            )}
+          />
+          <Route/>
+          <Route/>
+        </Switch>
         <Form
           onSubmit={this.handleOnSubmit}
         >

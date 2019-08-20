@@ -1,8 +1,4 @@
-import {
-  ThemeState,
-  SET_DEFAULT_THEME,
-  ThemeActionType,
-} from "./type";
+import { ThemeState, SET_DEFAULT_THEME, ThemeActionType } from "./type";
 
 const initialState: ThemeState = {
   defaultTheme: {

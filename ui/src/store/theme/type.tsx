@@ -1,6 +1,4 @@
-import {
-  DefaultTheme
-} from "styled-components";
+import { DefaultTheme } from "styled-components";
 
 export interface ThemeState {
   defaultTheme: DefaultTheme;

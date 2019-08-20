@@ -1,11 +1,6 @@
-import { 
-  Store, 
-  AnyAction,
-} from "redux";
+import { Store, AnyAction } from "redux";
 import { StoreState } from "../store";
-import { 
-  setGatewayEndpoint,
-} from "../store/api/action";
+import { setGatewayEndpoint } from "../store/api/action";
 
 const { ipcRenderer, Event } = window.require("electron");
 

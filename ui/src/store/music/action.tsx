@@ -1,10 +1,5 @@
-import { 
-  ActionCreator, 
-  Action,
-} from "redux";
-import {
-  SET_SEARCH_TERM, 
-} from "./type";
+import { ActionCreator, Action } from "redux";
+import { SET_SEARCH_TERM } from "./type";
 
 export const setSearchTerm: ActionCreator<Action> = (searchTerm: string) => {
   return {

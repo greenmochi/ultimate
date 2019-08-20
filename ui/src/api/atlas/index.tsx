@@ -1,9 +1,6 @@
 import { postFetch } from "../common/fetch";
 import { PlaylistRequestMsg } from "./requestMessage";
-import { 
-  Playlist, 
-  PlaylistItem,
-} from "./responseMessage";
+import { Playlist, PlaylistItem } from "./responseMessage";
 
 const endpoints = {
   GET_PLAYLIST: "atlas/GetPlaylist",

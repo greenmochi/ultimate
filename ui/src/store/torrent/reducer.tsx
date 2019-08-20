@@ -1,8 +1,4 @@
-import {
-  TorrentState,
-  SET_SEARCH_TERM,
-  TorrentActionType,
-} from "./type";
+import { TorrentState, SET_SEARCH_TERM, TorrentActionType } from "./type";
 
 const initialState: TorrentState = {
   searchTerm: "",

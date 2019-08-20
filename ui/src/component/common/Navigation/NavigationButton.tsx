@@ -1,14 +1,8 @@
 import React from "react";
-import {
-  withRouter,
-  RouteComponentProps,
-} from "react-router-dom";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
-import {
-  bindActionCreators,
-  Dispatch,
-  AnyAction
-} from "redux";
+import { bindActionCreators, Dispatch, AnyAction } from "redux";
+
 import styled from "styled-components";
 
 import { StoreState } from "../../../store";
@@ -73,7 +67,7 @@ class NavigationButton extends React.Component<NavigationButtonProps> {
     } = this.props;
     return (
       <Container 
-      onClick={this.handleOnClick}
+        onClick={this.handleOnClick}
         focus={this.props.navigation.location === to}
       >
         <Text>{text}</Text>

@@ -1,12 +1,4 @@
-import {
-  MyAnimeListState,
-  MyAnimeListActionType,
-  SET_USERNAME,
-  SET_USER_ANIME_LIST,
-  FETCHING_USER_ANIME_LIST,
-  SET_ANIME_SEARCH_RESULTS,
-  FETCHING_ANIME_SEARCH_RESULTS,
-} from "./type";
+import { MyAnimeListState, MyAnimeListActionType, SET_USERNAME, SET_USER_ANIME_LIST, FETCHING_USER_ANIME_LIST, SET_ANIME_SEARCH_RESULTS, FETCHING_ANIME_SEARCH_RESULTS } from "./type";
 
 const initialState: MyAnimeListState = {
   username: "",

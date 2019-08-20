@@ -1,10 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import {
-  bindActionCreators,
-  Dispatch,
-  AnyAction
-} from "redux";
+import { bindActionCreators, Dispatch, AnyAction } from "redux";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -23,7 +19,7 @@ import List from "../common/List";
 import Loading from "./Loading";
 
 const Container = styled.div`
-  background-color: #1D1D1D;
+  background-color: white;
   text-align: center;
   overflow: hidden;
 `;

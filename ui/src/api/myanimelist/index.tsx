@@ -1,16 +1,6 @@
 import { postFetch } from "../common/fetch";
-import {
-  UsernameMsg,
-  SearchQueryMsg,
-  AnimeLinkMsg,
-  AnimeIDMsg,
-} from "./requestMessage";
-import { 
-  UserAnimeList, 
-  UserAnime,
-  AnimeSearchResult,
-  Anime,
-} from "./responseMessage";
+import { UsernameMsg, SearchQueryMsg, AnimeLinkMsg, AnimeIDMsg } from "./requestMessage";
+import { UserAnimeList, UserAnime, AnimeSearchResult, Anime } from "./responseMessage";
 
 const endpoints = {
   USER_ANIME_LIST: "myanimelist/GetUserAnimeList",

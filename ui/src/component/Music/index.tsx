@@ -1,16 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import {
-  bindActionCreators,
-  Dispatch,
-  AnyAction,
-} from "redux";
+import { bindActionCreators, Dispatch, AnyAction } from "redux";
+
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { StoreState } from "../../store";
-import {
-  setSearchTerm,
-} from "../../store/music/action";
+import { setSearchTerm } from "../../store/music/action";
 import { PlaylistItem } from "../../api/atlas/responseMessage";
 import { rpcGetPlaylist } from "../../api/atlas";
 
@@ -23,7 +19,7 @@ export const Container = styled.div`
   grid-template-columns: auto 400px;
   margin-left: 20px;
   margin-right: 20px;
-  background-color: #1D1D1D;
+  background-color: white;
   text-align: center;
   overflow-y: auto;
 `;

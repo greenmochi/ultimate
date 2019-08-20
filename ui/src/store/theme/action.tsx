@@ -1,7 +1,4 @@
-import { 
-  ActionCreator, 
-  Action,
-} from "redux";
+import { ActionCreator, Action } from "redux";
 import { DefaultTheme } from "styled-components";
 import { SET_DEFAULT_THEME } from "./type";
 

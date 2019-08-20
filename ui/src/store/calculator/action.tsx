@@ -1,8 +1,4 @@
-import {
-  UPDATE_DISPLAY,
-  UPDATE_INPUT,
-  UPDATE_VALUE, 
-} from "./type";
+import { UPDATE_DISPLAY, UPDATE_INPUT, UPDATE_VALUE } from "./type";
 
 export function updateCalculatorDisplay(value: number) {
   return {

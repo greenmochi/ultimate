@@ -1,8 +1,4 @@
-import {
-  MusicState,
-  SET_SEARCH_TERM,
-  MusicActionType,
-} from "./type";
+import { MusicState, SET_SEARCH_TERM, MusicActionType } from "./type";
 
 const initialState: MusicState = {
   searchTerm: "",

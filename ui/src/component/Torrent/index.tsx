@@ -1,24 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
-import {
-  bindActionCreators,
-  Dispatch,
-  AnyAction,
-} from "redux";
+import { bindActionCreators, Dispatch, AnyAction } from "redux";
 import styled from "styled-components";
-import {
-  FontAwesomeIcon,
-} from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import {
-  StoreState,
-} from "../../store";
-import {
-  setSearchTerm,
-} from "../../store/torrent/action";
+import { StoreState } from "../../store";
+import { setSearchTerm } from "../../store/torrent/action";
 
 export const Container = styled.div`
-  background-color: #1D1D1D;
+  background-color: white;
   text-align: center;
   overflow-y: auto;
 `;

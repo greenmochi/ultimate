@@ -1,10 +1,4 @@
-import {
-  CalculatorState,
-  UPDATE_DISPLAY,
-  UPDATE_INPUT,
-  UPDATE_VALUE,
-  CalculatorActionType,
-} from "./type";
+import { CalculatorState, UPDATE_DISPLAY, UPDATE_INPUT, UPDATE_VALUE, CalculatorActionType } from "./type";
 
 const initialState: CalculatorState = {
   display: 0,

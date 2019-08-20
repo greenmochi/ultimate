@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 const Container = styled.div`
   background-color: #22252B;
-  border-right: 1px solid #CD23B9;
   text-align: center;
   cursor: pointer;
 `;
