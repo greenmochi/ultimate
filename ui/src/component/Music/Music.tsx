@@ -1,7 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { MusicProps } from "component/Music";
 import {
   Container,
   Video,
@@ -14,7 +13,8 @@ import {
   ForwardButton,
   Playlist,
   Item,
-} from "style/Music";
+} from "style/component/Music";
+import { MusicProps } from "component/Music";
 
 import { PlaylistItem } from "api/atlas/responseMessage";
 import { rpcGetPlaylist } from "api/atlas";
