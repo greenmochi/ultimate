@@ -1,3 +1,4 @@
+import { RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators, Dispatch, AnyAction } from "redux";
 
@@ -18,6 +19,6 @@ const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => (
   }, dispatch)
 );
 
-export type MyAnimeListProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & {};
+export type MyAnimeListProps = RouteComponentProps & ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyAnimeList);

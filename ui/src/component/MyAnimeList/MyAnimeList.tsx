@@ -1,42 +1,19 @@
 import React from "react";
-import styled from "styled-components";
+import { Switch, Route } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import {
+  Container,
+  TabMenu,
+  Form,
+  Input,
+  SubmitButton,
+} from "style/component/MyAnimeList";
+
 import { MyAnimeListProps } from "component/MyAnimeList";
+import Tab from "component/Tab";
+
 import { rpcGetAnimeByLink } from "api/myanimelist";
-
-export const Container = styled.div`
-  background-color: white;
-  text-align: center;
-  overflow-y: auto;
-`;
-
-export const Form = styled.form`
-  margin: 10px;
-`;
-
-export const Input = styled.input`
-  font-size: 1.3em;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  outline: none;
-`;
-
-export const SubmitButton = styled.button`
-  font-size: 1.3em;
-  margin-left: 10px;
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  border-radius: 5px;
-  background-color: #F7941D;
-  border: none;
-  outline: none;
-  cursor: pointer;
-`;
 
 export default class MyAnimeList extends React.Component<MyAnimeListProps> {
   handleOnSubmit = (event: any) => {
@@ -66,6 +43,47 @@ export default class MyAnimeList extends React.Component<MyAnimeListProps> {
     const { myAnimeList } = this.props;
     return (
       <Container>
+        <TabMenu>
+          <Tab
+            title="Search"
+            to={`${this.props.match.url}/search`}
+          />
+          <Tab
+            title="Anime"
+            to={`${this.props.match.url}/anime`}
+          />
+          <Tab
+            title="List"
+            to={`${this.props.match.url}/list`}
+          />
+        </TabMenu>
+        <Switch>
+          <Route
+            path={`${this.props.match.url}/search`}
+            render={() => (
+              <div>
+                penis
+              </div>
+            )}
+          />
+          <Route
+            path={`${this.props.match.url}/anime`}
+            render={() => (
+              <div>
+                penis 2
+              </div>
+            )}
+          />
+          <Route
+            path={`${this.props.match.url}/list`}
+            render={() => (
+              <div>
+                penis 3
+              </div>
+            )}
+          />
+        </Switch>
+
         <Form
           onSubmit={this.handleOnSubmit}
         >
