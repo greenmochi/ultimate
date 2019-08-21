@@ -3,21 +3,13 @@ import styled from "styled-components";
 export const Container = styled.div`
   display: grid;
   grid-template-areas:
-    "tab-menu"
-    "view";
-  grid-template-rows: 50px auto;
-  background-color: white;
-  text-align: center;
-  overflow-y: auto;
-`;
-
-export const TabMenu = styled.div`
-  display: grid;
-  grid-area: tab-menu;
-  grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+    "form"
+    "results";
+  grid-template-rows: 150px auto;
 `;
 
 export const Form = styled.form`
+  grid-area: form;
   margin: 10px;
 `;
 
@@ -42,4 +34,12 @@ export const SubmitButton = styled.button`
   border: none;
   outline: none;
   cursor: pointer;
+`;
+
+export const ResultsContainer = styled.div`
+  grid-area: results;
+`;
+
+export const Result = styled.div`
+  height: 50px;
 `;

@@ -28,19 +28,9 @@ export default class Anime extends React.Component<AnimeProps> {
             />
             <Route
               path={`${this.props.match.url}/nyaa`}
-              render={() => (
-                <div>
-                  nyaa
-                </div>
-              )}
             />
             <Route
               path={`${this.props.match.url}/torrent`}
-              render={() => (
-                <div>
-                  torrent
-                </div>
-              )}
             />
           </Switch>
         </AnimeView>
