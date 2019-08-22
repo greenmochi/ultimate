@@ -6,6 +6,7 @@ import { StoreState } from "store";
 import Search from "./Search";
 
 const mapStateToProps = (state: StoreState) => ({
+  api: state.api,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => (
