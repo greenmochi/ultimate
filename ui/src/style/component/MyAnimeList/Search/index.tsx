@@ -6,6 +6,7 @@ export const Container = styled.div`
     "form"
     "results";
   grid-template-rows: 150px auto;
+  overflow-y: auto;
 `;
 
 export const Form = styled.form`

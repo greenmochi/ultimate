@@ -1,5 +1,9 @@
 import React from "react";
 
+import {
+  Container,
+} from "style/component/MyAnimeList/Search/Result";
+
 interface ResultProps {
   imgBlob: string;
   imgSrc: string;
@@ -22,7 +26,7 @@ export default function Result({
     type,
 }: ResultProps) {
   return (
-    <div key={imgSrc}>
+    <Container key={imgSrc}>
       {/* <span>{imgBlob}</span> */}
       <span>{imgSrc}</span>
       <span>{link}</span>
@@ -31,6 +35,6 @@ export default function Result({
       <span>{synopsis}</span>
       <span>{title}</span>
       <span>{type}</span>
-    </div>
+    </Container>
   );
 }

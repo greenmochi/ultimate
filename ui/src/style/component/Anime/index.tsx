@@ -8,7 +8,7 @@ export const Container = styled.div`
   grid-template-rows: 50px auto;
   background-color: white;
   text-align: center;
-  overflow-y: auto;
+  overflow-y: hidden;
 `;
 
 export const AnimeNavigation = styled.div`
