@@ -16,7 +16,7 @@ const Container = styled.div<ContainerProps>`
   width: 100%;
   height: 50px;
   line-height: 50px;
-  outline: 1px solid ${props => props.focus ? "#30fffe" : "none"};
+  background-color: ${props => props.focus ? "#383b42" : "transparent"};
   outline-offset: -2px;
   transition: all 250ms ease;
   user-select: none;
@@ -24,9 +24,6 @@ const Container = styled.div<ContainerProps>`
   cursor: pointer;
   &:hover {
     background-color: ${props => props.focus ? "none" : "#4b4f59"};
-  }
-  &:active {
-    background-color: ${props => props.focus ? "none" : "#383b42"};
   }
 `;
 
