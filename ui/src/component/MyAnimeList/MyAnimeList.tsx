@@ -1,17 +1,39 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { connect } from "react-redux";
+import { Switch, Route, RouteComponentProps } from "react-router-dom";
+import { bindActionCreators, Dispatch, AnyAction } from "redux";
 
-import {
-  Container,
-  TabMenu,
-} from "style/component/MyAnimeList";
+import { StoreState } from "store";
+import { 
+  setUsername, 
+  loadUserAnimeList, 
+  loadAnimeSearchResults,
+} from "store/myanimelist/action";
 
-import { MyAnimeListProps } from "component/MyAnimeList";
 import Tab from "component/Tab";
 
 import Search from "./Search";
 
-export default class MyAnimeList extends React.Component<MyAnimeListProps> {
+import {
+  Container,
+  TabMenu,
+} from "./MyAnimeList.style";
+
+const mapStateToProps = (state: StoreState) => ({
+    myAnimeList: state.myAnimeList,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => (
+  bindActionCreators({
+    setUsername,
+    loadUserAnimeList,
+    loadAnimeSearchResults,
+  }, dispatch)
+);
+
+type MyAnimeListProps = RouteComponentProps & ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
+
+class MyAnimeList extends React.Component<MyAnimeListProps> {
   render() {
     return (
       <Container>
@@ -57,3 +79,5 @@ export default class MyAnimeList extends React.Component<MyAnimeListProps> {
     );
   }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyAnimeList);

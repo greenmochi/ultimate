@@ -1,17 +1,32 @@
 import React from "react";
-import { Switch, Route, Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Switch, Route, Link, RouteComponentProps } from "react-router-dom";
+import { connect } from "react-redux";
+import { bindActionCreators, Dispatch, AnyAction } from "redux";
+
+import { StoreState } from "store";
+import { setSearchTerm } from "store/anime/action";
+
+import MyAnimeList from "component/MyAnimeList";
 
 import {
   Container,
   AnimeNavigation,
   AnimeView,
-} from "style/component/Anime";
-import { AnimeProps } from "component/Anime";
+} from "./Anime.style";
 
-import MyAnimeList from "component/MyAnimeList";
+const mapStateToProps = (state: StoreState) => ({
+  anime: state.anime,
+});
 
-export default class Anime extends React.Component<AnimeProps> {
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => (
+  bindActionCreators({
+    setSearchTerm,
+  }, dispatch)
+);
+
+type AnimeProps = RouteComponentProps & ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
+
+class Anime extends React.Component<AnimeProps> {
   render() {
     return (
       <Container>
@@ -38,3 +53,5 @@ export default class Anime extends React.Component<AnimeProps> {
     );
   }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Anime);

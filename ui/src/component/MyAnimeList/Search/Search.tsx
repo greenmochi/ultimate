@@ -1,5 +1,14 @@
 import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators, Dispatch, AnyAction } from "redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { StoreState } from "store";
+
+import { rpcSearchAnime } from "api/myanimelist";
+import { AnimeSearchResult } from "api/myanimelist/responseMessage";
+
+import Result from "./Result";
 
 import {
   Container,
@@ -7,18 +16,24 @@ import {
   Input,
   SubmitButton,
   ResultsContainer,
-} from "style/component/MyAnimeList/Search";
-import { SearchProps } from "component/MyAnimeList/Search";
-import Result from "component/MyAnimeList/Search/Result";
+} from "./Search.style";
 
-import { rpcSearchAnime } from "api/myanimelist";
-import { AnimeSearchResult } from "api/myanimelist/responseMessage";
+const mapStateToProps = (state: StoreState) => ({
+  api: state.api,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => (
+  bindActionCreators({
+  }, dispatch)
+);
+
+type SearchProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
 interface State {
   results: AnimeSearchResult[];
 }
 
-export default class Search extends React.Component<SearchProps> {
+class Search extends React.Component<SearchProps> {
   state: State = {
     results: [],
   }
@@ -81,3 +96,5 @@ export default class Search extends React.Component<SearchProps> {
     );
   }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search);

@@ -38,16 +38,16 @@ const rootReducer = combineReducers({
 
 export type StoreState = ReturnType<typeof rootReducer>;
 export type StoreActions =
-  | ThemeActionType
-  | APIActionType
-  | NavigationActionType
-  | TorrentActionType
-  | YoutubeDLActionType
-  | NyaaActionType
-  | MyAnimeListActionType
-  | AnimeActionType
-  | MusicActionType
-  | CalculatorActionType;
+  ThemeActionType |
+  APIActionType |
+  NavigationActionType |
+  TorrentActionType |
+  YoutubeDLActionType |
+  NyaaActionType |
+  MyAnimeListActionType |
+  AnimeActionType |
+  MusicActionType |
+  CalculatorActionType;
 export type ThunkResult<R> = ThunkAction<R, StoreState, undefined, StoreActions>;
 
 export default function configureStore() {

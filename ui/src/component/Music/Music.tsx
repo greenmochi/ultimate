@@ -1,5 +1,13 @@
 import React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators, Dispatch, AnyAction } from "redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { StoreState } from "store";
+import { setSearchTerm } from "store/music/action";
+
+import { PlaylistItem } from "api/atlas/responseMessage";
+import { rpcGetPlaylist } from "api/atlas";
 
 import {
   Container,
@@ -13,11 +21,20 @@ import {
   ForwardButton,
   Playlist,
   Item,
-} from "style/component/Music";
-import { MusicProps } from "component/Music";
+} from "./Music.style";
 
-import { PlaylistItem } from "api/atlas/responseMessage";
-import { rpcGetPlaylist } from "api/atlas";
+const mapStateToProps = (state: StoreState) => ({
+  api: state.api, 
+  music: state.music,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => (
+  bindActionCreators({
+    setSearchTerm,
+  }, dispatch)
+);
+
+type MusicProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & {}; 
 
 interface State {
   playlistItems: PlaylistItem[];
@@ -27,7 +44,7 @@ interface State {
   volume: number;
 }
 
-export default class Music extends React.Component<MusicProps> {
+class Music extends React.Component<MusicProps> {
   state: State = {
     playlistItems: [],
     currentIndex: 0,
@@ -203,3 +220,5 @@ export default class Music extends React.Component<MusicProps> {
     );
   }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Music);

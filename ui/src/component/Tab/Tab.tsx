@@ -4,8 +4,12 @@ import { Link } from "react-router-dom";
 import {
   Container,
   Title,
-} from "style/component/Tab";
-import { TabProps } from "component/Tab";
+} from "./Tab.style";
+
+type TabProps = {
+  to: string,
+  title: string,
+};
 
 export default class Tab extends React.Component<TabProps> {
   render() {

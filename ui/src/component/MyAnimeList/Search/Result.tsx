@@ -2,7 +2,7 @@ import React from "react";
 
 import {
   Container,
-} from "style/component/MyAnimeList/Search/Result";
+} from "./Result.style";
 
 interface ResultProps {
   imgBlob: string;
