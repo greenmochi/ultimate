@@ -1,6 +1,6 @@
-import { ActionCreator, Action } from "redux";
+import { ActionCreator, Action, Dispatch } from "redux";
 
-import { ThunkResult } from "store";
+import { ThunkResult, StoreState } from "store";
 import { SET_USERNAME, SET_USER_ANIME_LIST, FETCHING_USER_ANIME_LIST, SET_ANIME_SEARCH_RESULTS, FETCHING_ANIME_SEARCH_RESULTS } from "./type";
 import { rpcUserAnimeList, rpcSearchAnime } from "api/myanimelist";
 import { UsernameMsg, SearchQueryMsg } from "api/myanimelist/requestMessage";
@@ -13,20 +13,20 @@ export const setUsername: ActionCreator<Action> = (username: string) => {
   };
 }
 
-export function loadUserAnimeList(msg: UsernameMsg): ThunkResult<void> {
-  return async (dispatch, getState) => {
-    dispatch(fetchingUserAnimeList(true));
-    const baseURI = getState().api.gatewayEndpoint;
-    await rpcUserAnimeList(baseURI, msg)
-      .then(userAnimeList => {
-        dispatch(setUserAnimeList(userAnimeList));
-      })
-      .catch(error => {
-        console.error("Failed to fetch user animelist", msg, error);
-      })
-    dispatch(fetchingUserAnimeList(false));
-  };
-}
+// export function loadUserAnimeList(msg: UsernameMsg): ThunkResult<void> {
+//   return async (dispatch, getState) => {
+//     dispatch(fetchingUserAnimeList(true));
+//     const baseURI = getState().api.gatewayEndpoint;
+//     await rpcUserAnimeList(baseURI, msg)
+//       .then(userAnimeList => {
+//         dispatch(setUserAnimeList(userAnimeList));
+//       })
+//       .catch(error => {
+//         console.error("Failed to fetch user animelist", msg, error);
+//       })
+//     dispatch(fetchingUserAnimeList(false));
+//   };
+// }
 
 export const setUserAnimeList: ActionCreator<Action> = (userAnimeList: UserAnimeList) => {
   return {
@@ -42,6 +42,35 @@ export const fetchingUserAnimeList: ActionCreator<Action> = (fetching: boolean) 
   };
 }
 
+export const setAnimeSearchResults: ActionCreator<Action> = (animeSearchResults: AnimeSearchResult[]) => {
+  return {
+    type: SET_ANIME_SEARCH_RESULTS,
+    payload: animeSearchResults,
+  };
+}
+
+export const fetchingAnimeSearchResults: ActionCreator<Action> = (fetching: boolean) => {
+  return {
+    type: FETCHING_ANIME_SEARCH_RESULTS,
+    payload: fetching,
+  };
+}
+
+export const loadUserAnimeList = (msg: UsernameMsg) => {
+  return async (dispatch: Dispatch, getState: () => StoreState) => {
+    dispatch(fetchingUserAnimeList(true));
+    const baseURI = getState().api.gatewayEndpoint;
+    await rpcUserAnimeList(baseURI, msg)
+      .then(userAnimeList => {
+        dispatch(setUserAnimeList(userAnimeList));
+      })
+      .catch(error => {
+        console.error("Failed to fetch user animelist", msg, error);
+      })
+    dispatch(fetchingUserAnimeList(false));
+  };
+}
+
 export function loadAnimeSearchResults(msg: SearchQueryMsg): ThunkResult<void> {
   return async (dispatch, getState) => {
     dispatch(fetchingAnimeSearchResults(true));
@@ -54,19 +83,5 @@ export function loadAnimeSearchResults(msg: SearchQueryMsg): ThunkResult<void> {
         console.error("Failed to fetch anime search results", msg, error);
       });
     dispatch(fetchingAnimeSearchResults(false));
-  };
-}
-
-export const setAnimeSearchResults: ActionCreator<Action> = (animeSearchResults: AnimeSearchResult[]) => {
-  return {
-    type: SET_ANIME_SEARCH_RESULTS,
-    payload: animeSearchResults,
-  };
-}
-
-export const fetchingAnimeSearchResults: ActionCreator<Action> = (fetching: boolean) => {
-  return {
-    type: FETCHING_ANIME_SEARCH_RESULTS,
-    payload: fetching,
   };
 }

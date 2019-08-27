@@ -48,21 +48,13 @@ export type StoreActions =
   AnimeActionType |
   MusicActionType |
   CalculatorActionType;
+
 export type ThunkResult<R> = ThunkAction<R, StoreState, undefined, StoreActions>;
 
-export default function configureStore() {
-  if (process.env.NODE_ENV === "development") {
-    return createStore(
-      rootReducer,
-      compose(
-        applyMiddleware(thunk as ThunkMiddleware<StoreState, StoreActions>),
-        devToolsEnhancer({}),
-      ),
-    );
-  } else {
-    return createStore(
-      rootReducer,
-      applyMiddleware(thunk as ThunkMiddleware<StoreState, StoreActions>),
-    );
-  }
-};
+const createStoreWithMiddlware = applyMiddleware(thunk)(createStore);
+const store = createStoreWithMiddlware(
+  rootReducer,
+  (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__(),
+);
+
+export default store;

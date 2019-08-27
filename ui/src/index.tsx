@@ -7,13 +7,13 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faSearch, faMagnet, faArrowUp, faArrowDown, faCheck, faCogs, faHeart, faPlayCircle, faStepForward, faStepBackward } from "@fortawesome/free-solid-svg-icons";
 
 import App from "./App";
-import configureStore from "./store";
+import store from "./store";
 import { GlobalStyle } from "./theme";
 import IpcRenderer from "./ipcRenderer";
 
 library.add(faSearch, faMagnet, faArrowUp, faArrowDown, faCheck, faCogs, faHeart, faPlayCircle, faStepForward, faStepBackward);
 
-const store = configureStore();
+// const store = configureStore();
 let defaultTheme = store.getState().theme.defaultTheme;
 
 const ipcRenderer = new IpcRenderer(store);
